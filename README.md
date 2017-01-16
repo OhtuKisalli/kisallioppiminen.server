@@ -29,3 +29,7 @@ A backend for kisallioppiminen.com webpage.
 ## Travis
 [![Build Status](https://travis-ci.org/OhtuKisalli/kisallioppiminen.server.png)](https://travis-ci.org/OhtuKisalli/kisallioppiminen.server)
 
+## Ruby on Rails guides
+Start server by issuing command: rails server
+
+Rails will be running on localhost:3000
