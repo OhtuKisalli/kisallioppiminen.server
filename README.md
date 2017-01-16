@@ -25,3 +25,7 @@ Things you may want to cover:
 
 # kisallioppiminen.server
 A backend for kisallioppiminen.com webpage.
+
+## Travis
+[![Build Status](https://travis-ci.org/OhtuKisalli/kisallioppiminen.server.png)](https://travis-ci.org/OhtuKisalli/kisallioppiminen.server)
+
