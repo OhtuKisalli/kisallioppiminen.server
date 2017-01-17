@@ -2,10 +2,3 @@ language: ruby
 
 rvm:
  - 2.4.0
-
-script:
-	# TODO When there is a database, change reset to migrate
-	# - bundle exec rake db:reset --trace
-  # - RAILS_ENV=test bundle exec rake db:reset --trace
-	#  - bundle exec rake db:test:prepare
-	#  - bundle exec rspec -fd spec/<Paste>
