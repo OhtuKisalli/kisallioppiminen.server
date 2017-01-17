@@ -1,5 +1,16 @@
-# kisallioppiminen.server
-A backend for kisallioppiminen.com webpage.
+# Coursemanager for kisallioppiminen.fi
+
+### Purpose
+* Teachers can follows their students progress on assignments at kisallioppiminen.fi
+* Teachers can create new courses and course keys for students
+* Teachers can create target schedules to motivate students
+
+### Links to our application
+* Development version running at [heroku](https://pure-inlet-98383.herokuapp.com/)  
+* Development version of [kisallioppiminen.fi](kisallioppiminen.fi) running at [https://ohtukisalli.github.io/](https://ohtukisalli.github.io/)  
+* See also separate [Project info repository](https://github.com/OhtuKisalli/project-info)
+
+# Developer info
 
 ## Travis
 [![Build Status](https://travis-ci.org/OhtuKisalli/kisallioppiminen.server.png)](https://travis-ci.org/OhtuKisalli/kisallioppiminen.server)
@@ -23,8 +34,3 @@ If you don't have rspec, install it with command
 ```
 bundle install
 ```
-## Heroku
-Running at https://pure-inlet-98383.herokuapp.com/
-
-## Trello
-https://trello.com/invite/b/Llh06XVS/00756978b23aedcd2347b2e7ac77521d/ohtu-kisalli
