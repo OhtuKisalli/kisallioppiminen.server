@@ -24,6 +24,11 @@ class TestStudentsController < ApplicationController
   def edit
   end
 
+  # Creates new TestStudent from HTML form
+  def create_new_from_form
+    TestStudent.create(name: params[:name], points: params[:points])
+  end
+
   # POST /test_students
   # POST /test_students.json
   def create
