@@ -12,9 +12,22 @@
 
 # Developer info
 
+## Deploying
+
+1. Push to master branch of this repository
+2. Travis will deploy code to heroku if all tests pass
+3. (do not push directly to heroku)
+
+Database migrations:
+[RoR-course has instructions](https://github.com/mluukkai/WebPalvelinohjelmointi2017/blob/master/web/viikko1.md)
+* You need commandline access to heroku to run db:migrate
+* `heroku git:clone -a pure-inlet-98383`
+* `heroku run rake db:migrate`
+* `heroku run rake db:seed`
+
 ## Travis
 [![Build Status](https://travis-ci.org/OhtuKisalli/kisallioppiminen.server.png)](https://travis-ci.org/OhtuKisalli/kisallioppiminen.server)
-Currently Travis runs tests in all branches, but only master branch is deployed to Heroku if tests are passed.
+
 ## Ruby on Rails guides and configs
 
   - Ruby: 2.4.0
