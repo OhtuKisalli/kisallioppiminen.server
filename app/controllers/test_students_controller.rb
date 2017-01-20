@@ -1,8 +1,8 @@
 class TestStudentsController < ApplicationController
   before_action :set_test_student, only: [:show, :edit, :update, :destroy]
 
-  # Allows cross site JSON requests
-  protect_from_forgery unless: -> { request.format.json? }
+  # Allows cross site requests
+  protect_from_forgery with: :null_session
 
   # GET /test_students
   # GET /test_students.json
