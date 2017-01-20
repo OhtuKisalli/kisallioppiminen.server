@@ -2,7 +2,7 @@ class TestStudentsController < ApplicationController
   before_action :set_test_student, only: [:show, :edit, :update, :destroy]
 
   # Allows cross site requests
-  protect_from_forgery with: :null_session
+  protect_from_forgery unless: -> { request.format.json? }
 
   # GET /test_students
   # GET /test_students.json
@@ -22,11 +22,6 @@ class TestStudentsController < ApplicationController
 
   # GET /test_students/1/edit
   def edit
-  end
-
-  # Creates new TestStudent from HTML form
-  def create_new_from_form
-    TestStudent.create(name: params[:name], points: params[:points])
   end
 
   # POST /test_students
