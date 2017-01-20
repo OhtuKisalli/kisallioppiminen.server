@@ -14,7 +14,7 @@
 
 ## Travis
 [![Build Status](https://travis-ci.org/OhtuKisalli/kisallioppiminen.server.png)](https://travis-ci.org/OhtuKisalli/kisallioppiminen.server)
-
+Currently Travis runs tests in all branches, but only master branch is deployed to Heroku if tests are passed.
 ## Ruby on Rails guides and configs
 
   - Ruby: 2.4.0
