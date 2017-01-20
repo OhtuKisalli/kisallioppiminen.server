@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @test_student.name %>
+</p>
+
+<p>
+  <strong>Points:</strong>
+  <%= @test_student.points %>
+</p>
+
+<%= link_to 'Edit', edit_test_student_path(@test_student) %> |
+<%= link_to 'Back', test_students_path %>
