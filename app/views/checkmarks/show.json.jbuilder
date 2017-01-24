@@ -1,0 +1,1 @@
+json.partial! "checkmarks/checkmark", checkmark: @checkmark

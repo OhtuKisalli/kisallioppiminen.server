@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>User:</strong>
+  <%= @checkmark.user_id %>
+</p>
+
+<p>
+  <strong>Exercise:</strong>
+  <%= @checkmark.exercise_id %>
+</p>
+
+<p>
+  <strong>Status:</strong>
+  <%= @checkmark.status %>
+</p>
+
+<%= link_to 'Edit', edit_checkmark_path(@checkmark) %> |
+<%= link_to 'Back', checkmarks_path %>

@@ -1,0 +1,1 @@
+json.array! @checkmarks, partial: 'checkmarks/checkmark', as: :checkmark
