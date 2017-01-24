@@ -1,54 +1,26 @@
 class CheckmarksController < ApplicationController
-  before_action :set_checkmark, only: [:show, :edit, :update, :destroy]
+  before_action :set_checkmark, only: [:destroy]
 
   protect_from_forgery unless: -> { request.format.json? }
 
   # GET /checkmarks
-  # GET /checkmarks.json
   def index
     @checkmarks = Checkmark.all
   end
-
-  # GET /checkmarks/1
-  # GET /checkmarks/1.json
-  def show
-  end
-
-  # GET /checkmarks/new
-  def new
-    @checkmark = Checkmark.new
-  end
-
-  # GET /checkmarks/1/edit
-  def edit
-  end
-
-  # POST /checkmarks
+  
   # POST /checkmarks.json
-  def create
-    @checkmark = Checkmark.new(checkmark_params)
-
-    respond_to do |format|
-      if @checkmark.save
-        format.html { redirect_to @checkmark, notice: 'Checkmark was successfully created.' }
-        format.json { render :show, status: :created, location: @checkmark }
-      else
-        format.html { render :new }
-        format.json { render json: @checkmark.errors, status: :unprocessable_entity }
-      end
+  def mark
+    @checkmark = Checkmark.find_by(params.require(:checkmark).permit(:user_id, :exercise_id))
+    if @checkmark.nil?
+      @checkmark = Checkmark.new(checkmark_params)
+    else
+      @checkmark.status = params[:checkmark][:status]
     end
-  end
-
-  # PATCH/PUT /checkmarks/1
-  # PATCH/PUT /checkmarks/1.json
-  def update
     respond_to do |format|
-      if @checkmark.update(checkmark_params)
-        format.html { redirect_to @checkmark, notice: 'Checkmark was successfully updated.' }
-        format.json { render :show, status: :ok, location: @checkmark }
+      if @checkmark.save 
+        format.json { render json: @checkmark, status: :ok }
       else
-        format.html { render :edit }
-        format.json { render json: @checkmark.errors, status: :unprocessable_entity }
+        format.json { render json: @checkmark, status: :unprocessable_entity }
       end
     end
   end
