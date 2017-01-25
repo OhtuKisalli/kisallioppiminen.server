@@ -257,34 +257,6 @@
         0,
         0,
         0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
         0
       ],
       "/home/tomi/kisalli/kisallioppiminen.server/app/controllers/users_controller.rb": [
@@ -494,6 +466,6 @@
         0
       ]
     },
-    "timestamp": 1485268881
+    "timestamp": 1485361532
   }
 }
