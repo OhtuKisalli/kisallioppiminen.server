@@ -32,6 +32,12 @@ gem 'jbuilder', '~> 2.5'
 # Cors
 gem 'rack-cors', :require => 'rack/cors'
 
+# Authentication
+gem 'therubyracer'
+gem 'devise'
+gem 'omniauth'
+gem 'omniauth-google-oauth2'
+
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
