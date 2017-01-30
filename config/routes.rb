@@ -9,7 +9,7 @@ Rails.application.routes.draw do
   
   # new/update checkmark, JSON only
   post '/checkmarks' => 'checkmarks#mark', defaults: { format: 'json' }, constraints: {format: 'json'}
-
+  post '/checkmarks/mycheckmarks' => 'checkmarks#mycheckmarks', defaults: { format: 'json' }, constraints: {format: 'json'}
   # API
   post '/test_students/create' =>  'test_students#create_new_from_form'
 

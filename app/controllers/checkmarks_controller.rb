@@ -28,6 +28,18 @@ class CheckmarksController < ApplicationController
       end
     end
   end
+  
+  def mycheckmarks
+    @user_id = params[:user_id]
+    @coursekey = params[:coursekey]
+    @course = Course.find_by(coursekey: @coursekey)
+    @exercises = Exercise.where(course_id: @course.id).ids
+    @eee = Exercise.where(course_id: @course.id)
+    @cmarks = Checkmark.joins(:exercise).where(user_id: @user_id, exercise_id: @exercises).select("user_id","exercises.html_id","status")
+    respond_to do |format|
+      format.json { render json: @cmarks, status: :ok }
+    end
+  end
 
   # DELETE /checkmarks/1
   # DELETE /checkmarks/1.json
