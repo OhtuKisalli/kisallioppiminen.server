@@ -8,14 +8,18 @@ class CheckmarksController < ApplicationController
     @checkmarks = Checkmark.all
   end
   
-  # POST /checkmarks.json
+  # POST /checkmarks
   def mark
-    @checkmark = Checkmark.find_by(params.require(:checkmark).permit(:user_id, :exercise_id))
+    @coursekey = params[:coursekey]
+    @html_id = params[:html_id]
+    @user_id = params[:user_id]
+    @course = Course.find_by(coursekey: @coursekey)
+    @exercise = Exercise.find_by(course_id: @course.id, html_id: @html_id)
+    @checkmark = Checkmark.find_by(exercise_id: @exercise.id, user_id: @user_id)
     if @checkmark.nil?
-      @checkmark = Checkmark.new(checkmark_params)
-    else
-      @checkmark.status = params[:checkmark][:status]
+      @checkmark = Checkmark.new(user_id: @user_id, exercise_id: @exercise.id)
     end
+    @checkmark.status = params[:status]
     respond_to do |format|
       if @checkmark.save 
         format.json { render json: @checkmark, status: :ok }
@@ -43,6 +47,6 @@ class CheckmarksController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def checkmark_params
-      params.require(:checkmark).permit(:user_id, :exercise_id, :status)
+      params.permit(:user_id, :html_id, :coursekey, :status)
     end
 end
