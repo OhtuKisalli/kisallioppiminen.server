@@ -7,6 +7,21 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 
 Course.create(coursekey: 'testikurssiavain', name: 'Testikurssi')
+Course.create(coursekey: 'avain2', name: 'Rästikurssi')
+User.create(username: "testaaja1", name: "Testiheppu")
+User.create(username: "testaaja2", name: "Testaaja")
+User.create(username: "testaaja3", name: "Testiveikko")
+User.create(username: "batman1", name: "Batman")
+
+Attendance.create(user_id: 1, course_id: 1)
+Attendance.create(user_id: 2, course_id: 1)
+Attendance.create(user_id: 3, course_id: 1)
+Attendance.create(user_id: 4, course_id: 1)
+
+Attendance.create(user_id: 1, course_id: 2)
+Attendance.create(user_id: 2, course_id: 2)
+Attendance.create(user_id: 3, course_id: 2)
+Attendance.create(user_id: 4, course_id: 2)
 
 Exercise.create(html_id: "may1;1.1", course_id: 1)
 Exercise.create(html_id: "may1;1.2", course_id: 1)
@@ -19,6 +34,51 @@ Exercise.create(html_id: "may1;1.8", course_id: 1)
 Exercise.create(html_id: "may1;1.9", course_id: 1)
 Exercise.create(html_id: "may1;1.10", course_id: 1)
 
+Exercise.create(html_id: "may1;1.1", course_id: 2)  ## id:11
+Exercise.create(html_id: "may1;1.2", course_id: 2)
+Exercise.create(html_id: "may1;1.3", course_id: 2)
+Exercise.create(html_id: "may1;1.4", course_id: 2)
+Exercise.create(html_id: "may1;1.5", course_id: 2)
+Exercise.create(html_id: "may1;1.6", course_id: 2)
+Exercise.create(html_id: "may1;1.7", course_id: 2)
+Exercise.create(html_id: "may1;1.8", course_id: 2)
+Exercise.create(html_id: "may1;1.9", course_id: 2)
+Exercise.create(html_id: "may1;1.10", course_id: 2) ## id:20
+
+#kurssi 1
 Checkmark.create(user_id: 1, exercise_id: 2, status: "green")
 Checkmark.create(user_id: 1, exercise_id: 3, status: "red")
 Checkmark.create(user_id: 1, exercise_id: 4, status: "yellow")
+
+Checkmark.create(user_id: 2, exercise_id: 1, status: "red")
+Checkmark.create(user_id: 2, exercise_id: 2, status: "green")
+Checkmark.create(user_id: 2, exercise_id: 4, status: "red")
+Checkmark.create(user_id: 2, exercise_id: 6, status: "yellow")
+
+Checkmark.create(user_id: 3, exercise_id: 2, status: "green")
+Checkmark.create(user_id: 3, exercise_id: 3, status: "green")
+Checkmark.create(user_id: 3, exercise_id: 4, status: "red")
+Checkmark.create(user_id: 3, exercise_id: 7, status: "yellow")
+
+Checkmark.create(user_id: 4, exercise_id: 1, status: "green")
+Checkmark.create(user_id: 4, exercise_id: 2, status: "green")
+Checkmark.create(user_id: 4, exercise_id: 3, status: "green")
+Checkmark.create(user_id: 4, exercise_id: 4, status: "green")
+
+#kurssi 2
+Checkmark.create(user_id: 1, exercise_id: 12, status: "yellow")
+Checkmark.create(user_id: 1, exercise_id: 13, status: "red")
+
+Checkmark.create(user_id: 2, exercise_id: 11, status: "red")
+Checkmark.create(user_id: 2, exercise_id: 12, status: "green")
+Checkmark.create(user_id: 2, exercise_id: 14, status: "green")
+
+Checkmark.create(user_id: 3, exercise_id: 12, status: "green")
+Checkmark.create(user_id: 3, exercise_id: 13, status: "yellow")
+Checkmark.create(user_id: 3, exercise_id: 14, status: "red")
+
+Checkmark.create(user_id: 4, exercise_id: 11, status: "green")
+Checkmark.create(user_id: 4, exercise_id: 12, status: "green")
+Checkmark.create(user_id: 4, exercise_id: 13, status: "red")
+
+
