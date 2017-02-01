@@ -67,6 +67,12 @@ class CoursesController < ApplicationController
   def get_checkmarks
     render :json => '{"maa1":{"john":{"teht1":"green","teht2":"red","teht3":"grey","teht4":"grey","teht5":"grey","teht6":"green","teht7":"red","teht8":"grey","teht9":"grey","teht10":"grey"},"pekka":{"teht1":"red","teht2":"red","teht3":"grey","teht4":"grey","teht5":"grey","teht6":"green","teht7":"red","teht8":"grey","teht9":"grey","teht10":"grey"}}}'
   end
+  
+  def scoreboard
+    key = Course.find(params[:id]).coursekey
+    b = Scoreboard.new(key)
+    render :json => b.board, :except => [:id]
+  end
 
   private
     # Use callbacks to share common setup or constraints between actions.
