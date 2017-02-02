@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :schedules
+  resources :deadlines
   resources :attendances
   resources :checkmarks, only: [:index, :destroy]
   resources :exercises
