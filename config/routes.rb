@@ -19,6 +19,6 @@ Rails.application.routes.draw do
   #hardcoded
   get '/course/:id/checkmarks' => 'courses#get_checkmarks'
 
-  get '/courses/:id/checkmarks' => 'courses#scoreboard'
+  get '/courses/:id/checkmarks' => 'courses#scoreboard', defaults: { format: 'json' }, constraints: {format: 'json'}
 
 end
