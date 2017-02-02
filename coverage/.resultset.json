@@ -1,35 +1,118 @@
 {
   "RSpec": {
     "coverage": {
-      "/home/tomi/kisalli/kisallioppiminen.server/app/helpers/application_helper.rb": [
+      "/home/lauranor/ohtu/open-k/app/helpers/application_helper.rb": [
         1,
         null
       ],
-      "/home/tomi/kisalli/kisallioppiminen.server/app/helpers/checkmarks_helper.rb": [
+      "/home/lauranor/ohtu/open-k/app/helpers/checkmarks_helper.rb": [
         1,
         null
       ],
-      "/home/tomi/kisalli/kisallioppiminen.server/app/helpers/courses_helper.rb": [
+      "/home/lauranor/ohtu/open-k/app/helpers/courses_helper.rb": [
         1,
         null
       ],
-      "/home/tomi/kisalli/kisallioppiminen.server/app/helpers/exercises_helper.rb": [
+      "/home/lauranor/ohtu/open-k/app/helpers/exercises_helper.rb": [
         1,
         null
       ],
-      "/home/tomi/kisalli/kisallioppiminen.server/app/helpers/test_students_helper.rb": [
+      "/home/lauranor/ohtu/open-k/app/helpers/test_students_helper.rb": [
         1,
         null
       ],
-      "/home/tomi/kisalli/kisallioppiminen.server/app/helpers/users_helper.rb": [
+      "/home/lauranor/ohtu/open-k/app/helpers/users_helper.rb": [
         1,
         null
       ],
-      "/home/tomi/kisalli/kisallioppiminen.server/app/helpers/welcome_helper.rb": [
+      "/home/lauranor/ohtu/open-k/app/helpers/welcome_helper.rb": [
         1,
         null
       ],
-      "/home/tomi/kisalli/kisallioppiminen.server/app/controllers/test_students_controller.rb": [
+      "/home/lauranor/ohtu/open-k/app/controllers/courses_controller.rb": [
+        1,
+        1,
+        null,
+        4,
+        null,
+        null,
+        null,
+        1,
+        0,
+        null,
+        null,
+        null,
+        null,
+        1,
+        null,
+        null,
+        null,
+        1,
+        1,
+        null,
+        null,
+        null,
+        1,
+        null,
+        null,
+        null,
+        null,
+        1,
+        0,
+        null,
+        0,
+        0,
+        0,
+        0,
+        null,
+        0,
+        0,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        1,
+        2,
+        2,
+        4,
+        2,
+        null,
+        0,
+        0,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        1,
+        0,
+        0,
+        0,
+        0,
+        null,
+        null,
+        null,
+        1,
+        null,
+        1,
+        2,
+        null,
+        null,
+        null,
+        1,
+        2,
+        null,
+        null
+      ],
+      "/home/lauranor/ohtu/open-k/app/controllers/application_controller.rb": [
+        1,
+        1,
+        null
+      ],
+      "/home/lauranor/ohtu/open-k/app/controllers/test_students_controller.rb": [
         1,
         1,
         null,
@@ -108,99 +191,42 @@
         null,
         null
       ],
-      "/home/tomi/kisalli/kisallioppiminen.server/app/controllers/application_controller.rb": [
-        1,
-        1,
-        null
-      ],
-      "/home/tomi/kisalli/kisallioppiminen.server/app/models/test_student.rb": [
+      "/home/lauranor/ohtu/open-k/app/models/test_student.rb": [
         1,
         null,
         null
       ],
-      "/home/tomi/kisalli/kisallioppiminen.server/app/models/application_record.rb": [
+      "/home/lauranor/ohtu/open-k/app/models/application_record.rb": [
         1,
         1,
         null
       ],
-      "/home/tomi/kisalli/kisallioppiminen.server/app/controllers/welcome_controller.rb": [
+      "/home/lauranor/ohtu/open-k/app/models/course.rb": [
+        1,
+        null,
+        1,
+        null,
+        null
+      ],
+      "/home/lauranor/ohtu/open-k/app/controllers/welcome_controller.rb": [
         1,
         null
       ],
-      "/home/tomi/kisalli/kisallioppiminen.server/app/jobs/application_job.rb": [
+      "/home/lauranor/ohtu/open-k/app/mailers/application_mailer.rb": [
+        0,
+        0,
         0,
         0
       ],
-      "/home/tomi/kisalli/kisallioppiminen.server/app/controllers/courses_controller.rb": [
+      "/home/lauranor/ohtu/open-k/app/models/user.rb": [
         0,
         0,
         0,
         0,
         0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
+        0
+      ],
+      "/home/lauranor/ohtu/open-k/app/models/exercise.rb": [
         0,
         0,
         0,
@@ -209,49 +235,7 @@
         0,
         0
       ],
-      "/home/tomi/kisalli/kisallioppiminen.server/app/controllers/checkmarks_controller.rb": [
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
+      "/home/lauranor/ohtu/open-k/app/models/checkmark.rb": [
         0,
         0,
         0,
@@ -259,7 +243,23 @@
         0,
         0
       ],
-      "/home/tomi/kisalli/kisallioppiminen.server/app/controllers/users_controller.rb": [
+      "/home/lauranor/ohtu/open-k/app/jobs/application_job.rb": [
+        0,
+        0
+      ],
+      "/home/lauranor/ohtu/open-k/app/channels/application_cable/connection.rb": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "/home/lauranor/ohtu/open-k/app/channels/application_cable/channel.rb": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "/home/lauranor/ohtu/open-k/app/controllers/exercises_controller.rb": [
         0,
         0,
         0,
@@ -337,7 +337,7 @@
         0,
         0
       ],
-      "/home/tomi/kisalli/kisallioppiminen.server/app/controllers/exercises_controller.rb": [
+      "/home/lauranor/ohtu/open-k/app/controllers/users_controller.rb": [
         0,
         0,
         0,
@@ -415,57 +415,57 @@
         0,
         0
       ],
-      "/home/tomi/kisalli/kisallioppiminen.server/app/models/exercise.rb": [
+      "/home/lauranor/ohtu/open-k/app/controllers/checkmarks_controller.rb": [
         0,
         0,
         0,
         0,
         0,
         0,
-        0
-      ],
-      "/home/tomi/kisalli/kisallioppiminen.server/app/models/user.rb": [
         0,
         0,
         0,
         0,
         0,
-        0
-      ],
-      "/home/tomi/kisalli/kisallioppiminen.server/app/models/course.rb": [
-        0,
-        0,
-        0,
-        0,
-        0
-      ],
-      "/home/tomi/kisalli/kisallioppiminen.server/app/models/checkmark.rb": [
         0,
         0,
         0,
         0,
         0,
-        0
-      ],
-      "/home/tomi/kisalli/kisallioppiminen.server/app/channels/application_cable/channel.rb": [
         0,
         0,
         0,
-        0
-      ],
-      "/home/tomi/kisalli/kisallioppiminen.server/app/channels/application_cable/connection.rb": [
         0,
         0,
         0,
-        0
-      ],
-      "/home/tomi/kisalli/kisallioppiminen.server/app/mailers/application_mailer.rb": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
         0,
         0,
         0,
         0
       ]
     },
-    "timestamp": 1485361532
+    "timestamp": 1486030564
   }
 }
