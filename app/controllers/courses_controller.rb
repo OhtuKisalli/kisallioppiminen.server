@@ -69,10 +69,16 @@ class CoursesController < ApplicationController
   end
   
   def scoreboard
-    key = Course.find(params[:id]).coursekey
-    b = Scoreboard.new(key)
-    render :json => b.board, :except => [:id]
+    @course = Course.where(id: params[:id]).first
+    if @course
+      b = Scoreboard.new(@course.id)
+      render :json => b.board, :except => [:id]
+    else
+      render :json => {}
+    end
+    
   end
+       
 
   private
     # Use callbacks to share common setup or constraints between actions.
