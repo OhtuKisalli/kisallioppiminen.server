@@ -4,7 +4,6 @@ Rails.application.routes.draw do
   resources :attendances
   resources :checkmarks, only: [:index, :destroy]
   resources :exercises
-  resources :courses
   resources :users
   resources :test_students
  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
@@ -19,6 +18,8 @@ Rails.application.routes.draw do
   #hardcoded
   get '/course/:id/checkmarks' => 'courses#get_checkmarks'
 
-  get '/courses/:id/checkmarks' => 'courses#scoreboard', defaults: { format: 'json' }
+  get '/courses/:id/checkmarks' => 'courses#scoreboard'
+
+  resources :courses
 
 end
