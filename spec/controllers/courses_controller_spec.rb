@@ -9,6 +9,19 @@ RSpec.describe CoursesController, type: :controller do
 
   let(:valid_session) { {} }
 
+  describe "Create" do
+    it "creates new Course with valid params" do
+      course = Course.create! valid_attributes
+      expect(Course.count).to eq(1)
+    end
+
+    #Ilmeisesti luo myös invalid parametreillä?
+    #it "doesn't create with invalid params" do
+    #  course2 = Course.create invalid_attributes
+    #  expect(course2.name).to match("examplekey")
+    #end
+
+  end
 
   describe "GET #new" do
     it "assigns a new course as @course" do
@@ -37,6 +50,23 @@ RSpec.describe CoursesController, type: :controller do
 
     end
 
+  end
+
+  describe "DELETE #destroy" do
+    it "destroys the requested course" do
+      course = Course.create! valid_attributes
+      expect {
+        delete :destroy, params: {id: course.to_param}, session: valid_session
+      }.to change(Course, :count).by(-1)
+    end
+
+    it "destroys courses exercises" do
+      course = Course.create! valid_attributes
+      exercise = Exercise.create html_id: "exerc_htmlId", name: "testexercise", course_id: course.id
+      expect {
+        delete :destroy, params: {id: course.to_param}, session: valid_session
+      }.to change(Exercise, :count).by(-1)
+    end
   end
 
 end
