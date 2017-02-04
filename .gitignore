@@ -22,3 +22,6 @@
 
 # Ignore Rubymine ide-files
 /.idea/
+
+# Ignore testcoverage reports
+/coverage/*
