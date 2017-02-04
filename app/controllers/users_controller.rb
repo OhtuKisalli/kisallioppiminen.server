@@ -63,6 +63,10 @@ class UsersController < ApplicationController
     end
   end
 
+  def is_user_signed_in
+      render :json => {"has_sign_in": user_signed_in?}
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_user

@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  devise_for :users, :controllers => { :omniauth_callbacks => "callbacks" }
   resources :schedules
   resources :deadlines
   resources :attendances
@@ -17,8 +18,10 @@ Rails.application.routes.draw do
 
   #hardcoded
   get '/course/:id/checkmarks' => 'courses#get_checkmarks'
-
   get '/courses/:id/checkmarks' => 'courses#scoreboard'
+
+  # Check if is logged
+  get '/user/is_logged' => 'users#is_user_signed_in'
 
   resources :courses
 
