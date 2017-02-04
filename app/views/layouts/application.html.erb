@@ -1,14 +1,26 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>KisallioppiminenServer</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= content_for?(:title) ? yield(:title) : "Kisallioppiminen Server" %></title>
+    <meta name="description" content="<%= content_for?(:description) ? yield(:description) : "Kisallioppiminen Server" %>">
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track' => 'reload' %>
     <%= csrf_meta_tags %>
-
-    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
-
   <body>
-    <%= yield %>
+    <header>
+      <%= render 'layouts/navigation' %>
+    </header>
+    <main role="main" class=".container">
+      <%= render 'layouts/messages' %>
+
+      <div class="row">
+        <div class="col-md-8">
+          <%= yield %>
+        </div>
+      </div>
+
+    </main>
   </body>
 </html>

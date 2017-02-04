@@ -41,6 +41,11 @@ GEM
     addressable (2.5.0)
       public_suffix (~> 2.0, >= 2.0.2)
     arel (7.1.4)
+    autoprefixer-rails (6.7.2)
+      execjs
+    bootstrap-sass (3.3.7)
+      autoprefixer-rails (>= 5.2.1)
+      sass (>= 3.3.4)
     builder (3.2.3)
     byebug (9.0.6)
     capybara (2.11.0)
@@ -130,6 +135,7 @@ GEM
     rails_12factor (0.0.3)
       rails_serve_static_assets
       rails_stdout_logging
+    rails_layout (1.0.34)
     rails_serve_static_assets (0.0.5)
     rails_stdout_logging (0.0.5)
     railties (5.0.1)
@@ -209,6 +215,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  bootstrap-sass
   byebug
   capybara
   coffee-rails (~> 4.2)
@@ -223,6 +230,7 @@ DEPENDENCIES
   rails (~> 5.0.1)
   rails-controller-testing
   rails_12factor
+  rails_layout
   rspec-rails (~> 3.5.0)
   sass-rails (~> 5.0)
   simplecov

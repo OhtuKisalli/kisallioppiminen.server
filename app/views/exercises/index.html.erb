@@ -2,23 +2,22 @@
 
 <h1>Exercises</h1>
 
-<table>
+<table class="table table-hover">
   <thead>
     <tr>
-      <th>Html</th>
-      <th>Name</th>
-      <th>Course</th>
-      <th colspan="3"></th>
+      <th>ID</th>
+      <th>html_id</th>
+      <th>course_id</th>
+      <th colspan="2"></th>
     </tr>
   </thead>
 
   <tbody>
     <% @exercises.each do |exercise| %>
       <tr>
-        <td><%= exercise.html_id %></td>
-        <td><%= exercise.name %></td>
-        <td><%= exercise.course_id %></td>
-        <td><%= link_to 'Show', exercise %></td>
+        <td><%= link_to exercise.id, exercise %></td>
+        <td><%= link_to exercise.html_id, exercise %></td>
+        <td><%= link_to exercise.course_id, exercise.course %></td>
         <td><%= link_to 'Edit', edit_exercise_path(exercise) %></td>
         <td><%= link_to 'Destroy', exercise, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
