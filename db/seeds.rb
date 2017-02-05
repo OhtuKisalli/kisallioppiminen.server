@@ -8,10 +8,12 @@
 
 Course.create(coursekey: 'testikurssiavain', name: 'Testikurssi')
 Course.create(coursekey: 'avain2', name: 'Rästikurssi')
-User.create(username: "testaaja1", name: "Testiheppu")
-User.create(username: "testaaja2", name: "Testaaja")
-User.create(username: "testaaja3", name: "Testiveikko")
-User.create(username: "batman1", name: "Batman")
+User.create(username: "testaaja1", name: "Testiheppu", email:"u1@e.e", provider:nil,uid:nil,password:"qwerty")
+User.create(username: "testaaja2", name: "Testaaja", email:"u2@e.e", provider:nil,uid:nil,password:"qwerty")
+User.create(username: "testaaja3", name: "Testiveikko", email:"u3@e.e", provider:nil,uid:nil,password:"qwerty")
+User.create(username: "batman1", name: "Batman", email:"u4@e.e", provider:nil,uid:nil,password:"qwerty")
+User.create(username: "ope1", name: "Opettaja", email:"o1@e.e", provider:nil,uid:nil,password:"qwerty")
+User.create(username: "ope2", name: "Reksi", email:"o2@e.e", provider:nil,uid:nil,password:"qwerty")
 
 Attendance.create(user_id: 1, course_id: 1)
 Attendance.create(user_id: 2, course_id: 1)
