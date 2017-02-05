@@ -29,16 +29,28 @@ class CheckmarksController < ApplicationController
     end
   end
   
+  #voi poistaa kun frontend hakee opiskelijan checkmarkit GET:llä
   def mycheckmarks
     @user_id = params[:user_id]
     @coursekey = params[:coursekey]
     @course = Course.find_by(coursekey: @coursekey)
     @exercises = Exercise.where(course_id: @course.id).ids
-    @eee = Exercise.where(course_id: @course.id)
     @cmarks = Checkmark.joins(:exercise).where(user_id: @user_id, exercise_id: @exercises).select("user_id","exercises.html_id","status")
     respond_to do |format|
       format.json { render json: @cmarks, status: :ok }
     end
+  end
+  
+  #opiskelijan yhden kurssin checkmarkit GET /student/:sid/courses/:cid/checkmarks'
+  def student_checkmarks
+    user_id = params[:sid]
+    @exercises = Exercise.where(course_id: params[:cid]).ids
+    @cmarks = Checkmark.joins(:exercise).where(user_id: user_id, exercise_id: @exercises).select("exercises.html_id","status")
+    checkmarks = {}
+    @cmarks.each do |c|
+      checkmarks[c.html_id] = c.status
+    end  
+    render :json => checkmarks
   end
 
   # DELETE /checkmarks/1

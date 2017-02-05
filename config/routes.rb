@@ -16,8 +16,12 @@ Rails.application.routes.draw do
   # API
   post '/test_students/create' =>  'test_students#create_new_from_form'
 
+  #Student – I can see from an exercise if I have done it
+  get '/student/:sid/courses/:cid/checkmarks' => 'checkmarks#student_checkmarks'
+
   #hardcoded
   get '/course/:id/checkmarks' => 'courses#get_checkmarks'
+  #todo: rename to courses/:id/scoreboard
   get '/courses/:id/checkmarks' => 'courses#scoreboard'
 
   # Check if is logged
