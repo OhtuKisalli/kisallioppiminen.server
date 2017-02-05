@@ -19,6 +19,15 @@ RSpec.describe ExercisesController, type: :controller do
     end
   end
 
+  describe "Create new" do
+    it "with valid params creates new exercise" do
+      expect(Exercise.count).to eq(0)
+      exercise = Exercise.create! valid_attributes
+
+      expect(Exercise.count).to be(1)
+    end
+  end
+
   describe "PUT #update" do
     context "with valid params" do
       let(:new_attributes) {{html_id: "exerciseHtmlId", name:"exercise2.1", course_id: course.id}}
