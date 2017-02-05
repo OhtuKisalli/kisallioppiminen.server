@@ -4,10 +4,15 @@ FactoryGirl.define do
     points 123
   end
 
+  factory :User do
+    username "hanipöö"
+    name "Pertti"
+  end
+
   factory :Course do
-    name "matikka1"
-    coursekey "kurssiavain1"
-    html_id "esimerkkihtmlid"
+    name "math1"
+    coursekey "coursekey1"
+    html_id "this_htmlid"
   end
 
 end
