@@ -17,7 +17,7 @@ Rails.application.routes.draw do
   post '/test_students/create' =>  'test_students#create_new_from_form'
 
   #Student – I can see from an exercise if I have done it
-  get '/student/:sid/courses/:cid/checkmarks' => 'checkmarks#student_checkmarks'
+  get '/students/:sid/courses/:cid/checkmarks' => 'checkmarks#student_checkmarks'
 
   #hardcoded
   get '/course/:id/checkmarks' => 'courses#get_checkmarks'
