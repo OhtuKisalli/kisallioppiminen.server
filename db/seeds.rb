@@ -48,24 +48,51 @@ Exercise.create(html_id: "may1;1.9", course_id: 2)
 Exercise.create(html_id: "may1;1.10", course_id: 2) ## id:20
 
 #kurssi 1
+Checkmark.create(user_id: 1, exercise_id: 1, status: "grey")
 Checkmark.create(user_id: 1, exercise_id: 2, status: "green")
 Checkmark.create(user_id: 1, exercise_id: 3, status: "red")
 Checkmark.create(user_id: 1, exercise_id: 4, status: "yellow")
+Checkmark.create(user_id: 1, exercise_id: 5, status: "green")
+Checkmark.create(user_id: 1, exercise_id: 6, status: "grey")
+Checkmark.create(user_id: 1, exercise_id: 7, status: "grey")
+Checkmark.create(user_id: 1, exercise_id: 8, status: "grey")
+Checkmark.create(user_id: 1, exercise_id: 9, status: "grey")
+Checkmark.create(user_id: 1, exercise_id: 10, status: "grey")
 
 Checkmark.create(user_id: 2, exercise_id: 1, status: "red")
 Checkmark.create(user_id: 2, exercise_id: 2, status: "green")
+Checkmark.create(user_id: 2, exercise_id: 3, status: "red")
 Checkmark.create(user_id: 2, exercise_id: 4, status: "red")
+Checkmark.create(user_id: 2, exercise_id: 5, status: "grey")
 Checkmark.create(user_id: 2, exercise_id: 6, status: "yellow")
+Checkmark.create(user_id: 2, exercise_id: 7, status: "grey")
+Checkmark.create(user_id: 2, exercise_id: 8, status: "grey")
+Checkmark.create(user_id: 2, exercise_id: 9, status: "grey")
+Checkmark.create(user_id: 2, exercise_id: 10, status: "grey")
 
+
+Checkmark.create(user_id: 3, exercise_id: 1, status: "green")
 Checkmark.create(user_id: 3, exercise_id: 2, status: "green")
 Checkmark.create(user_id: 3, exercise_id: 3, status: "green")
 Checkmark.create(user_id: 3, exercise_id: 4, status: "red")
+Checkmark.create(user_id: 3, exercise_id: 5, status: "grey")
+Checkmark.create(user_id: 3, exercise_id: 6, status: "grey")
 Checkmark.create(user_id: 3, exercise_id: 7, status: "yellow")
+Checkmark.create(user_id: 3, exercise_id: 8, status: "grey")
+Checkmark.create(user_id: 3, exercise_id: 9, status: "grey")
+Checkmark.create(user_id: 3, exercise_id: 10, status: "grey")
+
 
 Checkmark.create(user_id: 4, exercise_id: 1, status: "green")
 Checkmark.create(user_id: 4, exercise_id: 2, status: "green")
 Checkmark.create(user_id: 4, exercise_id: 3, status: "green")
 Checkmark.create(user_id: 4, exercise_id: 4, status: "green")
+Checkmark.create(user_id: 4, exercise_id: 5, status: "grey")
+Checkmark.create(user_id: 4, exercise_id: 6, status: "grey")
+Checkmark.create(user_id: 4, exercise_id: 7, status: "grey")
+Checkmark.create(user_id: 4, exercise_id: 8, status: "grey")
+Checkmark.create(user_id: 4, exercise_id: 9, status: "grey")
+Checkmark.create(user_id: 4, exercise_id: 10, status: "grey")
 
 #kurssi 2
 Checkmark.create(user_id: 1, exercise_id: 12, status: "yellow")
