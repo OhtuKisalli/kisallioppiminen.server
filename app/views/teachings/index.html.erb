@@ -1,0 +1,27 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Teachings</h1>
+
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th>User.id</th>
+      <th>Course.id</th>
+      <th colspan="1"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @teachings.each do |teaching| %>
+      <tr>
+        <td><%= link_to teaching.user_id, teaching.user %></td>
+        <td><%= link_to teaching.course_id, teaching.course %></td>
+        <td><%= link_to 'Destroy', teaching, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Teaching', new_teaching_path %>

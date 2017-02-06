@@ -10,6 +10,9 @@ class User < ApplicationRecord
   
   has_many :attendances, dependent: :destroy
   has_many :courses, through: :attendances
+  
+  has_many :teachings, dependent: :destroy
+  has_many :courses_to_teach, through: :teachings, source: :course
 
   def self.from_omniauth(auth)
 

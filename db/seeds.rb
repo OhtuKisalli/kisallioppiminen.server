@@ -25,6 +25,10 @@ Attendance.create(user_id: 2, course_id: 2)
 Attendance.create(user_id: 3, course_id: 2)
 Attendance.create(user_id: 4, course_id: 2)
 
+Teaching.create(user_id: 5, course_id: 1)
+Teaching.create(user_id: 5, course_id: 2)
+Teaching.create(user_id: 6, course_id: 2)
+
 Exercise.create(html_id: "may1;1.1", course_id: 1)
 Exercise.create(html_id: "may1;1.2", course_id: 1)
 Exercise.create(html_id: "may1;1.3", course_id: 1)
