@@ -30,7 +30,7 @@ class CheckmarksController < ApplicationController
   end
   
   #voi poistaa kun frontend hakee opiskelijan checkmarkit GET:llä
-  def mycheckmarks
+  def vanha
     @user_id = params[:user_id]
     @coursekey = params[:coursekey]
     @course = Course.find_by(coursekey: @coursekey)
@@ -43,6 +43,10 @@ class CheckmarksController < ApplicationController
   
   #opiskelijan yhden kurssin checkmarkit GET /student/:sid/courses/:cid/checkmarks'
   def student_checkmarks
+    s_checkmarks(params)
+  end
+  
+  def s_checkmarks(params)
     user_id = params[:sid]
     @exercises = Exercise.where(course_id: params[:cid]).ids
     @cmarks = Checkmark.joins(:exercise).where(user_id: user_id, exercise_id: @exercises).select("exercises.html_id","status")
@@ -51,6 +55,15 @@ class CheckmarksController < ApplicationController
       checkmarks[c.html_id] = c.status
     end  
     render :json => checkmarks
+  end
+  
+  #opiskelijan yhden kurssin checkmarkit GET /courses/:cid/mycheckmarks'
+  def mycheckmarks
+    if not user_signed_in?
+      render :json => {}
+    else  
+      s_checkmarks(:sid => current_user.id, :cid => params[:cid])
+    end
   end
 
   # DELETE /checkmarks/1
