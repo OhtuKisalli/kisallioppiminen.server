@@ -6,3 +6,15 @@
 <li><%= link_to 'teachings', teachings_path %></li>
 <li><%= link_to 'deadlines', deadlines_path %></li>
 <li><%= link_to 'schedules', schedules_path %></li>
+<% if user_signed_in? %>
+  <li>
+  <%= link_to('-signout-', destroy_user_session_path, :method => :delete) %>        
+  </li>
+<% else %>
+  <li>
+  <%= link_to('-signin-', new_user_session_path)  %>
+  </li>
+  <li>
+  <%= link_to('-signup-', new_user_registration_path)  %>
+  </li>
+<% end %>
