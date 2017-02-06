@@ -24,11 +24,11 @@ Rails.application.routes.draw do
 
   #hardcoded
   get '/course/:id/checkmarks' => 'courses#get_checkmarks'
-  #todo: rename to courses/:id/scoreboard
-  get '/courses/:id/checkmarks' => 'courses#scoreboard'
+  #scoreboard without current_user
+  get '/courses/:id/checkmarks' => 'courses#sboard'
   #scoreboards for teacher: current_user
   get '/courses/scoreboards' => 'courses#scoreboards'
-  
+  get '/courses/:id/scoreboard' => 'courses#scoreboard'  
 
   # Check if is logged
   get '/user/is_logged' => 'users#is_user_signed_in'

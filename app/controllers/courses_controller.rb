@@ -68,8 +68,8 @@ class CoursesController < ApplicationController
     render :json => '{"maa1":{"john":{"teht1":"green","teht2":"red","teht3":"grey","teht4":"grey","teht5":"grey","teht6":"green","teht7":"red","teht8":"grey","teht9":"grey","teht10":"grey"},"pekka":{"teht1":"red","teht2":"red","teht3":"grey","teht4":"grey","teht5":"grey","teht6":"green","teht7":"red","teht8":"grey","teht9":"grey","teht10":"grey"}}}'
   end
   
-  #todo refactor with scoreboards
-  def scoreboard
+  #vanha - ilman current_user
+  def sboard
     @course = Course.where(id: params[:id]).first
     if @course
       b = Scoreboard.new(@course.id)
@@ -80,6 +80,7 @@ class CoursesController < ApplicationController
   end
   
   #Scoreboards for teacher (current_user)
+  #todo refactor
   def scoreboards
     if not user_signed_in? or current_user.courses_to_teach.empty?
       render :json => {}
@@ -91,6 +92,22 @@ class CoursesController < ApplicationController
         s[c.coursekey] = b.board  
       end
       render :json => s
+    end 
+  end
+  
+  #Scoreboard for teacher (current_user)
+  #todo refactor
+  def scoreboard
+    if not user_signed_in? or current_user.courses_to_teach.empty?
+      render :json => {}
+    else  
+      @course = current_user.courses_to_teach.where(id: params[:id]).first
+      if @course
+        b = Scoreboard.new(@course.id)
+        render :json => b.board, :except => [:id]
+      else
+        render :json => {}
+      end
     end 
   end
 
