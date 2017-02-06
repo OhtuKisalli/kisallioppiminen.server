@@ -68,6 +68,7 @@ class CoursesController < ApplicationController
     render :json => '{"maa1":{"john":{"teht1":"green","teht2":"red","teht3":"grey","teht4":"grey","teht5":"grey","teht6":"green","teht7":"red","teht8":"grey","teht9":"grey","teht10":"grey"},"pekka":{"teht1":"red","teht2":"red","teht3":"grey","teht4":"grey","teht5":"grey","teht6":"green","teht7":"red","teht8":"grey","teht9":"grey","teht10":"grey"}}}'
   end
   
+  #todo refactor with scoreboards
   def scoreboard
     @course = Course.where(id: params[:id]).first
     if @course
@@ -76,9 +77,22 @@ class CoursesController < ApplicationController
     else
       render :json => {}
     end
-    
   end
-       
+  
+  #Scoreboards for teacher (current_user)
+  def scoreboards
+    if not user_signed_in? or current_user.courses_to_teach.empty?
+      render :json => {}
+    else  
+      @courses = current_user.courses_to_teach
+      s = {}
+      @courses.each do |c|
+        b = Scoreboard.new(c.id)
+        s[c.coursekey] = b.board  
+      end
+      render :json => s
+    end 
+  end
 
   private
     # Use callbacks to share common setup or constraints between actions.

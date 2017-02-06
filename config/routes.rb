@@ -26,7 +26,8 @@ Rails.application.routes.draw do
   get '/course/:id/checkmarks' => 'courses#get_checkmarks'
   #todo: rename to courses/:id/scoreboard
   get '/courses/:id/checkmarks' => 'courses#scoreboard'
-  
+  #scoreboards for teacher: current_user
+  get '/courses/scoreboards' => 'courses#scoreboards'
   
 
   # Check if is logged
