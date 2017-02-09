@@ -30,6 +30,9 @@ Rails.application.routes.draw do
   get '/courses/scoreboards' => 'courses#scoreboards'
   get '/courses/:id/scoreboard' => 'courses#scoreboard'  
 
+  #Teacher – I can see a listing of my courses
+  get '/teachers/mycourses' => 'courses#mycourses_teacher'
+
   # Check if is logged
   get '/user/is_logged' => 'users#is_user_signed_in'
 

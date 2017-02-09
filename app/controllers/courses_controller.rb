@@ -110,6 +110,25 @@ class CoursesController < ApplicationController
       end
     end 
   end
+  
+  #Teacher – I can see a listing of my courses
+  def mycourses_teacher
+    if not user_signed_in? or current_user.courses_to_teach.empty?
+      render :json => {}
+    else
+      @courses = current_user.courses_to_teach
+      result = {}
+      @courses.each do |c|
+        courseinfo = {}
+        courseinfo["coursename"] = c.name
+        courseinfo["html_id"] = c.html_id
+        courseinfo["startdate"] = c.startdate
+        courseinfo["enddate"] = c.enddate
+        result[c.coursekey] = courseinfo
+      end
+      render :json => result
+    end
+  end
 
   private
     # Use callbacks to share common setup or constraints between actions.
