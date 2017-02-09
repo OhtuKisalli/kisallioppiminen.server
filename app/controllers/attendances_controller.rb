@@ -1,6 +1,8 @@
 class AttendancesController < ApplicationController
   before_action :set_attendance, only: [:show, :edit, :update, :destroy]
 
+  protect_from_forgery unless: -> { request.format.json? }
+
   # GET /attendances
   # GET /attendances.json
   def index
@@ -58,6 +60,21 @@ class AttendancesController < ApplicationController
     respond_to do |format|
       format.html { redirect_to attendances_url, notice: 'Attendance was successfully destroyed.' }
       format.json { head :no_content }
+    end
+  end
+  
+  #Student – I can join a specific course using a coursekeys
+  def newstudent
+    @course = Course.where(coursekey: params[:coursekey]).first
+    if user_signed_in? and @course
+      if Attendance.where(user_id: current_user.id, course_id: @course.id)
+        render :json => {"message" => "already on course"}, status: :unprocessable_entity  
+      else
+        Attendance.create(user_id: current_user.id, course_id: @course.id)
+        render :json => {}, status: :ok
+      end
+    else
+      render :json => {"message" => "no user or course found"}, status: :unprocessable_entity
     end
   end
 

@@ -33,6 +33,9 @@ Rails.application.routes.draw do
   #Teacher – I can see a listing of my courses
   get '/teachers/mycourses' => 'courses#mycourses_teacher'
 
+  #Student – I can join a specific course using a coursekeys
+  post '/courses/join' => 'attendances#newstudent'
+
   # Check if is logged
   get '/user/is_logged' => 'users#is_user_signed_in'
 
