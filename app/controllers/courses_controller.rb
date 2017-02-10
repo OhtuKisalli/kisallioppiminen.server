@@ -139,8 +139,15 @@ class CoursesController < ApplicationController
         render :json => {"msg" => "coursekey already in use"}
     elsif @course.save
         Teaching.create(user_id: current_user.id, course_id: @course.id)
-        # ------ADD EXERCISES HERE---------
-        render :json => {"msg" => "created"}, status: 200
+        if params[:exercises]
+          exercises = params[:exercises]
+          exercises.each do |key, value|
+            Exercise.create(html_id: value, course_id: @course.id)  
+          end
+          render :json => {"msg" => "created"}, status: 200        
+        else
+          render :json => {"msg" => "created without exercises"}
+        end
     else
         render :json => {"msg" => "not ok"}, status: :unprocessable_entity
     end
@@ -154,6 +161,6 @@ class CoursesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def course_params
-      params.require(:course).permit(:html_id, :coursekey, :name, :startdate, :enddate)
+      params.require(:course).permit(:html_id, :coursekey, :name, :startdate, :enddate, :exercises)
     end
 end
