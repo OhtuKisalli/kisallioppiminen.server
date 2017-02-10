@@ -41,6 +41,11 @@ Rails.application.routes.draw do
 
   # Check if is logged
   get '/user/is_logged' => 'users#is_user_signed_in'
+  
+  # TESTAILUA VARTEN
+  post '/test/json' => 'tests#jsontest'
+  get '/test/idtest' => 'tests#idtest'
+  post '/test/idtest2' => 'tests#idtest2'
 
   resources :courses
 
