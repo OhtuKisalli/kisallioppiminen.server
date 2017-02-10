@@ -36,6 +36,9 @@ Rails.application.routes.draw do
   #Student – I can join a specific course using a coursekeys
   post '/courses/join' => 'attendances#newstudent'
 
+  #Teacher – I can create coursekeys for students to join my course
+  post '/courses/newcourse' => 'courses#newcourse'
+
   # Check if is logged
   get '/user/is_logged' => 'users#is_user_signed_in'
 

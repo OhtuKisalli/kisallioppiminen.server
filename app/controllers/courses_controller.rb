@@ -129,6 +129,22 @@ class CoursesController < ApplicationController
       render :json => result
     end
   end
+  
+  #Teacher – I can create coursekeys for students to join my course
+  def newcourse
+    @course = Course.new(course_params)
+    if not user_signed_in?
+        render :json => {"msg" => "user not logged in"}
+    elsif not Course.where(coursekey: @course.coursekey).empty?
+        render :json => {"msg" => "coursekey already in use"}
+    elsif @course.save
+        Teaching.create(user_id: current_user.id, course_id: @course.id)
+        # ------ADD EXERCISES HERE---------
+        render :json => {"msg" => "created"}, status: 200
+    else
+        render :json => {"msg" => "not ok"}, status: :unprocessable_entity
+    end
+  end
 
   private
     # Use callbacks to share common setup or constraints between actions.
@@ -138,6 +154,6 @@ class CoursesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def course_params
-      params.require(:course).permit(:html_id, :coursekey, :name)
+      params.require(:course).permit(:html_id, :coursekey, :name, :startdate, :enddate)
     end
 end
