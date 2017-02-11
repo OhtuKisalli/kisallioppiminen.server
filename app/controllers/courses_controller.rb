@@ -136,9 +136,9 @@ class CoursesController < ApplicationController
   def newcourse
     @course = Course.new(course_params)
     if not user_signed_in?
-        render :json => {"msg" => "user not logged in"}
+        render :json => {"error" => "User must be signed in"}, status: 401
     elsif not Course.where(coursekey: @course.coursekey).empty?
-        render :json => {"msg" => "coursekey already in use"}
+        render :json => {"error" => "Coursekey already in use"}, status: 403
     elsif @course.save
         Teaching.create(user_id: current_user.id, course_id: @course.id)
         if params[:exercises]
@@ -146,9 +146,9 @@ class CoursesController < ApplicationController
           exercises.each do |key, value|
             Exercise.create(html_id: value, course_id: @course.id)  
           end
-          render :json => {"msg" => "created"}, status: 200        
+          render :json => {"message" => "Uusi kurssi luotu!"}, status: 200        
         else
-          render :json => {"msg" => "created without exercises"}
+          render :json => {"warning" => "Created without exercises"}, status: 202
         end
     else
         render :json => {"msg" => "not ok"}, status: :unprocessable_entity
@@ -163,6 +163,6 @@ class CoursesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def course_params
-      params.require(:course).permit(:html_id, :coursekey, :name, :startdate, :enddate, :exercises)
+      params.permit(:html_id, :coursekey, :name, :startdate, :enddate, :exercises)
     end
 end

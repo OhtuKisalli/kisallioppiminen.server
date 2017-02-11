@@ -48,6 +48,52 @@ RSpec.describe CoursesController, type: :controller do
       end
     end
   end
+  
+  describe "Teacher – I can create coursekeys for students to join my course" do
+    context "when not logged in" do
+      it "gives error message" do
+        post 'newcourse', :format => :json, params: {"coursekey":"avain1", "name":"kurssi", "exercises": {"0.1": "23b6f818-3def-4c40-a794-6d5a9c45a0ff", "0.2": "ff50db85-f7a9-4c03-8faf-9a17d932b435","1.1": "0d7c9d8e-9c84-44fb-b5a7-33becc01af14"}}
+        expect(response.status).to eq(401)
+      end
+    end
+    
+    context "when logged in" do
+      before(:each) do
+        @course2 = FactoryGirl.create(:course, coursekey:"key2")
+        @testaaja = FactoryGirl.create(:user)
+        sign_in @testaaja
+      end
+    
+      it "doesn't allow to use reserved coursekey" do
+        post 'newcourse', :format => :json, params: {"coursekey":"key2", "name":"kurssi", "exercises": {"0.1": "23b6f818-3def-4c40-a794-6d5a9c45a0ff", "0.2": "ff50db85-f7a9-4c03-8faf-9a17d932b435","1.1": "0d7c9d8e-9c84-44fb-b5a7-33becc01af14"}}
+        expect(response.status).to eq(403)
+        expect(Course.all.count).to eq(1)
+      end
+      
+      it "creates course but warns if no exercises selected" do
+        post 'newcourse', :format => :json, params: {"coursekey":"avain1", "name":"kurssi"}
+        expect(response.status).to eq(202)
+        expect(Course.all.count).to eq(2)
+      end
+      
+      it "adds teacher to created course" do
+        expect(Teaching.all.count).to eq(0)
+        post 'newcourse', :format => :json, params: {"coursekey":"avain1", "name":"kurssi"}
+        expect(Teaching.all.count).to eq(1)
+        expect(Teaching.first.id).to eq(@testaaja.id)
+      end
+      
+      it "creates course with exercises" do
+        expect(Exercise.all.count).to eq(0)
+        post 'newcourse', :format => :json, params: {"coursekey":"avain1", "name":"kurssi", "exercises": {"0.1": "23b6f818-3def-4c40-a794-6d5a9c45a0ff", "0.2": "ff50db85-f7a9-4c03-8faf-9a17d932b435","1.1": "0d7c9d8e-9c84-44fb-b5a7-33becc01af14"}}
+        expect(response.status).to eq(200)
+        expect(Course.find_by(coursekey:"avain1").exercises.count).to eq(3)
+      end
+      
+    end
+  
+  
+  end
 
   describe "Create" do
     it "creates new Course with valid params" do
@@ -74,14 +120,7 @@ RSpec.describe CoursesController, type: :controller do
     context "with valid params" do
       let(:new_attributes) {{html_id: "exampleHtmlId", coursekey:"NEWkey", name:"matikka1"}}
 
-
-      it "updates the requested course" do
-        course = Course.create! valid_attributes
-        put :update, params: {id: course.to_param, course: new_attributes}, session: valid_session
-        course.reload
-        expect(course.coursekey).to match("NEWkey")
-      end
-
+      
       it "assigns the requested course as @course" do
         course = Course.create! valid_attributes
         put :update, params: {id: course.to_param, course: valid_attributes}, session: valid_session
