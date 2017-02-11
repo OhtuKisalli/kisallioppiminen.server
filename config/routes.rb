@@ -39,8 +39,10 @@ Rails.application.routes.draw do
   #Teacher – I can create coursekeys for students to join my course
   post '/courses/newcourse' => 'courses#newcourse'
 
-  # Check if is logged
+  # Session
   get '/user/is_logged' => 'users#is_user_signed_in'
+  get '/user/get_session_user' => 'users#get_session_user'
+
   
   # TESTAILUA VARTEN
   post '/test/json' => 'tests#jsontest'
