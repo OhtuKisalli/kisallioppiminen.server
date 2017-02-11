@@ -66,15 +66,17 @@ class AttendancesController < ApplicationController
   #Student – I can join a specific course using a coursekeys
   def newstudent
     @course = Course.where(coursekey: params[:coursekey]).first
-    if user_signed_in? and @course
-      if Attendance.where(user_id: current_user.id, course_id: @course.id)
-        render :json => {"message" => "already on course"}, status: :unprocessable_entity  
+    if not user_signed_in?
+      render :json => {"error" => "User must be signed in"}, status: 401
+    elsif @course
+      if Attendance.where(user_id: current_user.id, course_id: @course.id).any?
+        render :json => {"message" => "User already on course"}, status: 403  
       else
         Attendance.create(user_id: current_user.id, course_id: @course.id)
         render :json => {}, status: :ok
       end
     else
-      render :json => {"message" => "no user or course found"}, status: :unprocessable_entity
+      render :json => {"error" => "Course not found"}, status: 204
     end
   end
 

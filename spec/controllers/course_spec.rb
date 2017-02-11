@@ -14,7 +14,7 @@ RSpec.describe CoursesController, type: :controller do
     context "when not logged in " do
       it "gives error message" do
         get 'mycourses_teacher', :format => :json
-        response.status == 401
+        expect(response.status).to eq(401)
       end
     end
         
@@ -27,12 +27,12 @@ RSpec.describe CoursesController, type: :controller do
       end
       it "returns empty json when no courses" do
         get 'mycourses_teacher', :format => :json
-        response.status == 204
+        expect(response.status).to eq(204)
       end
       it "returns a course where user is teacher" do
         Teaching.create(user_id: @testaaja.id, course_id: @course1.id)
         get 'mycourses_teacher', :format => :json
-        response.status == 200
+        expect(response.status).to eq(200)
         body = JSON.parse(response.body)
         expect(body.length).to eq(1)
         expect(body.keys).to contain_exactly(@course1.coursekey)
@@ -41,7 +41,7 @@ RSpec.describe CoursesController, type: :controller do
         Teaching.create(user_id: @testaaja.id, course_id: @course1.id)
         Teaching.create(user_id: @testaaja.id, course_id: @course2.id)
         get 'mycourses_teacher', :format => :json
-        response.status == 200
+        expect(response.status).to eq(200)
         body = JSON.parse(response.body)
         expect(body.length).to eq(2)
         expect(body.keys).to contain_exactly(@course1.coursekey, @course2.coursekey)
