@@ -8,6 +8,46 @@ RSpec.describe CoursesController, type: :controller do
   let(:invalid_attributes) { {name:321}  }
 
   let(:valid_session) { {} }
+  
+  describe "Teacher – I can see a listing of my courses" do
+  
+    context "when not logged in " do
+      it "gives error message" do
+        get 'mycourses_teacher', :format => :json
+        response.status == 401
+      end
+    end
+        
+    context "when logged in" do
+      before(:each) do
+        @course1 = FactoryGirl.create(:course)
+        @course2 = FactoryGirl.create(:course, coursekey:"key2")
+        @testaaja = FactoryGirl.create(:user)
+        sign_in @testaaja
+      end
+      it "returns empty json when no courses" do
+        get 'mycourses_teacher', :format => :json
+        response.status == 204
+      end
+      it "returns a course where user is teacher" do
+        Teaching.create(user_id: @testaaja.id, course_id: @course1.id)
+        get 'mycourses_teacher', :format => :json
+        response.status == 200
+        body = JSON.parse(response.body)
+        expect(body.length).to eq(1)
+        expect(body.keys).to contain_exactly(@course1.coursekey)
+      end
+      it "return all courses where user is teacher" do
+        Teaching.create(user_id: @testaaja.id, course_id: @course1.id)
+        Teaching.create(user_id: @testaaja.id, course_id: @course2.id)
+        get 'mycourses_teacher', :format => :json
+        response.status == 200
+        body = JSON.parse(response.body)
+        expect(body.length).to eq(2)
+        expect(body.keys).to contain_exactly(@course1.coursekey, @course2.coursekey)
+      end
+    end
+  end
 
   describe "Create" do
     it "creates new Course with valid params" do

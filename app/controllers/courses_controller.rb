@@ -113,8 +113,10 @@ class CoursesController < ApplicationController
   
   #Teacher – I can see a listing of my courses
   def mycourses_teacher
-    if not user_signed_in? or current_user.courses_to_teach.empty?
-      render :json => {}
+    if not user_signed_in?
+      render :json => {"error" => "User must be signed in"}, status: 401
+    elsif current_user.courses_to_teach.empty?
+      render :json => {}, status: 204
     else
       @courses = current_user.courses_to_teach
       result = {}
@@ -126,7 +128,7 @@ class CoursesController < ApplicationController
         courseinfo["enddate"] = c.enddate
         result[c.coursekey] = courseinfo
       end
-      render :json => result
+      render :json => result, status:200
     end
   end
   
