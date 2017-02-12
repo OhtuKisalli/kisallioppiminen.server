@@ -4,11 +4,11 @@ class ApplicationController < ActionController::Base
 
   # Return to original location after login
   def after_sign_in_path_for(resource)
-    request.env['omniauth.origin'] || stored_location_for(resource) || "http://localhost:4000"
+    request.env['omniauth.origin'] || stored_location_for(resource) || "https://ohtukisalli.github.io/"
   end
 
   def after_sign_out_path_for(resource_or_scope)
-    request.env['omniauth.origin'] || stored_location_for(resource_or_scope) || "http://localhost:4000"
+    request.env['omniauth.origin'] || stored_location_for(resource_or_scope) || "https://ohtukisalli.github.io/"
   end
 
 end
