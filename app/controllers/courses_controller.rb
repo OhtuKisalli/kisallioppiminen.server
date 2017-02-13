@@ -1,7 +1,7 @@
 class CoursesController < ApplicationController
   before_action :set_course, only: [:show, :edit, :update, :destroy]
 
-  # protect_from_forgery unless: -> { request.format.json? }
+  protect_from_forgery unless: -> { request.format.json? }
 
   # GET /courses
   # GET /courses.json

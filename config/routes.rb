@@ -31,7 +31,7 @@ Rails.application.routes.draw do
   post '/courses/join' => 'attendances#newstudent'
 
   #Teacher – I can create coursekeys for students to join my course
-  post '/courses/newcourse' => 'courses#newcourse'
+  post '/courses/newcourse' => 'courses#newcourse', defaults: { format: 'json' }, constraints: {format: 'json'}
 
   # Session
   get '/user/is_logged' => 'users#is_user_signed_in'
