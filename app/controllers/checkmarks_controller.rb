@@ -8,6 +8,12 @@ class CheckmarksController < ApplicationController
     @checkmarks = Checkmark.all
   end
   
+  def cms
+    if not user_signed_in?
+      render :json => {"error" => "User must be signed in"}, status: 401
+    end
+  end
+    
   # POST /checkmarks
   def mark
     @course = Course.find_by(coursekey: params[:coursekey])
@@ -35,43 +41,28 @@ class CheckmarksController < ApplicationController
     end
   end
   
-  #voi poistaa kun frontend hakee opiskelijan checkmarkit GET:llä
-  def vanha
-    @user_id = params[:user_id]
-    @coursekey = params[:coursekey]
-    @course = Course.find_by(coursekey: @coursekey)
-    @exercises = Exercise.where(course_id: @course.id).ids
-    @cmarks = Checkmark.joins(:exercise).where(user_id: @user_id, exercise_id: @exercises).select("user_id","exercises.html_id","status")
-    respond_to do |format|
-      format.json { render json: @cmarks, status: :ok }
-    end
-  end
-  
-  #opiskelijan yhden kurssin checkmarkit GET /student/:sid/courses/:cid/checkmarks'
+  # opiskelijan yhden kurssin checkmarkit
   def student_checkmarks
-    s_checkmarks(params)
-  end
-  
-  def s_checkmarks(params)
-    user_id = params[:sid]
-    @exercises = Exercise.where(course_id: params[:cid]).ids
-    @cmarks = Checkmark.joins(:exercise).where(user_id: user_id, exercise_id: @exercises).select("exercises.html_id","status")
-    checkmarks = {}
-    @cmarks.each do |c|
-      checkmarks[c.html_id] = c.status
-    end  
-    render :json => checkmarks
-  end
-  
-  #opiskelijan yhden kurssin checkmarkit GET /courses/:cid/mycheckmarks'
-  def mycheckmarks
+    sid = params[:sid]
+    cid = params[:cid]
     if not user_signed_in?
-      render :json => {}
-    else  
-      s_checkmarks(:sid => current_user.id, :cid => params[:cid])
+      render :json => {"error" => "User must be signed in"}, status: 401
+    elsif sid.to_i != current_user.id and Teaching.where(user_id: current_user.id, course_id: cid).empty?
+      render :json => {"error" => "Unauthorized"}, status: 401
+    elsif Attendance.where(user_id: sid, course_id: cid).empty?
+      render :json => {"error" => "User not on course"}, status: 422
+    else
+      @exercises = Exercise.where(course_id: cid).ids
+      @cmarks = Checkmark.joins(:exercise).where(user_id: sid, exercise_id: @exercises).select("exercises.html_id","status")
+      checkmarks = {}
+      @cmarks.each do |c|
+        checkmarks[c.html_id] = c.status
+      end  
+      render :json => checkmarks, status: 200
     end
+        
   end
-
+  
   # DELETE /checkmarks/1
   # DELETE /checkmarks/1.json
   def destroy

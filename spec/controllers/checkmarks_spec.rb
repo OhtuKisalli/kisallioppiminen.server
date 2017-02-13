@@ -52,9 +52,56 @@ RSpec.describe CheckmarksController, type: :controller do
         expect(Checkmark.first.status).to eq("red")
       end
     end
-    
   end
-
-
+  
+  describe "getting checkmarks" do
+    context "when not logged in" do
+      it "gives error message" do
+        get 'student_checkmarks', :format => :json, params: {"sid":1,"cid":1}
+        expect(response.status).to eq(401)
+      end
+    end
+    
+    context "when logged in" do
+      before(:each) do
+        @course = FactoryGirl.create(:course, coursekey:"key1")
+        @exercise1 = Exercise.create(course_id: @course.id, html_id:"id1")  
+        @exercise2 = Exercise.create(course_id: @course.id, html_id:"id2")
+        @opiskelija1 = FactoryGirl.create(:user, username:"o1", email:"o1@o.o")
+        Attendance.create(user_id: @opiskelija1.id, course_id: @course.id)
+        @checkmark1 = Checkmark.create(user_id: @opiskelija1.id, exercise_id: @exercise1.id, status:"green")
+        @checkmark2 = Checkmark.create(user_id: @opiskelija1.id, exercise_id: @exercise2.id, status:"red")
+        @opiskelija2 = FactoryGirl.create(:user, username:"o2", email:"o2@o.o")
+        @ope = FactoryGirl.create(:user, username:"ope1", email:"ope1@o.o")
+        Teaching.create(user_id: @ope.id, course_id: @course.id)
+      end
+      it "can't see other student's checkmarks" do
+        sign_in @opiskelija2
+        get 'student_checkmarks', :format => :json, params: {"sid":@opiskelija1.id,"cid":@course.id}
+        expect(response.status).to eq(401)
+      end
+      it "can see own checkmarks" do
+        sign_in @opiskelija1
+        get 'student_checkmarks', :format => :json, params: {"sid":@opiskelija1.id,"cid":@course.id}
+        expect(response.status).not_to eq(401)
+        body = JSON.parse(response.body)
+        assert_equal @checkmark1.status, body["id1"]
+        assert_equal @checkmark2.status, body["id2"]
+      end
+      it "can only see own checkmarks" do
+        Attendance.create(user_id: @opiskelija2.id, course_id: @course.id)
+        sign_in @opiskelija2
+        get 'student_checkmarks', :format => :json, params: {"sid":@opiskelija2.id,"cid":@course.id}
+        body = JSON.parse(response.body)
+        assert_equal nil, body["id1"]
+      end
+      
+      it "no checkmarks if not joined course" do
+        sign_in @opiskelija2
+        get 'student_checkmarks', :format => :json, params: {"sid":@opiskelija2.id,"cid":@course.id}
+        expect(response.status).to eq(422)
+      end
+    end
+  end
 end
 

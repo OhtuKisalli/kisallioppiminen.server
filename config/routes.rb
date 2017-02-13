@@ -13,15 +13,15 @@ Rails.application.routes.draw do
   
   # new/update checkmark, JSON only
   post '/checkmarks' => 'checkmarks#mark', defaults: { format: 'json' }, constraints: {format: 'json'}
-  post '/checkmarks/mycheckmarks' => 'checkmarks#vanha', defaults: { format: 'json' }, constraints: {format: 'json'}
+  
   # API
   post '/test_students/create' =>  'test_students#create_new_from_form'
 
   #Student – I can see from an exercise if I have done it
   get '/students/:sid/courses/:cid/checkmarks' => 'checkmarks#student_checkmarks'
   #Student – I can see from an exercise if I have done it
-  get '/courses/:cid/mycheckmarks' => 'checkmarks#mycheckmarks'
-
+  #get '/courses/:cid/mycheckmarks' => 'checkmarks#mycheckmarks'
+  
   #hardcoded
   get '/course/:id/checkmarks' => 'courses#get_checkmarks'
   #scoreboard without current_user
