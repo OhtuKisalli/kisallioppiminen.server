@@ -10,21 +10,27 @@ class CheckmarksController < ApplicationController
   
   # POST /checkmarks
   def mark
-    @coursekey = params[:coursekey]
-    @html_id = params[:html_id]
-    @user_id = params[:user_id]
-    @course = Course.find_by(coursekey: @coursekey)
-    @exercise = Exercise.find_by(course_id: @course.id, html_id: @html_id)
-    @checkmark = Checkmark.find_by(exercise_id: @exercise.id, user_id: @user_id)
-    if @checkmark.nil?
-      @checkmark = Checkmark.new(user_id: @user_id, exercise_id: @exercise.id)
-    end
-    @checkmark.status = params[:status]
-    respond_to do |format|
+    @course = Course.find_by(coursekey: params[:coursekey])
+    if not user_signed_in?
+      render :json => {"error" => "User must be signed in"}, status: 401
+    elsif @course.nil?
+      render :json => {"error" => "Course not found"}, status: 403
+    elsif Attendance.where(user_id: current_user.id, course_id: @course.id).empty?
+      render :json => {"error" => "Et ole liittynyt kurssille"}, status: 422
+    elsif @course.exercises.where(html_id: params[:html_id]).empty?
+      render :json => {"error" => "Exercise not found"}, status: 403
+    else
+      html_id = params[:html_id]
+      @exercise = Exercise.find_by(course_id: @course.id, html_id: html_id)
+      @checkmark = Checkmark.find_by(exercise_id: @exercise.id, user_id: current_user.id)
+      if @checkmark.nil?
+        @checkmark = Checkmark.new(user_id: current_user.id, exercise_id: @exercise.id)
+      end
+      @checkmark.status = params[:status]
       if @checkmark.save 
-        format.json { render json: @checkmark, status: :ok }
+        render :json => {"message" => "Checkmark saved"}, status: 201  
       else
-        format.json { render json: @checkmark, status: :unprocessable_entity }
+        render :json => {"error" => "Checkmark not saved"}, status: 422
       end
     end
   end
