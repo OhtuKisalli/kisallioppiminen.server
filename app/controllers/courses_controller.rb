@@ -1,7 +1,7 @@
 class CoursesController < ApplicationController
   before_action :set_course, only: [:show, :edit, :update, :destroy]
 
-  protect_from_forgery unless: -> { request.format.json? }
+  # protect_from_forgery unless: -> { request.format.json? }
 
   # GET /courses
   # GET /courses.json
@@ -131,7 +131,7 @@ class CoursesController < ApplicationController
       render :json => result, status:200
     end
   end
-  
+
   #Teacher – I can create coursekeys for students to join my course
   def newcourse
     @course = Course.new(course_params)
