@@ -62,51 +62,37 @@ class CoursesController < ApplicationController
       format.json { head :no_content }
     end
   end
-
-  # GET all checkmarks for this course
-  def get_checkmarks
-    render :json => '{"maa1":{"john":{"teht1":"green","teht2":"red","teht3":"grey","teht4":"grey","teht5":"grey","teht6":"green","teht7":"red","teht8":"grey","teht9":"grey","teht10":"grey"},"pekka":{"teht1":"red","teht2":"red","teht3":"grey","teht4":"grey","teht5":"grey","teht6":"green","teht7":"red","teht8":"grey","teht9":"grey","teht10":"grey"}}}'
-  end
-  
-  #vanha - ilman current_user
-  def sboard
-    @course = Course.where(id: params[:id]).first
-    if @course
-      b = Scoreboard.new(@course.id)
-      render :json => b.board, :except => [:id]
-    else
-      render :json => {}
-    end
-  end
   
   #Scoreboards for teacher (current_user)
-  #todo refactor
   def scoreboards
-    if not user_signed_in? or current_user.courses_to_teach.empty?
-      render :json => {}
-    else  
+    if not user_signed_in?
+      render :json => {"error" => "User must be signed in"}, status: 401
+    elsif current_user.courses_to_teach.empty?
+      render :json => {"error" => "User not teacher"}, status: 401
+    else
       @courses = current_user.courses_to_teach
-      s = {}
+      sb = {}
       @courses.each do |c|
         b = Scoreboard.new(c.id)
-        s[c.coursekey] = b.board  
+        sb[c.coursekey] = b.board  
       end
-      render :json => s
+      render :json => sb, status: 200
     end 
   end
   
   #Scoreboard for teacher (current_user)
-  #todo refactor
   def scoreboard
-    if not user_signed_in? or current_user.courses_to_teach.empty?
-      render :json => {}
-    else  
+    if not user_signed_in?
+      render :json => {"error" => "User must be signed in"}, status: 401
+    elsif current_user.courses_to_teach.empty?
+      render :json => {"error" => "User not teacher"}, status: 401
+    else
       @course = current_user.courses_to_teach.where(id: params[:id]).first
       if @course
         b = Scoreboard.new(@course.id)
-        render :json => b.board, :except => [:id]
+        render :json => b.board, :except => [:id], status: 200
       else
-        render :json => {}
+        render :json => {"error" => "User not teacher of the course"}, status: 204
       end
     end 
   end
@@ -166,3 +152,4 @@ class CoursesController < ApplicationController
       params.permit(:html_id, :coursekey, :name, :startdate, :enddate, :exercises)
     end
 end
+

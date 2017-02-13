@@ -19,13 +19,7 @@ Rails.application.routes.draw do
 
   #Student – I can see from an exercise if I have done it
   get '/students/:sid/courses/:cid/checkmarks' => 'checkmarks#student_checkmarks'
-  #Student – I can see from an exercise if I have done it
-  #get '/courses/:cid/mycheckmarks' => 'checkmarks#mycheckmarks'
-  
-  #hardcoded
-  get '/course/:id/checkmarks' => 'courses#get_checkmarks'
-  #scoreboard without current_user
-  get '/courses/:id/checkmarks' => 'courses#sboard'
+    
   #scoreboards for teacher: current_user
   get '/courses/scoreboards' => 'courses#scoreboards'
   get '/courses/:id/scoreboard' => 'courses#scoreboard'  
