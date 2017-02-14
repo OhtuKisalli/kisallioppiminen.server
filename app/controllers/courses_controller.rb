@@ -105,8 +105,14 @@ class CoursesController < ApplicationController
       render :json => {}, status: 200
     else
       @courses = current_user.courses_to_teach
-      result = {}
-      @courses.each do |c|
+      result = build_coursehash(@courses)
+      render :json => result, status:200
+    end
+  end
+  
+  def build_coursehash(courses)
+    result = {}
+      courses.each do |c|
         courseinfo = {}
         courseinfo["coursename"] = c.name
         courseinfo["html_id"] = c.html_id
@@ -114,10 +120,23 @@ class CoursesController < ApplicationController
         courseinfo["enddate"] = c.enddate
         result[c.coursekey] = courseinfo
       end
+    return result
+  end
+  
+  #Student - Courses
+  def mycourses_student
+    sid = params[:id]
+    if not user_signed_in?
+      render :json => {"error" => "Sinun täytyy ensin kirjautua sisään."}, status: 401
+    elsif sid.to_i != current_user.id
+      render :json => {"error" => "Voit hakea vain omat kurssisi."}, status: 401
+    else
+      @courses = current_user.courses
+      result = build_coursehash(@courses)
       render :json => result, status:200
     end
   end
-
+    
   #Teacher – I can create coursekeys for students to join my course
   def newcourse
     @course = Course.new(course_params)

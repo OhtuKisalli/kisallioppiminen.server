@@ -52,6 +52,62 @@ RSpec.describe CoursesController, type: :controller do
     end
   end
   
+  #
+  describe "Courses for student" do
+  
+    context "when not logged in " do
+      it "gives error message" do
+        get 'mycourses_student', :format => :json, params: {"id":1}
+        expect(response.status).to eq(401)
+      end
+    end
+        
+    context "when logged in" do
+      before(:each) do
+        @course1 = FactoryGirl.create(:course)
+        @course2 = FactoryGirl.create(:course, coursekey:"key2")
+        @testaaja = FactoryGirl.create(:user)
+        sign_in @testaaja
+      end
+      it "returns empty json when no courses" do
+        get 'mycourses_student', :format => :json, params: {"id":@testaaja.id}
+        expect(response.status).to eq(200)
+        body = JSON.parse(response.body)
+        expected = {}
+        expect(body).to eq(expected)
+      end
+      it "returns only own courses" do
+        @opiskelija2 = FactoryGirl.create(:user, username:"o2", name:"bruce", email:"o2@o.o")
+        Attendance.create(user_id: @opiskelija2.id, course_id: @course1.id)
+        Attendance.create(user_id: @testaaja.id, course_id: @course1.id)
+        get 'mycourses_student', :format => :json, params: {"id":@opiskelija2.id}
+        expect(response.status).to eq(401)
+        body = JSON.parse(response.body)
+        expected = {"error" => "Voit hakea vain omat kurssisi."}
+        expect(body).to eq(expected)
+      end
+      
+      it "returns a course where user is student" do
+        Attendance.create(user_id: @testaaja.id, course_id: @course1.id)
+        get 'mycourses_student', :format => :json, params: {"id":@testaaja.id}
+        expect(response.status).to eq(200)
+        body = JSON.parse(response.body)
+        expect(body.length).to eq(1)
+        expect(body.keys).to contain_exactly(@course1.coursekey)
+      end
+      it "return all courses where user is student" do
+        Attendance.create(user_id: @testaaja.id, course_id: @course1.id)
+        Attendance.create(user_id: @testaaja.id, course_id: @course2.id)
+        get 'mycourses_student', :format => :json, params: {"id":@testaaja.id}
+        expect(response.status).to eq(200)
+        body = JSON.parse(response.body)
+        expect(body.length).to eq(2)
+        expect(body.keys).to contain_exactly(@course1.coursekey, @course2.coursekey)
+      end
+    end
+  end
+  
+  #
   describe "Teacher – I can create coursekeys for students to join my course" do
     context "when not logged in" do
       it "gives error message" do

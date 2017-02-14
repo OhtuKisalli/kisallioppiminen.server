@@ -23,6 +23,9 @@ Rails.application.routes.draw do
 
   #Teacher – I can see a listing of my courses
   get '/teachers/mycourses' => 'courses#mycourses_teacher'
+  
+  #courses for student
+  get '/students/:id/courses' => 'courses#mycourses_student'
 
   #Student – I can join a specific course using a coursekeys
   post '/courses/join' => 'attendances#newstudent', defaults: { format: 'json' }, constraints: {format: 'json'}
