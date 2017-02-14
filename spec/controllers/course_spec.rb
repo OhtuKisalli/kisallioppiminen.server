@@ -27,7 +27,10 @@ RSpec.describe CoursesController, type: :controller do
       end
       it "returns empty json when no courses" do
         get 'mycourses_teacher', :format => :json
-        expect(response.status).to eq(204)
+        expect(response.status).to eq(200)
+        body = JSON.parse(response.body)
+        expected = {}
+        expect(body).to eq(expected)
       end
       it "returns a course where user is teacher" do
         Teaching.create(user_id: @testaaja.id, course_id: @course1.id)
@@ -137,7 +140,7 @@ RSpec.describe CoursesController, type: :controller do
         Teaching.create(user_id: @ope2.id, course_id: @course3.id)
         sign_in @ope2
         get 'scoreboard', :format => :json, params: {"id":@course1.id}
-        expect(response.status).to eq(204)
+        expect(response.status).to eq(401)
       end
       
       it "returns all scoreboards for teacher" do

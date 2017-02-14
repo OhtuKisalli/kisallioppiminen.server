@@ -66,9 +66,9 @@ class CoursesController < ApplicationController
   #Scoreboards for teacher (current_user)
   def scoreboards
     if not user_signed_in?
-      render :json => {"error" => "User must be signed in"}, status: 401
+      render :json => {"error" => "Sinun täytyy ensin kirjautua sisään."}, status: 401
     elsif current_user.courses_to_teach.empty?
-      render :json => {"error" => "User not teacher"}, status: 401
+      render :json => {"error" => "Et ole opettaja."}, status: 401
     else
       @courses = current_user.courses_to_teach
       sb = {}
@@ -83,16 +83,16 @@ class CoursesController < ApplicationController
   #Scoreboard for teacher (current_user)
   def scoreboard
     if not user_signed_in?
-      render :json => {"error" => "User must be signed in"}, status: 401
+      render :json => {"error" => "Sinun täytyy ensin kirjautua sisään."}, status: 401
     elsif current_user.courses_to_teach.empty?
-      render :json => {"error" => "User not teacher"}, status: 401
+      render :json => {"error" => "Et ole opettaja."}, status: 401
     else
       @course = current_user.courses_to_teach.where(id: params[:id]).first
       if @course
         b = Scoreboard.new(@course.id)
         render :json => b.board, :except => [:id], status: 200
       else
-        render :json => {"error" => "User not teacher of the course"}, status: 204
+        render :json => {"error" => "Et ole kurssin opettaja."}, status: 401
       end
     end 
   end
@@ -100,9 +100,9 @@ class CoursesController < ApplicationController
   #Teacher – I can see a listing of my courses
   def mycourses_teacher
     if not user_signed_in?
-      render :json => {"error" => "User must be signed in"}, status: 401
+      render :json => {"error" => "Sinun täytyy ensin kirjautua sisään."}, status: 401
     elsif current_user.courses_to_teach.empty?
-      render :json => {}, status: 204
+      render :json => {}, status: 200
     else
       @courses = current_user.courses_to_teach
       result = {}
@@ -122,9 +122,9 @@ class CoursesController < ApplicationController
   def newcourse
     @course = Course.new(course_params)
     if not user_signed_in?
-        render :json => {"error" => "User must be signed in"}, status: 401
+        render :json => {"error" => "Sinun täytyy ensin kirjautua sisään."}, status: 401
     elsif not Course.where(coursekey: @course.coursekey).empty?
-        render :json => {"error" => "Coursekey already in use"}, status: 403
+        render :json => {"error" => "Kurssiavain on jo varattu."}, status: 403
     elsif @course.save
         Teaching.create(user_id: current_user.id, course_id: @course.id)
         if params[:exercises]
@@ -134,10 +134,10 @@ class CoursesController < ApplicationController
           end
           render :json => {"message" => "Uusi kurssi luotu!"}, status: 200        
         else
-          render :json => {"warning" => "Created without exercises"}, status: 202
+          render :json => {"message" => "Kurssi luotu ilman tehtäviä."}, status: 202
         end
     else
-        render :json => {"msg" => "not ok"}, status: :unprocessable_entity
+        render :json => {"error" => "Kurssia ei voida tallentaa tietokantaan."}, status: 422
     end
   end
 
