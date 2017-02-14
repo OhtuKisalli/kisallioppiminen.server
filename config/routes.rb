@@ -14,9 +14,6 @@ Rails.application.routes.draw do
   # new/update checkmark, JSON only
   post '/checkmarks' => 'checkmarks#mark', defaults: { format: 'json' }, constraints: {format: 'json'}
   
-  # API
-  post '/test_students/create' =>  'test_students#create_new_from_form'
-
   #Student – I can see from an exercise if I have done it
   get '/students/:sid/courses/:cid/checkmarks' => 'checkmarks#student_checkmarks'
     
@@ -28,7 +25,7 @@ Rails.application.routes.draw do
   get '/teachers/mycourses' => 'courses#mycourses_teacher'
 
   #Student – I can join a specific course using a coursekeys
-  post '/courses/join' => 'attendances#newstudent'
+  post '/courses/join' => 'attendances#newstudent', defaults: { format: 'json' }, constraints: {format: 'json'}
 
   #Teacher – I can create coursekeys for students to join my course
   post '/courses/newcourse' => 'courses#newcourse', defaults: { format: 'json' }, constraints: {format: 'json'}
@@ -39,9 +36,9 @@ Rails.application.routes.draw do
 
   
   # TESTAILUA VARTEN
-  post '/test/json' => 'tests#jsontest'
+  post '/test/json' => 'tests#jsontest', defaults: { format: 'json' }, constraints: {format: 'json'}
   get '/test/idtest' => 'tests#idtest'
-  post '/test/idtest2' => 'tests#idtest2'
+  post '/test/idtest2' => 'tests#idtest2', defaults: { format: 'json' }, constraints: {format: 'json'}
 
   resources :courses
 
