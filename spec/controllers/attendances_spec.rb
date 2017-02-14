@@ -28,6 +28,9 @@ RSpec.describe AttendancesController, type: :controller do
         post 'newstudent', :format => :json, params: {"coursekey": @course1.coursekey}
         expect(response.status).to eq(200)
         expect(@testaaja.courses.count).to eq(1)
+        body = JSON.parse(response.body)
+        expect(body.length).to eq(2)
+        expect(body.keys).to contain_exactly("message","courses")
       end
       it "doesn't allow to join same course again'" do
         Attendance.create(user_id: @testaaja.id, course_id: @course1.id)

@@ -73,7 +73,17 @@ class AttendancesController < ApplicationController
         render :json => {"error" => "Olet jo liittynyt kyseiselle kurssille."}, status: 403  
       else
         Attendance.create(user_id: current_user.id, course_id: @course.id)
-        render :json => {"message" => "Ilmoittautuminen tallennettu."}, status: 200
+        @courses = current_user.courses
+        kurssit = {}
+        @courses.each do |c|
+          courseinfo = {}
+          courseinfo["coursename"] = c.name
+          courseinfo["html_id"] = c.html_id
+          courseinfo["startdate"] = c.startdate
+          courseinfo["enddate"] = c.enddate
+          kurssit[c.coursekey] = courseinfo
+        end
+        render :json => {"message" => "Ilmoittautuminen tallennettu.", "courses" => kurssit}, status: 200
       end
     else
       render :json => {"error" => "Kurssia ei löydy tietokannasta."}, status: 403
