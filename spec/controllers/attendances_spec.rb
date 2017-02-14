@@ -18,7 +18,10 @@ RSpec.describe AttendancesController, type: :controller do
       end
       it "doesn't allow to join uncreated course" do
         post 'newstudent', :format => :json, params: {"coursekey": "maa1s2031"}
-        expect(response.status).to eq(204)
+        expect(response.status).to eq(403)
+        body = JSON.parse(response.body)
+        expected = {"error" => "Kurssia ei löydy tietokannasta."}
+        expect(body).to eq(expected)
         expect(@testaaja.courses).to be_empty
       end
       it "allows to join a new course once" do
@@ -30,6 +33,9 @@ RSpec.describe AttendancesController, type: :controller do
         Attendance.create(user_id: @testaaja.id, course_id: @course1.id)
         post 'newstudent', :format => :json, params: {"coursekey": @course1.coursekey}
         expect(response.status).to eq(403)
+        body = JSON.parse(response.body)
+        expected = {"error" => "Olet jo liittynyt kyseiselle kurssille."}
+        expect(body).to eq(expected)
         expect(@testaaja.courses.count).to eq(1)
       end
     end

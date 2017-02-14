@@ -67,16 +67,16 @@ class AttendancesController < ApplicationController
   def newstudent
     @course = Course.where(coursekey: params[:coursekey]).first
     if not user_signed_in?
-      render :json => {"error" => "User must be signed in"}, status: 401
+      render :json => {"error" => "Sinun täytyy ensin kirjautua sisään."}, status: 401
     elsif @course
       if Attendance.where(user_id: current_user.id, course_id: @course.id).any?
-        render :json => {"message" => "User already on course"}, status: 403  
+        render :json => {"error" => "Olet jo liittynyt kyseiselle kurssille."}, status: 403  
       else
         Attendance.create(user_id: current_user.id, course_id: @course.id)
-        render :json => {}, status: :ok
+        render :json => {"message" => "Ilmoittautuminen tallennettu."}, status: 200
       end
     else
-      render :json => {"error" => "Course not found"}, status: 204
+      render :json => {"error" => "Kurssia ei löydy tietokannasta."}, status: 403
     end
   end
 
