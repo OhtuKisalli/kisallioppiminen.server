@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170210070459) do
+ActiveRecord::Schema.define(version: 20170221115213) do
 
   create_table "attendances", force: :cascade do |t|
     t.integer  "user_id"
@@ -91,6 +91,8 @@ ActiveRecord::Schema.define(version: 20170210070459) do
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
+    t.string   "first_name"
+    t.string   "last_name"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
