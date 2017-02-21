@@ -54,9 +54,4 @@ User.create(first_name: "Obi-Wan", last_name: "Kenobi", email:"u38@e.e", passwor
 User.create(first_name: "Shaun", last_name: "Riley", email:"u39@e.e", password:"qwerty")
 User.create(first_name: "Vito", last_name: "Corleone", email:"u40@e.e", password:"qwerty") #44
 
-# Tee ensin kolme kurssia FRONTISSA tunnuksilla email:o1@e.e password:qwerty
-# 
-# sen jälkeen kolmento: rake:db:seed:addstuff
-#
-# HUOM! voi kestää pari minuuttia kunnes valmis
 
