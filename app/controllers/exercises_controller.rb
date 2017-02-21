@@ -6,7 +6,7 @@ class ExercisesController < ApplicationController
   # GET /exercises
   # GET /exercises.json
   def index
-    @exercises = Exercise.all
+    @courses = Course.all
   end
 
   # GET /exercises/1

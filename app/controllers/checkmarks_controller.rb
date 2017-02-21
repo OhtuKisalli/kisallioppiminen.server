@@ -5,7 +5,7 @@ class CheckmarksController < ApplicationController
 
   # GET /checkmarks
   def index
-    @checkmarks = Checkmark.all
+    @count = Checkmark.all.count
   end
         
   # POST /checkmarks

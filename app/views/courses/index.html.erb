@@ -9,6 +9,8 @@
       <th>Name</th>
       <th>html_id</th>
       <th>coursekey</th>
+      <th>number of students</th>
+      <th>number of teachers</th>
       <th colspan="2"></th>
     </tr>
   </thead>
@@ -20,6 +22,8 @@
         <td><%= link_to course.name, course %></td>
         <td><%= course.html_id %></td>
         <td><%= course.coursekey %></td>
+        <td><%= course.students.count %></td>
+        <td><%= course.teachers.count %></td>
         <td><%= link_to 'Edit', edit_course_path(course) %></td>
         <td><%= link_to 'Destroy', course, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>

@@ -5,21 +5,18 @@
 <table class="table table-hover">
   <thead>
     <tr>
-      <th>ID</th>
-      <th>html_id</th>
-      <th>course_id</th>
-      <th colspan="2"></th>
+      <th>course</th>
+      <th>coursekey</th>
+      <th>number of exercises</th>
     </tr>
   </thead>
 
   <tbody>
-    <% @exercises.each do |exercise| %>
+    <% @courses.each do |course| %>
       <tr>
-        <td><%= link_to exercise.id, exercise %></td>
-        <td><%= link_to exercise.html_id, exercise %></td>
-        <td><%= link_to exercise.course_id, exercise.course %></td>
-        <td><%= link_to 'Edit', edit_exercise_path(exercise) %></td>
-        <td><%= link_to 'Destroy', exercise, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= course.name  %></td>
+        <td><%= course.coursekey %></td>
+        <td><%= course.exercises.count %></td>
       </tr>
     <% end %>
   </tbody>
@@ -27,4 +24,3 @@
 
 <br>
 
-<%= link_to 'New Exercise', new_exercise_path %>
