@@ -1,0 +1,6 @@
+#docker-compose.production.yml
+version: '2'
+services:
+  web:
+    ports:
+      - "2000:3000"
