@@ -22,7 +22,7 @@ Rails.application.routes.draw do
   get '/courses/:id/scoreboard' => 'courses#scoreboard'  
 
   #Teacher – I can see a listing of my courses
-  get '/teachers/mycourses' => 'courses#mycourses_teacher'
+  get '/teachers/:id/courses' => 'courses#mycourses_teacher'
   
   #courses for student
   get '/students/:id/courses' => 'courses#mycourses_student'
