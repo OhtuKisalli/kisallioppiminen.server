@@ -159,7 +159,7 @@ RSpec.describe CoursesController, type: :controller do
         expect(response.status).to eq(401)
       end
       it "gives error message for scoreboards" do
-        get 'scoreboards', :format => :json
+        get 'scoreboards', :format => :json, params: {"id":"1"}
         expect(response.status).to eq(401)
       end
     end
@@ -187,7 +187,7 @@ RSpec.describe CoursesController, type: :controller do
         sign_in @opiskelija1
         get 'scoreboard', :format => :json, params: {"id":@course1.id}
         expect(response.status).to eq(401)
-        get 'scoreboards', :format => :json
+        get 'scoreboards', :format => :json, params: {"id":"1"}
         expect(response.status).to eq(401)
       end
       
@@ -202,7 +202,7 @@ RSpec.describe CoursesController, type: :controller do
       
       it "returns all scoreboards for teacher" do
         sign_in @ope1
-        get 'scoreboards', :format => :json
+        get 'scoreboards', :format => :json, params: {"id":"1"}
         expect(response.status).to eq(200)
         body = JSON.parse(response.body)
         expect(body.keys).to contain_exactly("key1","key2")

@@ -18,7 +18,7 @@ Rails.application.routes.draw do
   get '/students/:sid/courses/:cid/checkmarks' => 'checkmarks#student_checkmarks'
     
   #scoreboards for teacher: current_user
-  get '/courses/scoreboards' => 'courses#scoreboards'
+  get '/teachers/:id/scoreboards' => 'courses#scoreboards'
   get '/courses/:id/scoreboard' => 'courses#scoreboard'  
 
   #Teacher – I can see a listing of my courses
