@@ -89,6 +89,31 @@ class AttendancesController < ApplicationController
       render :json => {"error" => "Kurssia ei löydy tietokannasta."}, status: 403
     end
   end
+  
+  def toggle_archived
+    sid = params[:sid]
+    cid = params[:cid]
+    if not user_signed_in?
+      render :json => {"error" => "Sinun täytyy ensin kirjautua sisään."}, status: 401
+    elsif sid.to_i != current_user.id
+      render :json => {"error" => "Voit muuttaa vain omien kurssiesi asetuksia."}, status: 401
+    elsif Attendance.where(user_id: sid, course_id: cid).empty?
+      render :json => {"error" => "Et ole opiskelijana kyseisellä kurssilla."}, status: 403
+    elsif params[:archived] == "true" or params[:archived] == "false"
+      a = Attendance.where(user_id: sid, course_id: cid).first    
+      if params[:archived] == "false"
+        a.archived = false
+        a.save
+        render :json => {"message" => "Kurssi palautettu arkistosta."}, status: 200
+      else
+        a.archived = true
+        a.save  
+        render :json => {"message" => "Kurssi arkistoitu."}, status: 200
+      end
+    else 
+      render :json => {"error" => "Arkistointitiedon muuttaminen ei onnistunut."}, status: 422
+    end
+  end
 
   private
     # Use callbacks to share common setup or constraints between actions.

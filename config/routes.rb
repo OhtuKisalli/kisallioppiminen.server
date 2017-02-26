@@ -37,6 +37,9 @@ Rails.application.routes.draw do
   get '/user/is_logged' => 'users#is_user_signed_in'
   get '/user/get_session_user' => 'users#get_session_user'
 
+  # Change archived
+  post 'students/:sid/courses/:cid/toggle_archived' => 'attendances#toggle_archived'
+  post 'teachers/:sid/courses/:cid/toggle_archived' => 'teachings#toggle_archived'
   
   # TESTAILUA VARTEN
   post '/test/json' => 'tests#jsontest', defaults: { format: 'json' }, constraints: {format: 'json'}
