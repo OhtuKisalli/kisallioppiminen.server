@@ -1,5 +1,5 @@
 class CoursesController < ApplicationController
-  before_action :set_course, only: [:show, :edit, :update, :destroy]
+  before_action :set_course, only: [:show, :edit, :destroy]
 
   protect_from_forgery unless: -> { request.format.json? }
 
@@ -39,18 +39,27 @@ class CoursesController < ApplicationController
     end
   end
 
-  # PATCH/PUT /courses/1
-  # PATCH/PUT /courses/1.json
+  # Update course   
   def update
-    respond_to do |format|
-      if @course.update(course_params)
-        format.html { redirect_to @course, notice: 'Course was successfully updated.' }
-        format.json { render :show, status: :ok, location: @course }
+    if not user_signed_in?
+      render :json => {"error" => "Sinun täytyy ensin kirjautua sisään."}, status: 401
+    elsif current_user.courses_to_teach.where(id: params[:id]).empty?
+      render :json => {"error" => "Et ole kyseisen kurssin opettaja."}, status: 401
+    elsif Course.where(coursekey: params[:coursekey]).any?
+      render :json => {"error" => "Kurssiavain on jo varattu."}, status: 403
+    else
+      @course = Course.find(params[:id])
+      @course.coursekey = params[:coursekey]
+      @course.name = params[:name]
+      @course.startdate = params[:startdate]
+      @course.enddate = params[:enddate]
+      if @course.save
+        render :json => {"message" => "Kurssitiedot päivitetty."}, status: 200
       else
-        format.html { render :edit }
-        format.json { render json: @course.errors, status: :unprocessable_entity }
+        render :json => {"error" => "Kurssia ei voida tallentaa tietokantaan."}, status: 422
       end
     end
+    
   end
 
   # DELETE /courses/1

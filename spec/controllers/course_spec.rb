@@ -1,4 +1,5 @@
 require 'rails_helper'
+require 'date'
 
 RSpec.describe CoursesController, type: :controller do
 
@@ -217,6 +218,60 @@ RSpec.describe CoursesController, type: :controller do
     end
   end
   
+  describe "updating course" do
+    context "when not logged in " do
+      it "gives error message" do
+        put 'update', :format => :json, params: {"id":1}
+        expect(response.status).to eq(401)
+        body = JSON.parse(response.body)
+        expected = {"error" => "Sinun täytyy ensin kirjautua sisään."}
+        expect(body).to eq(expected)
+      end
+    end
+        
+    context "when logged in" do
+      before(:each) do
+        @course1 = FactoryGirl.create(:course, coursekey:"key1")
+        @testaaja = FactoryGirl.create(:user)
+        sign_in @testaaja
+      end
+      it "only if teacher of the course" do
+        put 'update', :format => :json, params: {"id":1}
+        expect(response.status).to eq(401)
+        body = JSON.parse(response.body)
+        expected = {"error" => "Et ole kyseisen kurssin opettaja."}
+        expect(body).to eq(expected)
+      end
+      it "coursekey must not be reserved" do
+        Teaching.create(user_id: @testaaja.id, course_id: @course1.id)
+        FactoryGirl.create(:course, coursekey:"varattu")
+        put 'update', :format => :json, params: {"id":1, "coursekey": "varattu"}
+        expect(response.status).to eq(403)
+        body = JSON.parse(response.body)
+        expected = {"error" => "Kurssiavain on jo varattu."}
+        expect(body).to eq(expected)
+        expect(Course.find(@course1.id).coursekey).to eq("key1")
+      end
+      it "updates course with proper values" do
+        Teaching.create(user_id: @testaaja.id, course_id: @course1.id)
+        expect(@course1.coursekey).not_to eq("uusi")
+        expect(@course1.name).not_to eq("uusinimi")
+        expect(@course1.startdate).not_to eq(Date.parse("2017-06-01"))
+        expect(@course1.enddate).not_to eq(Date.parse("2017-06-02"))
+        put 'update', :format => :json, params: {"id":1, "coursekey": "uusi", "name": "uusinimi", "startdate": "2017-06-01", "enddate": "2017-06-02"}
+        expect(response.status).to eq(200)
+        c = Course.find(@course1.id)
+        expect(c.coursekey).to eq("uusi")
+        expect(c.name).to eq("uusinimi")
+        expect(c.startdate).to eq(Date.parse("2017-06-01"))
+        expect(c.enddate).to eq(Date.parse("2017-06-02"))
+      
+      end
+      
+      
+    end
+    
+  end
     
   describe "Create" do
     it "creates new Course with valid params" do
@@ -237,21 +292,6 @@ RSpec.describe CoursesController, type: :controller do
       get :new, params: {}, session: valid_session
       expect(assigns(:course)).to be_a_new(Course)
     end
-  end
-
-  describe "PUT #update" do
-    context "with valid params" do
-      let(:new_attributes) {{html_id: "exampleHtmlId", coursekey:"NEWkey", name:"matikka1"}}
-
-      
-      it "assigns the requested course as @course" do
-        course = Course.create! valid_attributes
-        put :update, params: {id: course.to_param, course: valid_attributes}, session: valid_session
-        expect(assigns(:course)).to eq(course)
-      end
-
-    end
-
   end
 
   describe "DELETE #destroy" do

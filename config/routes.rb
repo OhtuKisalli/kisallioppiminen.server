@@ -38,8 +38,11 @@ Rails.application.routes.draw do
   get '/user/get_session_user' => 'users#get_session_user'
 
   # Change archived
-  post 'students/:sid/courses/:cid/toggle_archived' => 'attendances#toggle_archived'
-  post 'teachers/:sid/courses/:cid/toggle_archived' => 'teachings#toggle_archived'
+  post 'students/:sid/courses/:cid/toggle_archived' => 'attendances#toggle_archived', defaults: { format: 'json' }, constraints: {format: 'json'}
+  post 'teachers/:sid/courses/:cid/toggle_archived' => 'teachings#toggle_archived', defaults: { format: 'json' }, constraints: {format: 'json'}
+  
+  # Updating course
+  put 'courses/:id' => 'courses#update', defaults: { format: 'json' }, constraints: {format: 'json'}
   
   # TESTAILUA VARTEN
   post '/test/json' => 'tests#jsontest', defaults: { format: 'json' }, constraints: {format: 'json'}
