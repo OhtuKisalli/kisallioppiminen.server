@@ -114,12 +114,12 @@ class CoursesController < ApplicationController
       render :json => {}, status: 200
     else
       @courses = current_user.courses_to_teach
-      result = build_coursehash(@courses, "teacher", 0)
+      result = build_coursehash(@courses, "teacher")
       render :json => result, status:200
     end
   end
   
-  def build_coursehash(courses, target, need_checkmarks)
+  def build_coursehash(courses, target)
     result = {}
       courses.each do |c|
         courseinfo = {}
@@ -129,10 +129,11 @@ class CoursesController < ApplicationController
         courseinfo["enddate"] = c.enddate
         if target == "teacher"
           courseinfo["archived"] = Teaching.where(user_id: current_user.id, course_id: c.id).first.archived
+          #b = Scoreboard.new(c.id)
+          #courseinfo["scoreboard"] = b.board
+          courseinfo["scoreboard"] = Scoreboard.newboard(c.id)
         elsif target == "student"
           courseinfo["archived"] = Attendance.where(user_id: current_user.id, course_id: c.id).first.archived
-        end
-        if need_checkmarks == 1
           courseinfo["checkmarks"] = Checkmark.student_checkmarks(c.id, current_user.id)
         end
         result[c.coursekey] = courseinfo
@@ -149,7 +150,7 @@ class CoursesController < ApplicationController
       render :json => {"error" => "Voit hakea vain omat kurssisi."}, status: 401
     else
       @courses = current_user.courses
-      result = build_coursehash(@courses, "student", 1)
+      result = build_coursehash(@courses, "student")
       render :json => result, status:200
     end
   end
