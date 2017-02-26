@@ -46,12 +46,7 @@ class CheckmarksController < ApplicationController
     elsif Attendance.where(user_id: sid, course_id: cid).empty?
       render :json => {"error" => "Käyttäjä ei ole rekisteröitynyt kurssille."}, status: 422
     else
-      @exercises = Exercise.where(course_id: cid).ids
-      @cmarks = Checkmark.joins(:exercise).where(user_id: sid, exercise_id: @exercises).select("exercises.html_id","status")
-      checkmarks = {}
-      @cmarks.each do |c|
-        checkmarks[c.html_id] = c.status
-      end  
+      checkmarks = Checkmark.student_checkmarks(cid, sid)
       render :json => checkmarks, status: 200
     end
   end
