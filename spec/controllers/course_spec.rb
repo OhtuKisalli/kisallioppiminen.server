@@ -170,8 +170,8 @@ RSpec.describe CoursesController, type: :controller do
         @course2 = FactoryGirl.create(:course, coursekey:"key2")
         @exercise1 = Exercise.create(course_id: @course1.id, html_id:"id1")  
         @exercise2 = Exercise.create(course_id: @course1.id, html_id:"id2")
-        @opiskelija1 = FactoryGirl.create(:user, username:"o1", name:"pekka", email:"o1@o.o")
-        @opiskelija2 = FactoryGirl.create(:user, username:"o2", name:"bruce", email:"o2@o.o")
+        @opiskelija1 = FactoryGirl.create(:user, username:"o1", first_name:"James", last_name:"Bond", email:"o1@o.o")
+        @opiskelija2 = FactoryGirl.create(:user, username:"o2", first_name:"Bruce", last_name:"Wayne", email:"o2@o.o")
         Attendance.create(user_id: @opiskelija1.id, course_id: @course1.id)
         Attendance.create(user_id: @opiskelija2.id, course_id: @course1.id)
         @checkmark1 = Checkmark.create(user_id: @opiskelija1.id, exercise_id: @exercise1.id, status:"green")
@@ -213,7 +213,7 @@ RSpec.describe CoursesController, type: :controller do
         get 'scoreboard', :format => :json, params: {"id":@course1.id}
         expect(response.status).to eq(200)
         body = JSON.parse(response.body)
-        expect(body.keys).to contain_exactly("pekka","bruce")
+        expect(body.keys).to contain_exactly("Wayne Bruce","Bond James")
       end
     end
   end

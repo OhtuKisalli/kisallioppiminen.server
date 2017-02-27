@@ -82,8 +82,7 @@ class CoursesController < ApplicationController
       @courses = current_user.courses_to_teach
       sb = {}
       @courses.each do |c|
-        b = Scoreboard.new(c.id)
-        sb[c.coursekey] = b.board  
+        sb[c.coursekey] = Scoreboard.newboard(c.id) 
       end
       render :json => sb, status: 200
     end 
@@ -98,8 +97,8 @@ class CoursesController < ApplicationController
     else
       @course = current_user.courses_to_teach.where(id: params[:id]).first
       if @course
-        b = Scoreboard.new(@course.id)
-        render :json => b.board, :except => [:id], status: 200
+        b = Scoreboard.newboard(@course.id)
+        render :json => b, :except => [:id], status: 200
       else
         render :json => {"error" => "Et ole kurssin opettaja."}, status: 401
       end
@@ -129,8 +128,6 @@ class CoursesController < ApplicationController
         courseinfo["enddate"] = c.enddate
         if target == "teacher"
           courseinfo["archived"] = Teaching.where(user_id: current_user.id, course_id: c.id).first.archived
-          #b = Scoreboard.new(c.id)
-          #courseinfo["scoreboard"] = b.board
           courseinfo["scoreboard"] = Scoreboard.newboard(c.id)
         elsif target == "student"
           courseinfo["archived"] = Attendance.where(user_id: current_user.id, course_id: c.id).first.archived
