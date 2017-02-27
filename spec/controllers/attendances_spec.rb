@@ -41,8 +41,17 @@ RSpec.describe AttendancesController, type: :controller do
         expect(body).to eq(expected)
         expect(@testaaja.courses.count).to eq(1)
       end
+      it "allows to join more than one course" do
+        @course2 = Course.create(coursekey: "avain2", name: "kurssi2", html_id: "id2")
+        post 'newstudent', :format => :json, params: {"coursekey": @course1.coursekey}
+        post 'newstudent', :format => :json, params: {"coursekey": @course2.coursekey}
+        expect(@testaaja.courses.count).to eq(2)
+      end
+      it "new course is not archived" do
+        post 'newstudent', :format => :json, params: {"coursekey": @course1.coursekey}
+        expect(Attendance.first.archived).to eq(false)
+      end
     end
-  
   end
   
   describe "student toggling archived of courses" do
@@ -100,6 +109,16 @@ RSpec.describe AttendancesController, type: :controller do
         body = JSON.parse(response.body)
         expected = {"message" => "Kurssi palautettu arkistosta."}
         expect(body).to eq(expected)
+        expect(Attendance.first.archived).to eq(false)
+      end
+      it "trying to archive archived course makes no changes" do
+        Attendance.create(user_id: @testaaja.id, course_id: @course1.id, archived: true)
+        post 'toggle_archived', :format => :json, params: {"sid":1,"cid":1,"archived": "true"}
+        expect(Attendance.first.archived).to eq(true)
+      end
+      it "trying to recover course that is recovered makes on changes" do
+        Attendance.create(user_id: @testaaja.id, course_id: @course1.id, archived: false)
+        post 'toggle_archived', :format => :json, params: {"sid":1,"cid":1,"archived": "false"}
         expect(Attendance.first.archived).to eq(false)
       end
     

@@ -59,6 +59,17 @@ RSpec.describe TeachingsController, type: :controller do
         expect(body).to eq(expected)
         expect(Teaching.first.archived).to eq(false)
       end
+      it "trying to archive archived course makes no changes" do
+        Teaching.create(user_id: @testaaja.id, course_id: @course1.id, archived: true)
+        post 'toggle_archived', :format => :json, params: {"sid":1,"cid":1,"archived": "true"}
+        expect(Teaching.first.archived).to eq(true)
+      end
+      it "trying to recover course that is recovered makes on changes" do
+        Teaching.create(user_id: @testaaja.id, course_id: @course1.id, archived: false)
+        post 'toggle_archived', :format => :json, params: {"sid":1,"cid":1,"archived": "false"}
+        expect(Teaching.first.archived).to eq(false)
+      end
+      
     end
   end
 
