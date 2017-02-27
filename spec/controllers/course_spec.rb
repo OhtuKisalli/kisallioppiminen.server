@@ -215,6 +215,57 @@ RSpec.describe CoursesController, type: :controller do
         body = JSON.parse(response.body)
         expect(body.keys).to contain_exactly("Wayne Bruce","Bond James")
       end
+      
+      it "students with no names stored in database are nimettömiä" do
+        @opiskelija3 = FactoryGirl.create(:user, username:"o1", first_name: nil, last_name: nil, email:"p1@o.o")
+        @opiskelija4 = FactoryGirl.create(:user, username:"o2", first_name: nil, last_name: nil, email:"p2@o.o")
+        Attendance.create(user_id: @opiskelija3.id, course_id: @course1.id)
+        Attendance.create(user_id: @opiskelija4.id, course_id: @course1.id)
+        Checkmark.create(user_id: @opiskelija3.id, exercise_id: @exercise1.id, status:"green")
+        Checkmark.create(user_id: @opiskelija3.id, exercise_id: @exercise2.id, status:"red")
+        Checkmark.create(user_id: @opiskelija4.id, exercise_id: @exercise1.id, status:"red")
+        Checkmark.create(user_id: @opiskelija4.id, exercise_id: @exercise2.id, status:"green")
+        sign_in @ope1
+        get 'scoreboard', :format => :json, params: {"id":@course1.id}
+        expect(response.status).to eq(200)
+        body = JSON.parse(response.body)
+        expect(body.keys).to contain_exactly("Wayne Bruce","Bond James","Nimetön 1","Nimetön 2")
+      end
+      
+      it "if two users have same name they are separated with number" do
+        @opiskelija2.first_name = "James"
+        @opiskelija2.last_name = "Bond"
+        @opiskelija2.save
+        sign_in @ope1
+        get 'scoreboard', :format => :json, params: {"id":@course1.id}
+        expect(response.status).to eq(200)
+        body = JSON.parse(response.body)
+        expect(body.keys).to contain_exactly("Bond James1","Bond James")
+      end
+      
+      it "user with last name only is shown correctly" do
+        @opiskelija2.first_name = nil
+        @opiskelija2.last_name = "Bond"
+        @opiskelija2.save
+        sign_in @ope1
+        get 'scoreboard', :format => :json, params: {"id":@course1.id}
+        expect(response.status).to eq(200)
+        body = JSON.parse(response.body)
+        expect(body.keys).to contain_exactly("Bond","Bond James")
+      end
+      
+      it "user with first name only is shown correctly" do
+        @opiskelija2.first_name = "James"
+        @opiskelija2.last_name = nil
+        @opiskelija2.save
+        sign_in @ope1
+        get 'scoreboard', :format => :json, params: {"id":@course1.id}
+        expect(response.status).to eq(200)
+        body = JSON.parse(response.body)
+        expect(body.keys).to contain_exactly("James","Bond James")
+      end
+      
+      
     end
   end
   
@@ -265,10 +316,7 @@ RSpec.describe CoursesController, type: :controller do
         expect(c.name).to eq("uusinimi")
         expect(c.startdate).to eq(Date.parse("2017-06-01"))
         expect(c.enddate).to eq(Date.parse("2017-06-02"))
-      
       end
-      
-      
     end
     
   end
