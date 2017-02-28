@@ -46,8 +46,14 @@ class CheckmarksController < ApplicationController
     elsif Attendance.where(user_id: sid, course_id: cid).empty?
       render :json => {"error" => "Käyttäjä ei ole rekisteröitynyt kurssille."}, status: 422
     else
+      course = Course.find(cid)
+      result = {}
+      result["html_id"] = course.html_id
+      result["coursekey"] = course.coursekey
+      result["archived"] = Attendance.where(user_id: sid, course_id: cid).first.archived
       checkmarks = Checkmark.student_checkmarks(cid, sid)
-      render :json => checkmarks, status: 200
+      result["exercises"] = checkmarks
+      render :json => result, status: 200
     end
   end
   
