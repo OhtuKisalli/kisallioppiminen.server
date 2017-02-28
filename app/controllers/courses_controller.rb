@@ -119,21 +119,22 @@ class CoursesController < ApplicationController
   end
   
   def build_coursehash(courses, target)
-    result = {}
+    result = []
       courses.each do |c|
         courseinfo = {}
-        courseinfo["coursename"] = c.name
+        courseinfo["name"] = c.name
+        courseinfo["coursekey"] = c.coursekey
         courseinfo["html_id"] = c.html_id
         courseinfo["startdate"] = c.startdate
         courseinfo["enddate"] = c.enddate
         if target == "teacher"
           courseinfo["archived"] = Teaching.where(user_id: current_user.id, course_id: c.id).first.archived
-          courseinfo["scoreboard"] = Scoreboard.newboard(c.id)
+          # courseinfo["scoreboard"] = Scoreboard.newboard(c.id)
         elsif target == "student"
           courseinfo["archived"] = Attendance.where(user_id: current_user.id, course_id: c.id).first.archived
-          courseinfo["checkmarks"] = Checkmark.student_checkmarks(c.id, current_user.id)
+          # courseinfo["checkmarks"] = Checkmark.student_checkmarks(c.id, current_user.id)
         end
-        result[c.coursekey] = courseinfo
+        result << courseinfo
       end
     return result
   end

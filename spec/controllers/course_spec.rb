@@ -38,8 +38,9 @@ RSpec.describe CoursesController, type: :controller do
         get 'mycourses_teacher', :format => :json, params: {"id":@testaaja.id}
         expect(response.status).to eq(200)
         body = JSON.parse(response.body)
-        expect(body.length).to eq(1)
-        expect(body.keys).to contain_exactly(@course1.coursekey)
+        expect(body.size).to eq(1)
+        expect(body[0].keys).to contain_exactly("name","coursekey","html_id","startdate","enddate","archived")
+        expect(body[0]["coursekey"]).to eq(@course1.coursekey)
       end
       it "return all courses where user is teacher" do
         Teaching.create(user_id: @testaaja.id, course_id: @course1.id)
@@ -47,8 +48,7 @@ RSpec.describe CoursesController, type: :controller do
         get 'mycourses_teacher', :format => :json, params: {"id":@testaaja.id}
         expect(response.status).to eq(200)
         body = JSON.parse(response.body)
-        expect(body.length).to eq(2)
-        expect(body.keys).to contain_exactly(@course1.coursekey, @course2.coursekey)
+        expect(body.size).to eq(2)
       end
     end
   end
@@ -74,8 +74,7 @@ RSpec.describe CoursesController, type: :controller do
         get 'mycourses_student', :format => :json, params: {"id":@testaaja.id}
         expect(response.status).to eq(200)
         body = JSON.parse(response.body)
-        expected = {}
-        expect(body).to eq(expected)
+        expect(body.size).to eq(0)
       end
       it "returns only own courses" do
         @opiskelija2 = FactoryGirl.create(:user, username:"o2", name:"bruce", email:"o2@o.o")
@@ -93,8 +92,8 @@ RSpec.describe CoursesController, type: :controller do
         get 'mycourses_student', :format => :json, params: {"id":@testaaja.id}
         expect(response.status).to eq(200)
         body = JSON.parse(response.body)
-        expect(body.length).to eq(1)
-        expect(body.keys).to contain_exactly(@course1.coursekey)
+        expect(body.size).to eq(1)
+        expect(body[0]["coursekey"]).to eq(@course1.coursekey)
       end
       it "return all courses where user is student" do
         Attendance.create(user_id: @testaaja.id, course_id: @course1.id)
@@ -102,8 +101,9 @@ RSpec.describe CoursesController, type: :controller do
         get 'mycourses_student', :format => :json, params: {"id":@testaaja.id}
         expect(response.status).to eq(200)
         body = JSON.parse(response.body)
-        expect(body.length).to eq(2)
-        expect(body.keys).to contain_exactly(@course1.coursekey, @course2.coursekey)
+        expect(body.size).to eq(2)
+        expect(body[0]["coursekey"]).to eq(@course1.coursekey)
+        expect(body[1]["coursekey"]).to eq(@course2.coursekey)
       end
     end
   end
