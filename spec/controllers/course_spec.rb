@@ -210,15 +210,30 @@ RSpec.describe CoursesController, type: :controller do
         get 'scoreboards', :format => :json, params: {"id":"1"}
         expect(response.status).to eq(200)
         body = JSON.parse(response.body)
-        expect(body.keys).to contain_exactly("key1","key2")
+        expect(body.size).to eq(2)
+        expect(body[0]["coursekey"]).to eq(@course1.coursekey)
+        expect(body[1]["coursekey"]).to eq(@course2.coursekey)
       end
       
-      it "return a scoreboard for teacher" do
+      it "returns a scoreboard for teacher" do
         sign_in @ope1
         get 'scoreboard', :format => :json, params: {"id":@course1.id}
         expect(response.status).to eq(200)
         body = JSON.parse(response.body)
-        expect(body.keys).to contain_exactly("Wayne Bruce","Bond James")
+        expect(body.keys).to contain_exactly("name","coursekey","html_id","startdate","enddate","students")
+        expect(body["students"][0].keys).to contain_exactly("user","exercises")
+        expect(body["students"][0]["exercises"][0].keys).to contain_exactly("id","status")
+        expect(body["students"][0]["user"]).to eq("Bond James")
+        expect(body["students"][1]["user"]).to eq("Wayne Bruce")
+        expect(body["students"][0]["exercises"].size).to eq(2)
+        expect(body["students"][0]["exercises"][0]["status"]).to eq(@checkmark1.status)
+        expect(body["students"][0]["exercises"][0]["id"]).to eq(@exercise1.html_id)
+        expect(body["students"][0]["exercises"][1]["status"]).to eq(@checkmark2.status)
+        expect(body["students"][0]["exercises"][1]["id"]).to eq(@exercise2.html_id)
+        expect(body["students"][1]["exercises"][0]["status"]).to eq(@checkmark3.status)
+        expect(body["students"][1]["exercises"][0]["id"]).to eq(@exercise1.html_id)
+        expect(body["students"][1]["exercises"][1]["status"]).to eq(@checkmark4.status)
+        expect(body["students"][1]["exercises"][1]["id"]).to eq(@exercise2.html_id)
       end
       
       it "students with no names stored in database are nimettömiä" do
@@ -234,18 +249,11 @@ RSpec.describe CoursesController, type: :controller do
         get 'scoreboard', :format => :json, params: {"id":@course1.id}
         expect(response.status).to eq(200)
         body = JSON.parse(response.body)
-        expect(body.keys).to contain_exactly("Wayne Bruce","Bond James","Nimetön 1","Nimetön 2")
-      end
-      
-      it "if two users have same name they are separated with number" do
-        @opiskelija2.first_name = "James"
-        @opiskelija2.last_name = "Bond"
-        @opiskelija2.save
-        sign_in @ope1
-        get 'scoreboard', :format => :json, params: {"id":@course1.id}
-        expect(response.status).to eq(200)
-        body = JSON.parse(response.body)
-        expect(body.keys).to contain_exactly("Bond James1","Bond James")
+        expect(body["students"].size).to eq(4)
+        expect(body["students"][0]["user"]).to eq("Bond James")
+        expect(body["students"][1]["user"]).to eq("Wayne Bruce")
+        expect(body["students"][2]["user"]).to eq("Nimetön 1")
+        expect(body["students"][3]["user"]).to eq("Nimetön 2")
       end
       
       it "user with last name only is shown correctly" do
@@ -256,7 +264,8 @@ RSpec.describe CoursesController, type: :controller do
         get 'scoreboard', :format => :json, params: {"id":@course1.id}
         expect(response.status).to eq(200)
         body = JSON.parse(response.body)
-        expect(body.keys).to contain_exactly("Bond","Bond James")
+        expect(body["students"][0]["user"]).to eq("Bond James")
+        expect(body["students"][1]["user"]).to eq("Bond")
       end
       
       it "user with first name only is shown correctly" do
@@ -267,7 +276,8 @@ RSpec.describe CoursesController, type: :controller do
         get 'scoreboard', :format => :json, params: {"id":@course1.id}
         expect(response.status).to eq(200)
         body = JSON.parse(response.body)
-        expect(body.keys).to contain_exactly("James","Bond James")
+        expect(body["students"][0]["user"]).to eq("Bond James")
+        expect(body["students"][1]["user"]).to eq("James")
       end
       
       

@@ -80,9 +80,9 @@ class CoursesController < ApplicationController
       render :json => {"error" => "Et ole opettaja."}, status: 401
     else
       @courses = current_user.courses_to_teach
-      sb = {}
+      sb = []
       @courses.each do |c|
-        sb[c.coursekey] = Scoreboard.newboard(c.id) 
+        sb << Scoreboard.newboard(c.id) 
       end
       render :json => sb, status: 200
     end 

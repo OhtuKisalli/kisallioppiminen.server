@@ -1,17 +1,19 @@
 class Scoreboard
     
+  #todo: refactor
   def self.newboard(cid)
     board = {}
     course = Course.find(cid)
+    board["name"] = course.name
+    board["coursekey"] = course.coursekey
+    board["html_id"] = course.html_id
+    board["startdate"] = course.startdate
+    board["enddate"] = course.enddate
     exercises = Exercise.where(course_id: cid).ids
     students = course.students
     count = 1
+    studentlist = []
     students.each do |s|
-      cmarks = Checkmark.joins(:exercise).where(user_id: s.id, exercise_id: exercises).select("exercises.html_id","status")
-      h = {}
-      cmarks.each do |c|
-        h[c.html_id] = c.status
-      end
       name = ""
       if not s.last_name.blank?
         name += s.last_name
@@ -24,12 +26,21 @@ class Scoreboard
       if name.blank?
         name = "Nimetön " + count.to_s
         count += 1
-      elsif board.key?(name)
-        name += count.to_s
-        count += 1
       end
-      board[name] = h
+      studentjson = {}
+      studentjson["user"] = name
+      exercisearray = []
+      cmarks = Checkmark.joins(:exercise).where(user_id: s.id, exercise_id: exercises).select("exercises.html_id","status")
+      cmarks.each do |c|
+        h = {}
+        h["id"] = c.html_id
+        h["status"] = c.status
+        exercisearray << h
+      end
+      studentjson["exercises"] = exercisearray
+      studentlist << studentjson
     end
+    board["students"] = studentlist
     return board
   end
    
