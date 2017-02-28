@@ -17,9 +17,14 @@ Rails.application.routes.draw do
   #Student – I can see from an exercise if I have done it
   get '/students/:sid/courses/:cid/checkmarks' => 'checkmarks#student_checkmarks'
     
+  #todo refactor!!!
   #scoreboards for teacher: current_user
   get '/teachers/:id/scoreboards' => 'courses#scoreboards'
-  get '/courses/:id/scoreboard' => 'courses#scoreboard'  
+  get '/courses/:id/scoreboard' => 'courses#scoreboard'
+  
+  #scoreboards for student
+  get '/students/:id/scoreboards' => 'scoreboards#student_scoreboards'
+  get '/students/:sid/courses/:cid/scoreboard' => 'scoreboards#student_scoreboard'
 
   #Teacher – I can see a listing of my courses
   get '/teachers/:id/courses' => 'courses#mycourses_teacher'
