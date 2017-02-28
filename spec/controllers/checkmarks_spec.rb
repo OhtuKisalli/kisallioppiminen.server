@@ -85,8 +85,9 @@ RSpec.describe CheckmarksController, type: :controller do
         get 'student_checkmarks', :format => :json, params: {"sid":@opiskelija1.id,"cid":@course.id}
         expect(response.status).not_to eq(401)
         body = JSON.parse(response.body)
-        assert_equal @checkmark1.status, body["id1"]
-        assert_equal @checkmark2.status, body["id2"]
+        expect(body.keys).to contain_exactly("html_id","exercises","coursekey","archived")
+        assert_equal @checkmark1.status, body["exercises"][0]["status"]
+        assert_equal @checkmark2.status, body["exercises"][1]["status"]
       end
       it "can see checkmarks of own students when teacher" do
         sign_in @ope
