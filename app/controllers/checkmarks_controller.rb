@@ -1,4 +1,5 @@
 class CheckmarksController < ApplicationController
+  before_action :check_signed_in, except: [:index]
 
   protect_from_forgery unless: -> { request.format.json? }
 
@@ -13,9 +14,7 @@ class CheckmarksController < ApplicationController
   # params: html_id (Course), coursekey, status
   def mark
     @course = Course.find_by(coursekey: params[:coursekey])
-    if not user_signed_in?
-      render :json => {"error" => "Sinun täytyy ensin kirjautua sisään."}, status: 401
-    elsif @course.nil?
+    if @course.nil?
       render :json => {"error" => "Kurssia ei löydy tietokannasta."}, status: 403
     elsif Attendance.where(user_id: current_user.id, course_id: @course.id).empty?
       render :json => {"error" => "Sinun täytyy ensin liittyä kurssille."}, status: 422
@@ -45,9 +44,7 @@ class CheckmarksController < ApplicationController
   def student_checkmarks
     sid = params[:sid]
     cid = params[:cid]
-    if not user_signed_in?
-      render :json => {"error" => "Sinun täytyy ensin kirjautua sisään."}, status: 401
-    elsif sid.to_i != current_user.id and Teaching.where(user_id: current_user.id, course_id: cid).empty?
+    if sid.to_i != current_user.id and Teaching.where(user_id: current_user.id, course_id: cid).empty?
       render :json => {"error" => "Voit tarkastella vain omia tai oppilaidesi merkintöjä."}, status: 401
     elsif Attendance.where(user_id: sid, course_id: cid).empty?
       render :json => {"error" => "Käyttäjä ei ole rekisteröitynyt kurssille."}, status: 422

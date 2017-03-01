@@ -1,5 +1,5 @@
 class CoursesController < ApplicationController
-  
+  before_action :check_signed_in, except: [:index, :show]
   before_action :set_course, only: [:show]
   
   protect_from_forgery unless: -> { request.format.json? }
@@ -19,9 +19,7 @@ class CoursesController < ApplicationController
   # PUT 'courses/:id'
   # params: id, coursekey, name, startdate, enddate
   def update
-    if not user_signed_in?
-      render :json => {"error" => "Sinun täytyy ensin kirjautua sisään."}, status: 401
-    elsif current_user.courses_to_teach.where(id: params[:id]).empty?
+    if current_user.courses_to_teach.where(id: params[:id]).empty?
       render :json => {"error" => "Et ole kyseisen kurssin opettaja."}, status: 401
     elsif Course.where(coursekey: params[:coursekey]).any?
       render :json => {"error" => "Kurssiavain on jo varattu."}, status: 403
@@ -43,9 +41,7 @@ class CoursesController < ApplicationController
   # GET '/teachers/:id/courses'
   # params: id (User.id) - doesn't matter what, no need to be same as current_user
   def mycourses_teacher
-    if not user_signed_in?
-      render :json => {"error" => "Sinun täytyy ensin kirjautua sisään."}, status: 401
-    elsif current_user.courses_to_teach.empty?
+    if current_user.courses_to_teach.empty?
       render :json => {}, status: 200
     else
       @courses = current_user.courses_to_teach
@@ -59,9 +55,7 @@ class CoursesController < ApplicationController
   # params: id (User.id)
   def mycourses_student
     sid = params[:id]
-    if not user_signed_in?
-      render :json => {"error" => "Sinun täytyy ensin kirjautua sisään."}, status: 401
-    elsif sid.to_i != current_user.id
+    if sid.to_i != current_user.id
       render :json => {"error" => "Voit hakea vain omat kurssisi."}, status: 401
     else
       @courses = current_user.courses
@@ -75,9 +69,7 @@ class CoursesController < ApplicationController
   # params: coursekey, name, html_id, startdate, enddate, exercises (json)
   def newcourse
     @course = Course.new(course_params)
-    if not user_signed_in?
-        render :json => {"error" => "Sinun täytyy ensin kirjautua sisään."}, status: 401
-    elsif not Course.where(coursekey: @course.coursekey).empty?
+    if not Course.where(coursekey: @course.coursekey).empty?
         render :json => {"error" => "Kurssiavain on jo varattu."}, status: 403
     elsif @course.save
         Teaching.create(user_id: current_user.id, course_id: @course.id)

@@ -1,5 +1,5 @@
 class ScoreboardsController < ApplicationController
-
+  before_action :check_signed_in
   protect_from_forgery unless: -> { request.format.json? }
 
   # Scoreboard for student
@@ -8,9 +8,7 @@ class ScoreboardsController < ApplicationController
   def student_scoreboard
     sid = params[:sid]
     cid = params[:cid]
-    if not user_signed_in?
-      render :json => {"error" => "Sinun täytyy ensin kirjautua sisään."}, status: 401
-    elsif sid.to_i != current_user.id
+    if sid.to_i != current_user.id
       render :json => {"error" => "Voit tarkastella vain omaa scoreboardiasi."}, status: 401
     elsif Attendance.where(user_id: sid, course_id: cid).empty?
       render :json => {"error" => "Et ole liittynyt kyseiselle kurssille."}, status: 422
@@ -26,9 +24,7 @@ class ScoreboardsController < ApplicationController
   # params: id (User.id)
   def student_scoreboards
     sid = params[:id]
-    if not user_signed_in?
-      render :json => {"error" => "Sinun täytyy ensin kirjautua sisään."}, status: 401
-    elsif sid.to_i != current_user.id
+    if sid.to_i != current_user.id
       render :json => {"error" => "Voit tarkastella vain omia scoreboardejasi."}, status: 401
     else
       courses = current_user.courses
@@ -46,9 +42,7 @@ class ScoreboardsController < ApplicationController
   # get '/teachers/:id/scoreboards'
   # return JSON
   def scoreboard
-    if not user_signed_in?
-      render :json => {"error" => "Sinun täytyy ensin kirjautua sisään."}, status: 401
-    elsif current_user.courses_to_teach.empty?
+    if current_user.courses_to_teach.empty?
       render :json => {"error" => "Et ole opettaja."}, status: 401
     else
       @course = current_user.courses_to_teach.where(id: params[:id]).first
@@ -65,9 +59,7 @@ class ScoreboardsController < ApplicationController
   # get '/courses/:id/scoreboard'
   # returns array of JSONs
   def scoreboards
-    if not user_signed_in?
-      render :json => {"error" => "Sinun täytyy ensin kirjautua sisään."}, status: 401
-    elsif current_user.courses_to_teach.empty?
+    if current_user.courses_to_teach.empty?
       render :json => {"error" => "Et ole opettaja."}, status: 401
     else
       @courses = current_user.courses_to_teach

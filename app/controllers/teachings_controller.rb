@@ -1,4 +1,5 @@
 class TeachingsController < ApplicationController
+  before_action :check_signed_in, except: [:index]
 
   # GET /teachings
   def index
@@ -11,9 +12,7 @@ class TeachingsController < ApplicationController
   def toggle_archived
     sid = params[:sid]
     cid = params[:cid]
-    if not user_signed_in?
-      render :json => {"error" => "Sinun täytyy ensin kirjautua sisään."}, status: 401
-    elsif sid.to_i != current_user.id
+    if sid.to_i != current_user.id
       render :json => {"error" => "Voit muuttaa vain omien kurssiesi asetuksia."}, status: 401
     elsif Teaching.where(user_id: sid, course_id: cid).empty?
       render :json => {"error" => "Et ole opiskelijana kyseisellä kurssilla."}, status: 403

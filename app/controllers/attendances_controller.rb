@@ -1,4 +1,5 @@
 class AttendancesController < ApplicationController
+  before_action :check_signed_in, except: [:index]
   
   protect_from_forgery unless: -> { request.format.json? }
 
@@ -13,9 +14,7 @@ class AttendancesController < ApplicationController
   # params: coursekey
   def newstudent
     @course = Course.where(coursekey: params[:coursekey]).first
-    if not user_signed_in?
-      render :json => {"error" => "Sinun täytyy ensin kirjautua sisään."}, status: 401
-    elsif @course
+    if @course
       if Attendance.where(user_id: current_user.id, course_id: @course.id).any?
         render :json => {"error" => "Olet jo liittynyt kyseiselle kurssille."}, status: 403  
       else
@@ -43,9 +42,7 @@ class AttendancesController < ApplicationController
   def toggle_archived
     sid = params[:sid]
     cid = params[:cid]
-    if not user_signed_in?
-      render :json => {"error" => "Sinun täytyy ensin kirjautua sisään."}, status: 401
-    elsif sid.to_i != current_user.id
+    if sid.to_i != current_user.id
       render :json => {"error" => "Voit muuttaa vain omien kurssiesi asetuksia."}, status: 401
     elsif Attendance.where(user_id: sid, course_id: cid).empty?
       render :json => {"error" => "Et ole opiskelijana kyseisellä kurssilla."}, status: 403
