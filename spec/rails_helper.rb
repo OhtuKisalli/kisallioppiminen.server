@@ -1,7 +1,8 @@
+require 'simplecov_custom_adapter'
 require 'coveralls'
-Coveralls.wear!('rails')
 require 'simplecov'
-SimpleCov.start('rails')
+Coveralls.wear!('kisalli')
+SimpleCov.start('kisalli')
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 ENV['RAILS_ENV'] ||= 'test'
 require File.expand_path('../../config/environment', __FILE__)
@@ -10,6 +11,7 @@ abort("The Rails environment is running in production mode!") if Rails.env.produ
 require 'spec_helper'
 require 'rspec/rails'
 require 'capybara/rspec'
+
 # Add additional requires below this line. Rails is not loaded until this point!
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
