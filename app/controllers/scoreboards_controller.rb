@@ -2,6 +2,9 @@ class ScoreboardsController < ApplicationController
 
   protect_from_forgery unless: -> { request.format.json? }
 
+  # Scoreboard for student
+  # GET '/students/:sid/courses/:cid/scoreboard'
+  # params: sid (User.id), cid (Course.id)
   def student_scoreboard
     sid = params[:sid]
     cid = params[:cid]
@@ -17,7 +20,10 @@ class ScoreboardsController < ApplicationController
     end
   end
   
-  # returns only courses that are not archived
+  # Scoreboards for student
+  # - only courses that are not archived
+  # get '/students/:id/scoreboards'
+  # params: id (User.id)
   def student_scoreboards
     sid = params[:id]
     if not user_signed_in?
@@ -35,18 +41,51 @@ class ScoreboardsController < ApplicationController
       render :json => sb, status: 200
     end
   end
-
-  def make_student_scoreboard(cid, sid)
-    checkmarks = Checkmark.student_checkmarks(cid, sid)
-    course = Course.find(cid)
-    scoreboard = {}
-    scoreboard["name"] = course.name
-    scoreboard["coursekey"] = course.coursekey
-    scoreboard["html_id"] = course.html_id
-    scoreboard["startdate"] = course.startdate
-    scoreboard["enddate"] = course.enddate
-    scoreboard["exercises"] = checkmarks
-    return scoreboard
+  
+  # Scoreboard for teacher
+  # get '/teachers/:id/scoreboards'
+  # return JSON
+  def scoreboard
+    if not user_signed_in?
+      render :json => {"error" => "Sinun täytyy ensin kirjautua sisään."}, status: 401
+    elsif current_user.courses_to_teach.empty?
+      render :json => {"error" => "Et ole opettaja."}, status: 401
+    else
+      @course = current_user.courses_to_teach.where(id: params[:id]).first
+      if @course
+        b = Scoreboard.newboard(@course.id)
+        render :json => b, :except => [:id], status: 200
+      else
+        render :json => {"error" => "Et ole kurssin opettaja."}, status: 401
+      end
+    end 
   end
+  
+  # Scoreboards for teacher
+  # get '/courses/:id/scoreboard'
+  # returns array of JSONs
+  def scoreboards
+    if not user_signed_in?
+      render :json => {"error" => "Sinun täytyy ensin kirjautua sisään."}, status: 401
+    elsif current_user.courses_to_teach.empty?
+      render :json => {"error" => "Et ole opettaja."}, status: 401
+    else
+      @courses = current_user.courses_to_teach
+      sb = []
+      @courses.each do |c|
+        sb << Scoreboard.newboard(c.id) 
+      end
+      render :json => sb, status: 200
+    end 
+  end
+
+  private
+    def make_student_scoreboard(cid, sid)
+      checkmarks = Checkmark.student_checkmarks(cid, sid)
+      course = Course.find(cid)
+      scoreboard = course.courseinfo
+      scoreboard["exercises"] = checkmarks
+      return scoreboard
+    end
 
 end

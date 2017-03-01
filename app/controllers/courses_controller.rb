@@ -1,45 +1,23 @@
 class CoursesController < ApplicationController
-  before_action :set_course, only: [:show, :edit, :destroy]
-
+  
+  before_action :set_course, only: [:show]
+  
   protect_from_forgery unless: -> { request.format.json? }
 
-  # GET /courses
-  # GET /courses.json
+  # Backend
+  # /courses
   def index
     @courses = Course.all
   end
 
-  # GET /courses/1
-  # GET /courses/1.json
+  # Backend
+  # /courses/:id
   def show
   end
 
-  # GET /courses/new
-  def new
-    @course = Course.new
-  end
-
-  # GET /courses/1/edit
-  def edit
-  end
-
-  # POST /courses
-  # POST /courses.json
-  def create
-    @course = Course.new(course_params)
-
-    respond_to do |format|
-      if @course.save
-        format.html { redirect_to @course, notice: 'Course was successfully created.' }
-        format.json { render :show, status: :created, location: @course }
-      else
-        format.html { render :new }
-        format.json { render json: @course.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  # Update course   
+  # Update course
+  # PUT 'courses/:id'
+  # params: id, coursekey, name, startdate, enddate
   def update
     if not user_signed_in?
       render :json => {"error" => "Sinun täytyy ensin kirjautua sisään."}, status: 401
@@ -59,53 +37,11 @@ class CoursesController < ApplicationController
         render :json => {"error" => "Kurssia ei voida tallentaa tietokantaan."}, status: 422
       end
     end
-    
-  end
-
-  # DELETE /courses/1
-  # DELETE /courses/1.json
-  def destroy
-    @course.destroy
-    respond_to do |format|
-      format.html { redirect_to courses_url, notice: 'Course was successfully destroyed.' }
-      format.json { head :no_content }
-    end
   end
   
-  #Scoreboards for teacher (current_user)
-  def scoreboards
-    if not user_signed_in?
-      render :json => {"error" => "Sinun täytyy ensin kirjautua sisään."}, status: 401
-    elsif current_user.courses_to_teach.empty?
-      render :json => {"error" => "Et ole opettaja."}, status: 401
-    else
-      @courses = current_user.courses_to_teach
-      sb = []
-      @courses.each do |c|
-        sb << Scoreboard.newboard(c.id) 
-      end
-      render :json => sb, status: 200
-    end 
-  end
-  
-  #Scoreboard for teacher (current_user)
-  def scoreboard
-    if not user_signed_in?
-      render :json => {"error" => "Sinun täytyy ensin kirjautua sisään."}, status: 401
-    elsif current_user.courses_to_teach.empty?
-      render :json => {"error" => "Et ole opettaja."}, status: 401
-    else
-      @course = current_user.courses_to_teach.where(id: params[:id]).first
-      if @course
-        b = Scoreboard.newboard(@course.id)
-        render :json => b, :except => [:id], status: 200
-      else
-        render :json => {"error" => "Et ole kurssin opettaja."}, status: 401
-      end
-    end 
-  end
-  
-  #Teacher – I can see a listing of my courses
+  # Teacher – I can see a listing of my courses
+  # GET '/teachers/:id/courses'
+  # params: id (User.id) - doesn't matter what, no need to be same as current_user
   def mycourses_teacher
     if not user_signed_in?
       render :json => {"error" => "Sinun täytyy ensin kirjautua sisään."}, status: 401
@@ -117,29 +53,10 @@ class CoursesController < ApplicationController
       render :json => result, status:200
     end
   end
-  
-  def build_coursehash(courses, target)
-    result = []
-      courses.each do |c|
-        courseinfo = {}
-        courseinfo["name"] = c.name
-        courseinfo["coursekey"] = c.coursekey
-        courseinfo["html_id"] = c.html_id
-        courseinfo["startdate"] = c.startdate
-        courseinfo["enddate"] = c.enddate
-        if target == "teacher"
-          courseinfo["archived"] = Teaching.where(user_id: current_user.id, course_id: c.id).first.archived
-          # courseinfo["scoreboard"] = Scoreboard.newboard(c.id)
-        elsif target == "student"
-          courseinfo["archived"] = Attendance.where(user_id: current_user.id, course_id: c.id).first.archived
-          # courseinfo["checkmarks"] = Checkmark.student_checkmarks(c.id, current_user.id)
-        end
-        result << courseinfo
-      end
-    return result
-  end
-  
-  #Student - Courses
+     
+  # Student - Courses
+  # get '/students/:id/courses'
+  # params: id (User.id)
   def mycourses_student
     sid = params[:id]
     if not user_signed_in?
@@ -153,7 +70,9 @@ class CoursesController < ApplicationController
     end
   end
     
-  #Teacher – I can create coursekeys for students to join my course
+  # Teacher – I can create coursekeys for students to join my course
+  # post '/courses/newcourse'
+  # params: coursekey, name, html_id, startdate, enddate, exercises (json)
   def newcourse
     @course = Course.new(course_params)
     if not user_signed_in?
@@ -177,14 +96,30 @@ class CoursesController < ApplicationController
   end
 
   private
+  
+    def build_coursehash(courses, target)
+    result = []
+      courses.each do |c|
+        courseinfo = c.courseinfo
+        if target == "teacher"
+          courseinfo["archived"] = Teaching.where(user_id: current_user.id, course_id: c.id).first.archived
+        elsif target == "student"
+          courseinfo["archived"] = Attendance.where(user_id: current_user.id, course_id: c.id).first.archived
+        end
+        result << courseinfo
+      end
+      return result
+    end
+  
     # Use callbacks to share common setup or constraints between actions.
     def set_course
       @course = Course.find(params[:id])
     end
-
+    
     # Never trust parameters from the scary internet, only allow the white list through.
     def course_params
       params.permit(:html_id, :coursekey, :name, :startdate, :enddate, :exercises)
     end
+    
 end
 

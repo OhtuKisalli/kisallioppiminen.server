@@ -17,19 +17,18 @@ Rails.application.routes.draw do
   # Student – I can see from an exercise if I have done it
   get '/students/:sid/courses/:cid/checkmarks' => 'checkmarks#student_checkmarks'
     
-  #todo refactor!!!
-  #scoreboards for teacher: current_user
-  get '/teachers/:id/scoreboards' => 'courses#scoreboards'
-  get '/courses/:id/scoreboard' => 'courses#scoreboard'
+  # Scoreboard(s) for teacher
+  get '/teachers/:id/scoreboards' => 'scoreboards#scoreboards'
+  get '/courses/:id/scoreboard' => 'scoreboards#scoreboard'
   
-  #scoreboards for student
+  # Scoreboard(s) for student
   get '/students/:id/scoreboards' => 'scoreboards#student_scoreboards'
   get '/students/:sid/courses/:cid/scoreboard' => 'scoreboards#student_scoreboard'
 
-  #Teacher – I can see a listing of my courses
+  # Teacher – I can see a listing of my courses
   get '/teachers/:id/courses' => 'courses#mycourses_teacher'
   
-  #courses for student
+  # Courses for student
   get '/students/:id/courses' => 'courses#mycourses_student'
 
   #Student – I can join a specific course using a coursekeys
@@ -46,7 +45,7 @@ Rails.application.routes.draw do
   post 'students/:sid/courses/:cid/toggle_archived' => 'attendances#toggle_archived', defaults: { format: 'json' }, constraints: {format: 'json'}
   post 'teachers/:sid/courses/:cid/toggle_archived' => 'teachings#toggle_archived', defaults: { format: 'json' }, constraints: {format: 'json'}
   
-  # Updating course
+  # Update course
   put 'courses/:id' => 'courses#update', defaults: { format: 'json' }, constraints: {format: 'json'}
   
   # TESTAILUA VARTEN
@@ -54,6 +53,6 @@ Rails.application.routes.draw do
   get '/test/idtest' => 'tests#idtest'
   post '/test/idtest2' => 'tests#idtest2', defaults: { format: 'json' }, constraints: {format: 'json'}
 
-  resources :courses
+  resources :courses, only: [:index, :show]
 
 end
