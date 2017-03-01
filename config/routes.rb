@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   resources :deadlines
   resources :attendances, only: [:index]
   resources :checkmarks, only: [:index]
-  resources :exercises
+  resources :exercises, only: [:index, :show]
   resources :users
   resources :test_students
  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
@@ -34,7 +34,7 @@ Rails.application.routes.draw do
   #Student – I can join a specific course using a coursekeys
   post '/courses/join' => 'attendances#newstudent', defaults: { format: 'json' }, constraints: {format: 'json'}
 
-  #Teacher – I can create coursekeys for students to join my course
+  # Teacher – I can create coursekeys for students to join my course
   post '/courses/newcourse' => 'courses#newcourse', defaults: { format: 'json' }, constraints: {format: 'json'}
 
   # Session
