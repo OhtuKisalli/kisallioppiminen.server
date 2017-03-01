@@ -12,6 +12,7 @@ class Course < ApplicationRecord
   def courseinfo
     h = {}
     h["name"] = self.name
+    h["id"] = self.id
     h["coursekey"] = self.coursekey
     h["html_id"] = self.html_id
     h["startdate"] = self.startdate.to_s
