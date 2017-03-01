@@ -53,6 +53,7 @@ group :test do
   gem 'launchy'
   gem 'rails-controller-testing'
   gem 'simplecov', :require => false
+  gem 'coveralls', require: false
 end
 
 group :development do
