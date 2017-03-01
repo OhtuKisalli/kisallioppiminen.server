@@ -1,8 +1,8 @@
 Rails.application.routes.draw do
   resources :teachings
   devise_for :users, :controllers => { :omniauth_callbacks => "callbacks" }
-  resources :schedules
-  resources :deadlines
+  resources :schedules, only: [:index]
+  resources :deadlines, only: [:index]
   resources :attendances, only: [:index]
   resources :checkmarks, only: [:index]
   resources :exercises, only: [:index, :show]
