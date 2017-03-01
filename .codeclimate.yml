@@ -8,12 +8,14 @@ engines:
     enabled: true
   rubocop:
     enabled: true
+  brakeman:
+    enabled: true
+  eslint:
+    enabled: true
+ratings:
+   paths:
+   - app/**
+   - lib/**
+   - "**.rb"
 exclude_paths:
-- "spec/"
-- "app/channels/**/*"
-- "app/controllers/users_controller.rb"
-- "app/controllers/tests_controller.rb"
-- "app/models/user.rb"
-- "app/controllers/application_controller.rb"
-- "app/mailers/**/*"
-- "app/jobs/**/*"
+- "spec/**/*"
