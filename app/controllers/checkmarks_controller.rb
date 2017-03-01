@@ -1,14 +1,16 @@
 class CheckmarksController < ApplicationController
-  before_action :set_checkmark, only: [:destroy]
 
   protect_from_forgery unless: -> { request.format.json? }
 
-  # GET /checkmarks
+  # Backend
+  # /checkmarks
   def index
     @count = Checkmark.all.count
   end
-        
-  # POST /checkmarks
+
+  # Student - new/update checkmark
+  # POST '/checkmarks'
+  # params: html_id (Course), coursekey, status
   def mark
     @course = Course.find_by(coursekey: params[:coursekey])
     if not user_signed_in?
@@ -35,7 +37,11 @@ class CheckmarksController < ApplicationController
     end
   end
   
-  # opiskelijan yhden kurssin checkmarkit
+  # Student – I can see from an exercise if I have done it
+  # - checkmarks for one course
+  # - for student or teacher of the course
+  # GET '/students/:sid/courses/:cid/checkmarks'
+  # params: sid (User.id), cid (Course.id)
   def student_checkmarks
     sid = params[:sid]
     cid = params[:cid]
@@ -56,25 +62,5 @@ class CheckmarksController < ApplicationController
       render :json => result, status: 200
     end
   end
-  
-  # DELETE /checkmarks/1
-  # DELETE /checkmarks/1.json
-  def destroy
-    @checkmark.destroy
-    respond_to do |format|
-      format.html { redirect_to checkmarks_url, notice: 'Checkmark was successfully destroyed.' }
-      format.json { head :no_content }
-    end
-  end
-
-  private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_checkmark
-      @checkmark = Checkmark.find(params[:id])
-    end
-
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def checkmark_params
-      params.permit(:user_id, :html_id, :coursekey, :status)
-    end
+    
 end

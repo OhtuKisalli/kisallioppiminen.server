@@ -2,7 +2,8 @@ class Checkmark < ApplicationRecord
 
   belongs_to :user
   belongs_to :exercise
-  
+
+  # checkmarks for student (one course), array of JSONs (keys: "id" and "status")
   def self.student_checkmarks(cid, sid)
     @exercises = Exercise.where(course_id: cid).ids
     cmarks = Checkmark.joins(:exercise).where(user_id: sid, exercise_id: @exercises).select("exercises.html_id","status")

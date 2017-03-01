@@ -4,17 +4,17 @@ Rails.application.routes.draw do
   resources :schedules
   resources :deadlines
   resources :attendances, only: [:index]
-  resources :checkmarks, only: [:index, :destroy]
+  resources :checkmarks, only: [:index]
   resources :exercises
   resources :users
   resources :test_students
  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   root 'welcome#index'
   
-  # new/update checkmark, JSON only
+  # Student - new/update checkmark
   post '/checkmarks' => 'checkmarks#mark', defaults: { format: 'json' }, constraints: {format: 'json'}
   
-  #Student – I can see from an exercise if I have done it
+  # Student – I can see from an exercise if I have done it
   get '/students/:sid/courses/:cid/checkmarks' => 'checkmarks#student_checkmarks'
     
   #todo refactor!!!
