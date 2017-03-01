@@ -39,7 +39,7 @@ RSpec.describe CoursesController, type: :controller do
         expect(response.status).to eq(200)
         body = JSON.parse(response.body)
         expect(body.size).to eq(1)
-        expect(body[0].keys).to contain_exactly("name","coursekey","html_id","startdate","enddate","archived")
+        expect(body[0].keys).to contain_exactly("name","coursekey","id", "html_id","startdate","enddate","archived")
         expect(body[0]["coursekey"]).to eq(@course1.coursekey)
       end
       it "return all courses where user is teacher" do

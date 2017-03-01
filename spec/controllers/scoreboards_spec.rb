@@ -56,7 +56,7 @@ RSpec.describe ScoreboardsController, type: :controller do
         get 'student_scoreboard', :format => :json, params: {"sid":@course1.id,"cid":@course1.id}
         expect(response.status).to eq(200)
         body = JSON.parse(response.body)
-        expect(body.keys).to contain_exactly("name","coursekey","html_id","startdate","enddate","exercises")
+        expect(body.keys).to contain_exactly("name","coursekey","id", "html_id","startdate","enddate","exercises")
         expect(body["exercises"][0].keys).to contain_exactly("id","status")
         expect(body["exercises"][0]["status"]).to eq(@checkmark1.status)
         expect(body["exercises"][0]["id"]).to eq(@exercise1.html_id)
@@ -130,7 +130,7 @@ RSpec.describe ScoreboardsController, type: :controller do
         get 'scoreboard', :format => :json, params: {"id":@course1.id}
         expect(response.status).to eq(200)
         body = JSON.parse(response.body)
-        expect(body.keys).to contain_exactly("name","coursekey","html_id","startdate","enddate","students")
+        expect(body.keys).to contain_exactly("name","coursekey","id", "html_id","startdate","enddate","students")
         expect(body["students"][0].keys).to contain_exactly("user","exercises")
         expect(body["students"][0]["exercises"][0].keys).to contain_exactly("id","status")
         expect(body["students"][0]["user"]).to eq("Bond James")
