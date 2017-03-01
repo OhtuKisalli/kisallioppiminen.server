@@ -1,28 +1,16 @@
 class Scoreboard
     
-  #todo: refactor
+  # Scoreboard for course
+  # cid = Course.id
   def self.newboard(cid)
-    board = {}
     course = Course.find(cid)
-    board["name"] = course.name
-    board["coursekey"] = course.coursekey
-    board["html_id"] = course.html_id
-    board["startdate"] = course.startdate
-    board["enddate"] = course.enddate
+    board = course.courseinfo
     exercises = Exercise.where(course_id: cid).ids
     students = course.students
     count = 1
     studentlist = []
     students.each do |s|
-      name = ""
-      if not s.last_name.blank?
-        name += s.last_name
-      end
-      if not name.blank? and not s.first_name.blank?
-        name += " " + s.first_name
-      elsif not s.first_name.blank?
-        name += s.first_name
-      end
+      name = build_name(s)
       if name.blank?
         name = "Nimetön " + count.to_s
         count += 1
@@ -43,6 +31,21 @@ class Scoreboard
     board["students"] = studentlist
     return board
   end
-   
+  
+  private
+    # "Lastname Firstname" or "Lastname" or "Firstname"
+    def self.build_name(s)
+      name = ""
+      if not s.last_name.blank?
+        name += s.last_name
+      end
+      if not name.blank? and not s.first_name.blank?
+        name += " " + s.first_name
+      elsif not s.first_name.blank?
+        name += s.first_name
+      end
+      return name
+    end
+  
 end
 
