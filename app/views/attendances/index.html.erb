@@ -8,7 +8,6 @@
       <th>User.id</th>
       <th>Course.id</th>
       <th>Archived</th>
-      <th colspan="1"></th>
     </tr>
   </thead>
 
@@ -18,12 +17,8 @@
         <td><%= link_to attendance.user_id, attendance.user %></td>
         <td><%= link_to attendance.course_id, attendance.course %></td>
         <td><%= attendance.archived %></td>
-        <td><%= link_to 'Destroy', attendance, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>
 </table>
 
-<br>
-
-<%= link_to 'New Attendance', new_attendance_path %>

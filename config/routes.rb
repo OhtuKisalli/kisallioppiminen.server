@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   devise_for :users, :controllers => { :omniauth_callbacks => "callbacks" }
   resources :schedules
   resources :deadlines
-  resources :attendances
+  resources :attendances, only: [:index]
   resources :checkmarks, only: [:index, :destroy]
   resources :exercises
   resources :users
