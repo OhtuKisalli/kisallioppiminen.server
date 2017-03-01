@@ -1,3 +1,0 @@
-class TestStudent < ApplicationRecord
-
-end

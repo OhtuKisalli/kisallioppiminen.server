@@ -1,1 +1,0 @@
-json.array! @test_students, partial: 'test_students/test_student', as: :test_student

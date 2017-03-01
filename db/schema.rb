@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170226104720) do
+ActiveRecord::Schema.define(version: 20170301103941) do
 
   create_table "attendances", force: :cascade do |t|
     t.integer  "user_id"
@@ -67,13 +67,6 @@ ActiveRecord::Schema.define(version: 20170226104720) do
     t.datetime "created_at",                 null: false
     t.datetime "updated_at",                 null: false
     t.boolean  "archived",   default: false
-  end
-
-  create_table "test_students", force: :cascade do |t|
-    t.string   "name"
-    t.integer  "points"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "users", force: :cascade do |t|

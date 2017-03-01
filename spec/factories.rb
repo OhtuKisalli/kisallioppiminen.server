@@ -1,9 +1,5 @@
 FactoryGirl.define do
-  factory :TestStudent do
-    name "Maija"
-    points 123
-  end
-
+  
   factory :user do
     username "hanipöö"
     name "Pertti"
