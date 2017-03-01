@@ -1,5 +1,5 @@
 # Coursemanager for kisallioppiminen.fi
-
+[![Build Status](https://travis-ci.org/OhtuKisalli/kisallioppiminen.server.png)](https://travis-ci.org/OhtuKisalli/kisallioppiminen.server) [![Coverage Status](https://coveralls.io/repos/github/OhtuKisalli/kisallioppiminen.server/badge.svg?branch=master)](https://coveralls.io/github/OhtuKisalli/kisallioppiminen.server?branch=master) [![Code Climate](https://codeclimate.com/github/OhtuKisalli/kisallioppiminen.server/badges/gpa.svg)](https://codeclimate.com/github/OhtuKisalli/kisallioppiminen.server)
 ### Purpose
 * Teachers can follows their students progress on assignments at kisallioppiminen.fi
 * Teachers can create new courses and course keys for students
@@ -24,9 +24,6 @@ Database migrations:
 * `heroku git:clone -a pure-inlet-98383`
 * `heroku run rake db:migrate`
 * `heroku run rake db:seed`
-
-## Travis + Coveralls + Codeclimate
-[![Build Status](https://travis-ci.org/OhtuKisalli/kisallioppiminen.server.png)](https://travis-ci.org/OhtuKisalli/kisallioppiminen.server) [![Coverage Status](https://coveralls.io/repos/github/OhtuKisalli/kisallioppiminen.server/badge.svg?branch=master)](https://coveralls.io/github/OhtuKisalli/kisallioppiminen.server?branch=master) [![Code Climate](https://codeclimate.com/github/OhtuKisalli/kisallioppiminen.server/badges/gpa.svg)](https://codeclimate.com/github/OhtuKisalli/kisallioppiminen.server)
 
 ## Ruby on Rails guides and configs
 
