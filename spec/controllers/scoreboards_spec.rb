@@ -146,6 +146,17 @@ RSpec.describe ScoreboardsController, type: :controller do
         expect(body["students"][1]["exercises"][1]["id"]).to eq(@exercise2.html_id)
       end
       
+      it "shows exercises that student is not done" do
+        @exercise3 = Exercise.create(course_id: @course1.id, html_id:"id3")
+        sign_in @ope1
+        get 'scoreboard', :format => :json, params: {"id":@course1.id}
+        expect(response.status).to eq(200)
+        body = JSON.parse(response.body)
+        expect(body["students"][0]["exercises"].size).to eq(3)
+        expect(body["students"][0]["exercises"][2]["status"]).to eq("gray")
+        expect(body["students"][0]["exercises"][2]["id"]).to eq(@exercise3.html_id)
+      end
+      
       it "students with no names stored in database are nimettömiä" do
         @opiskelija3 = FactoryGirl.create(:user, username:"o1", first_name: nil, last_name: nil, email:"p1@o.o")
         @opiskelija4 = FactoryGirl.create(:user, username:"o2", first_name: nil, last_name: nil, email:"p2@o.o")

@@ -5,7 +5,7 @@ class Scoreboard
   def self.newboard(cid)
     course = Course.find(cid)
     board = course.courseinfo
-    exercises = Exercise.where(course_id: cid).ids
+    exercises = course.exercises.ids
     students = course.students
     count = 1
     studentlist = []
@@ -25,6 +25,7 @@ class Scoreboard
         h["status"] = c.status
         exercisearray << h
       end
+      exercisearray = add_gray_checkmarks(exercisearray, s, exercises, cid)
       studentjson["exercises"] = exercisearray
       studentlist << studentjson
     end
@@ -45,6 +46,15 @@ class Scoreboard
         name += s.first_name
       end
       return name
+    end
+    
+    def self.add_gray_checkmarks(array,s,course_exs,cid)
+      not_done = course_exs - Checkmark.select(:exercise_id).where(user_id: s.id, exercise_id: course_exs).map(&:exercise_id)
+      not_done_exercises = Exercise.where(id: not_done)
+      not_done_exercises.each do |e|
+        array << {"id" => e.html_id, "status" => "gray"}
+      end     
+      return array
     end
   
 end
