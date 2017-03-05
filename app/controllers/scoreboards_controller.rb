@@ -73,7 +73,7 @@ class ScoreboardsController < ApplicationController
 
   private
     def make_student_scoreboard(cid, sid)
-      checkmarks = Checkmark.student_checkmarks(cid, sid)
+      checkmarks = CheckmarkService.student_checkmarks(cid, sid)
       course = Course.find(cid)
       scoreboard = course.courseinfo
       scoreboard["exercises"] = checkmarks

@@ -54,7 +54,7 @@ class CheckmarksController < ApplicationController
       result["html_id"] = course.html_id
       result["coursekey"] = course.coursekey
       result["archived"] = Attendance.where(user_id: sid, course_id: cid).first.archived
-      checkmarks = Checkmark.student_checkmarks(cid, sid)
+      checkmarks = CheckmarkService.student_checkmarks(cid, sid)
       result["exercises"] = checkmarks
       render :json => result, status: 200
     end
