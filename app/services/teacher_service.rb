@@ -7,5 +7,16 @@ class TeacherService
   def self.is_teacher?(sid)
     return Teaching.where(user_id: sid).any?
   end
+  
+  def self.change_archived_status(sid, cid, status)
+    t = Teaching.where(user_id: sid, course_id: cid).first
+    if status == "false"
+      t.archived = false
+      t.save
+    elsif status == "true"
+      t.archived = true
+      t.save
+    end
+  end
 
 end
