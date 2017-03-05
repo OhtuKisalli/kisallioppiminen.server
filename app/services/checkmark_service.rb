@@ -12,7 +12,27 @@ class CheckmarkService
     end
     return checkmarks
   end
+  
+  # saves/updates student checkmark
+  # params: sid (User.id), cid (Course.id), hid (Exercise.html_id), status ("green/red/yellow")
+  # returns true if success
+  def self.save_student_checkmark(sid, cid, hid, status)
+    exercise = Exercise.find_by(course_id: cid, html_id: hid)
+      @checkmark = Checkmark.find_by(exercise_id: exercise.id, user_id: sid)
+      if @checkmark.nil?
+        @checkmark = Checkmark.new(user_id: sid, exercise_id: exercise.id)
+      end
+      @checkmark.status = status
+      if @checkmark.save 
+        return true 
+      else
+        return false
+      end
+  end
 
+  def self.all_checkmarks_count
+    return Checkmark.all.count
+  end
 
 end
 
