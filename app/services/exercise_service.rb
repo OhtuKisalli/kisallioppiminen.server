@@ -5,5 +5,9 @@ class ExerciseService
       Exercise.create(html_id: value, course_id: cid)
     end
   end
+    
+  def self.exercise_by_id(id)
+    return Exercise.find(id)
+  end
 
 end
