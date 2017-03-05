@@ -6,30 +6,20 @@ class AttendancesController < ApplicationController
   # Backend 
   # /attendances
   def index
-    @attendances = Attendance.all
+    @attendances = AttendanceService.all_attendances
   end
   
   # Student – I can join a specific course using a coursekeys
   # POST '/courses/join'
   # params: coursekey
   def newstudent
-    @course = Course.where(coursekey: params[:coursekey]).first
-    if @course
-      if Attendance.where(user_id: current_user.id, course_id: @course.id).any?
+    course = CourseService.find_by_coursekey(params[:coursekey])
+    if course
+      if AttendanceService.user_on_course?(current_user.id, course.id)
         render :json => {"error" => "Olet jo liittynyt kyseiselle kurssille."}, status: 403  
       else
-        Attendance.create(user_id: current_user.id, course_id: @course.id)
-        @courses = current_user.courses
-        kurssit = {}
-        @courses.each do |c|
-          courseinfo = {}
-          courseinfo["coursename"] = c.name
-          courseinfo["html_id"] = c.html_id
-          courseinfo["startdate"] = c.startdate
-          courseinfo["enddate"] = c.enddate
-          kurssit[c.coursekey] = courseinfo
-        end
-        render :json => {"message" => "Ilmoittautuminen tallennettu.", "courses" => kurssit}, status: 200
+        courses = AttendanceService.add_new_course_to_user(current_user.id, course.id)
+        render :json => {"message" => "Ilmoittautuminen tallennettu.", "courses" => courses}, status: 200
       end
     else
       render :json => {"error" => "Kurssia ei löydy tietokannasta."}, status: 403
@@ -44,17 +34,13 @@ class AttendancesController < ApplicationController
     cid = params[:cid]
     if sid.to_i != current_user.id
       render :json => {"error" => "Voit muuttaa vain omien kurssiesi asetuksia."}, status: 401
-    elsif Attendance.where(user_id: sid, course_id: cid).empty?
+    elsif not AttendanceService.user_on_course?(sid, cid)
       render :json => {"error" => "Et ole opiskelijana kyseisellä kurssilla."}, status: 403
     elsif params[:archived] == "true" or params[:archived] == "false"
-      a = Attendance.where(user_id: sid, course_id: cid).first    
+      AttendanceService.change_archived_status(sid, cid, params[:archived])
       if params[:archived] == "false"
-        a.archived = false
-        a.save
         render :json => {"message" => "Kurssi palautettu arkistosta."}, status: 200
       else
-        a.archived = true
-        a.save  
         render :json => {"message" => "Kurssi arkistoitu."}, status: 200
       end
     else 
