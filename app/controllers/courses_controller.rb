@@ -1,35 +1,30 @@
 class CoursesController < ApplicationController
   before_action :check_signed_in, except: [:index, :show]
-  before_action :set_course, only: [:show]
   
   protect_from_forgery unless: -> { request.format.json? }
 
   # Backend
   # /courses
   def index
-    @courses = Course.all
+    @courses = CourseService.all_courses
   end
 
   # Backend
   # /courses/:id
   def show
+    @course = CourseService.course_by_id(params[:id])
   end
 
   # Update course
   # PUT 'courses/:id'
   # params: id, coursekey, name, startdate, enddate
   def update
-    if current_user.courses_to_teach.where(id: params[:id]).empty?
+    if not TeacherService.teacher_on_course?(current_user.id, params[:id])
       render :json => {"error" => "Et ole kyseisen kurssin opettaja."}, status: 401
-    elsif Course.where(coursekey: params[:coursekey]).any?
+    elsif CourseService.coursekey_reserved?(params[:coursekey])
       render :json => {"error" => "Kurssiavain on jo varattu."}, status: 403
     else
-      @course = Course.find(params[:id])
-      @course.coursekey = params[:coursekey]
-      @course.name = params[:name]
-      @course.startdate = params[:startdate]
-      @course.enddate = params[:enddate]
-      if @course.save
+      if CourseService.update_course?(params[:id], course_params)
         render :json => {"message" => "Kurssitiedot päivitetty."}, status: 200
       else
         render :json => {"error" => "Kurssia ei voida tallentaa tietokantaan."}, status: 422
@@ -41,13 +36,7 @@ class CoursesController < ApplicationController
   # GET '/teachers/:id/courses'
   # params: id (User.id) - doesn't matter what, no need to be same as current_user
   def mycourses_teacher
-    if current_user.courses_to_teach.empty?
-      render :json => {}, status: 200
-    else
-      @courses = current_user.courses_to_teach
-      result = build_coursehash(@courses, "teacher")
-      render :json => result, status:200
-    end
+    render :json => CourseService.teacher_courses(current_user.id), status: 200
   end
      
   # Student - Courses
@@ -58,9 +47,7 @@ class CoursesController < ApplicationController
     if sid.to_i != current_user.id
       render :json => {"error" => "Voit hakea vain omat kurssisi."}, status: 401
     else
-      @courses = current_user.courses
-      result = build_coursehash(@courses, "student")
-      render :json => result, status:200
+      render :json => CourseService.student_courses(current_user.id), status: 200
     end
   end
     
@@ -68,45 +55,22 @@ class CoursesController < ApplicationController
   # post '/courses/newcourse'
   # params: coursekey, name, html_id, startdate, enddate, exercises (json)
   def newcourse
-    @course = Course.new(course_params)
-    if not Course.where(coursekey: @course.coursekey).empty?
+    if CourseService.coursekey_reserved?(params[:coursekey])
         render :json => {"error" => "Kurssiavain on jo varattu."}, status: 403
-    elsif @course.save
-        Teaching.create(user_id: current_user.id, course_id: @course.id)
-        if params[:exercises]
-          exercises = params[:exercises]
-          exercises.each do |key, value|
-            Exercise.create(html_id: value, course_id: @course.id)  
-          end
-          render :json => {"message" => "Uusi kurssi luotu!"}, status: 200        
-        else
-          render :json => {"message" => "Kurssi luotu ilman tehtäviä."}, status: 202
-        end
     else
+      cid = CourseService.create_new_course(current_user.id, course_params)
+      if cid > -1 and params[:exercises]
+        ExerciseService.add_exercises_to_course(params[:exercises], cid)
+        render :json => {"message" => "Uusi kurssi luotu!"}, status: 200        
+      elsif cid > -1
+        render :json => {"message" => "Kurssi luotu ilman tehtäviä."}, status: 202
+      else
         render :json => {"error" => "Kurssia ei voida tallentaa tietokantaan."}, status: 422
+      end
     end
   end
 
   private
-  
-    def build_coursehash(courses, target)
-    result = []
-      courses.each do |c|
-        courseinfo = c.courseinfo
-        if target == "teacher"
-          courseinfo["archived"] = Teaching.where(user_id: current_user.id, course_id: c.id).first.archived
-        elsif target == "student"
-          courseinfo["archived"] = Attendance.where(user_id: current_user.id, course_id: c.id).first.archived
-        end
-        result << courseinfo
-      end
-      return result
-    end
-  
-    # Use callbacks to share common setup or constraints between actions.
-    def set_course
-      @course = Course.find(params[:id])
-    end
     
     # Never trust parameters from the scary internet, only allow the white list through.
     def course_params
