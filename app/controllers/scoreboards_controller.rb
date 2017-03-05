@@ -10,10 +10,10 @@ class ScoreboardsController < ApplicationController
     cid = params[:cid]
     if sid.to_i != current_user.id
       render :json => {"error" => "Voit tarkastella vain omaa scoreboardiasi."}, status: 401
-    elsif Attendance.where(user_id: sid, course_id: cid).empty?
+    elsif not AttendanceService.user_on_course?(sid, cid)
       render :json => {"error" => "Et ole liittynyt kyseiselle kurssille."}, status: 422
     else
-      scoreboard = make_student_scoreboard(cid, sid)
+      scoreboard = ScoreboardService.build_student_scoreboard(cid, sid)
       render :json => scoreboard, status: 200
     end
   end
@@ -27,57 +27,38 @@ class ScoreboardsController < ApplicationController
     if sid.to_i != current_user.id
       render :json => {"error" => "Voit tarkastella vain omia scoreboardejasi."}, status: 401
     else
-      courses = current_user.courses
-      sb = []
-      courses.each do |c|
-        if not Attendance.where(user_id: sid, course_id: c.id).first.archived
-          sb << make_student_scoreboard(c.id, sid)
-        end
-      end
-      render :json => sb, status: 200
+      sbs = ScoreboardService.build_student_scoreboards(sid)
+      render :json => sbs, status: 200
     end
   end
   
   # Scoreboard for teacher
-  # get '/teachers/:id/scoreboards'
+  # get '/courses/:id/scoreboard'
   # return JSON
   def scoreboard
-    if current_user.courses_to_teach.empty?
+    sid = current_user.id
+    if not TeacherService.is_teacher?(sid)
       render :json => {"error" => "Et ole opettaja."}, status: 401
+    elsif TeacherService.teacher_on_course?(sid, params[:id])
+      sboard = ScoreboardService.build_scoreboard(params[:id])
+      render :json => sboard, status: 200
     else
-      @course = current_user.courses_to_teach.where(id: params[:id]).first
-      if @course
-        b = Scoreboard.newboard(@course.id)
-        render :json => b, :except => [:id], status: 200
-      else
-        render :json => {"error" => "Et ole kurssin opettaja."}, status: 401
-      end
+      render :json => {"error" => "Et ole kurssin opettaja."}, status: 401
     end 
   end
   
   # Scoreboards for teacher
-  # get '/courses/:id/scoreboard'
+  # get '/teachers/:id/scoreboards'
   # returns array of JSONs
   def scoreboards
-    if current_user.courses_to_teach.empty?
+    sid = current_user.id
+    if not TeacherService.is_teacher?(sid)
       render :json => {"error" => "Et ole opettaja."}, status: 401
     else
-      @courses = current_user.courses_to_teach
-      sb = []
-      @courses.each do |c|
-        sb << Scoreboard.newboard(c.id) 
-      end
-      render :json => sb, status: 200
+      sbs = ScoreboardService.build_scoreboards(sid)
+      render :json => sbs, status: 200
     end 
   end
-
-  private
-    def make_student_scoreboard(cid, sid)
-      checkmarks = CheckmarkService.student_checkmarks(cid, sid)
-      course = Course.find(cid)
-      scoreboard = course.courseinfo
-      scoreboard["exercises"] = checkmarks
-      return scoreboard
-    end
+  
 
 end

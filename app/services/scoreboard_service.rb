@@ -1,8 +1,36 @@
-class Scoreboard
-    
+class ScoreboardService
+
+  def self.build_student_scoreboard(cid, sid)
+      checkmarks = CheckmarkService.student_checkmarks(cid, sid)
+      course = Course.find(cid)
+      scoreboard = course.courseinfo
+      scoreboard["exercises"] = checkmarks
+      return scoreboard
+  end
+  
+  def self.build_student_scoreboards(sid)
+      courses = User.find(sid).courses
+      sb = []
+      courses.each do |c|
+        if not AttendanceService.student_course_archived?(sid, c.id)
+          sb << build_student_scoreboard(c.id, sid)
+        end
+      end
+      return sb
+  end
+  
+  def self.build_scoreboards(sid)
+    courses = User.find(sid).courses_to_teach
+    sb = []
+    courses.each do |c|
+      sb << build_scoreboard(c.id)
+    end
+    return sb
+  end
+  
   # Scoreboard for course
   # cid = Course.id
-  def self.newboard(cid)
+  def self.build_scoreboard(cid)
     course = Course.find(cid)
     board = course.courseinfo
     exercises = course.exercises.ids
@@ -58,4 +86,3 @@ class Scoreboard
     end
   
 end
-
