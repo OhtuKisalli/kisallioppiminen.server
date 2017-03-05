@@ -68,7 +68,8 @@ class UsersController < ApplicationController
   end
 
   def get_session_user
-      render :json => {"has_sign_in": current_user}
+      u = current_user
+      render :json => {"has_sign_in": {"id": u.id, "first_name": u.first_name}}
   end
 
   private
