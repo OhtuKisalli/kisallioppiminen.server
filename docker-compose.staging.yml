@@ -2,5 +2,7 @@
 version: '2'
 services:
   web:
+    build: .
+    command: bundle exec rails s -e staging -p 3000 -b '0.0.0.0'
     ports:
       - "4444:3000"

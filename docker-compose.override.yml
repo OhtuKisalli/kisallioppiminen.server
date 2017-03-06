@@ -2,8 +2,10 @@
 version: '2'
 services:
   web:
-    #sync sourcecode to container
+    build: .
+    command: bundle exec rails s -e development -p 3000 -b '0.0.0.0'
+    #sync sourcecode to container (only in development!)
     volumes:
-      - .:/dockerbeerapp
+      - .:/kisalliserver
     ports:
       - "5555:3000"
