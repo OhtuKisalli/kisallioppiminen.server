@@ -1,0 +1,6 @@
+#docker-compose.staging.yml
+version: '2'
+services:
+  web:
+    ports:
+      - "4444:3000"
