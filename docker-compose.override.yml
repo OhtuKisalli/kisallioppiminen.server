@@ -1,0 +1,9 @@
+#docker-compose.override.yml
+version: '2'
+services:
+  web:
+    #sync sourcecode to container
+    volumes:
+      - .:/dockerbeerapp
+    ports:
+      - "5555:3000"
