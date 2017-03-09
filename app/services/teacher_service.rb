@@ -18,5 +18,10 @@ class TeacherService
       t.save
     end
   end
+  
+  # todo: update when assistants added to database
+  def self.has_rights?(sid, cid)
+    return teacher_on_course?(sid, cid)
+  end
 
 end
