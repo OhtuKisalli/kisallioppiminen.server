@@ -1,14 +1,26 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Description:</strong>
-  <%= @deadline.description %>
-</p>
+<h1><%= @deadline.description %> - <%= @deadline.deadline %> </h1>
 
-<p>
-  <strong>Deadline:</strong>
-  <%= @deadline.deadline %>
-</p>
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th>Exercise.id</th>
+      <th>Exercise.html_id</th>
+      <th>Course.id</th>
+    </tr>
+  </thead>
 
-<%= link_to 'Edit', edit_deadline_path(@deadline) %> |
+  <tbody>
+    <% @deadline.exercises.each do |e| %>
+      <tr>
+        <td><%= e.id %></td>
+        <td><%= e.html_id %></td>
+        <td><%= e.course_id %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+
 <%= link_to 'Back', deadlines_path %>

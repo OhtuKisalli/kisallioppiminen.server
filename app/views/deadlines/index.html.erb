@@ -2,19 +2,21 @@
 
 <h1>Deadlines</h1>
 
-<table>
+<table class="table table-hover">
   <thead>
     <tr>
       <th>Description</th>
       <th>Deadline</th>
+      <th>Number of exercises</th>
     </tr>
   </thead>
 
   <tbody>
     <% @deadlines.each do |deadline| %>
       <tr>
-        <td><%= deadline.description %></td>
+        <td><%= link_to deadline.description, deadline %></td>
         <td><%= deadline.deadline %></td>
+        <td><%= deadline.exercises.count %></td>
       </tr>
     <% end %>
   </tbody>
