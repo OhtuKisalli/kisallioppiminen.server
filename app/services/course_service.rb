@@ -14,8 +14,8 @@ class CourseService
     return Course.all
   end
   
-  def self.course_by_id(id)
-    return Course.find(id)
+  def self.course_by_id(cid)
+    return Course.where(id: cid).first
   end
   
   def self.coursekey_reserved?(key)
@@ -53,8 +53,9 @@ class CourseService
     @course.enddate = params[:enddate]
     if @course.save
       return true 
-    end
+    else
       return false
+    end
   end
   
   def self.teacher_courses(id)
