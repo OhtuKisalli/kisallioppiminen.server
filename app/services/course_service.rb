@@ -7,7 +7,7 @@ class CourseService
   end
   
   def self.course_has_exercise?(course, hid)
-    return course.exercises.where(html_id: hid).empty?
+    return course.exercises.where(html_id: hid).any?
   end
   
   def self.all_courses
@@ -24,7 +24,7 @@ class CourseService
   
   def self.create_new_course(sid, params)
     @course = Course.new(params)
-    if @course.save
+    if not coursekey_reserved?(@course.coursekey) and @course.save
       Teaching.create(user_id: sid, course_id: @course.id)
       return @course.id
     else

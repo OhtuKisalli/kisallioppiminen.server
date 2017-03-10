@@ -18,7 +18,7 @@ class CheckmarksController < ApplicationController
       render :json => {"error" => "Kurssia ei löydy tietokannasta."}, status: 403
     elsif not AttendanceService.user_on_course?(current_user.id, course.id)
       render :json => {"error" => "Sinun täytyy ensin liittyä kurssille."}, status: 422
-    elsif CourseService.course_has_exercise?(course, params[:html_id])
+    elsif not CourseService.course_has_exercise?(course, params[:html_id])
       render :json => {"error" => "Tehtävää ei löydy tietokannasta."}, status: 403
     else
       html_id = params[:html_id]
