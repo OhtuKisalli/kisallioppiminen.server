@@ -38,18 +38,55 @@ RSpec.describe CourseService, type: :service do
     end
     it "teacher_courses(id)" do
       @ope = FactoryGirl.create(:user, email:"o2@o.o")
-      expect(CourseService.teacher_courses(@ope.id)).to eq({})
-
-      
+      expect(CourseService.teacher_courses(@ope.id)).to eq([])
+      TeacherService.create_teaching(@ope.id, @course.id)
+      result = CourseService.teacher_courses(@ope.id)
+      expect(result.size).to eq(1)
+      expect(result.first.keys).to contain_exactly("id", "coursekey", "html_id", "startdate", "enddate", "name", "archived")
+    end
+    it "student_courses(id)" do
+      @student = FactoryGirl.create(:user, email:"u2@o.o")
+      expect(CourseService.student_courses(@student.id)).to eq([])
+      AttendanceService.create_attendance(@student.id, @course.id)
+      result = CourseService.student_courses(@student.id)
+      expect(result.size).to eq(1)
+      expect(result.first.keys).to contain_exactly("id", "coursekey", "html_id", "startdate", "enddate", "name", "archived")
+    end
+    it "basic_course_info(course)" do
+      result = CourseService.basic_course_info(@course) 
+      expect(result.keys).to contain_exactly("id","coursename","coursekey","html_id","startdate","enddate")
+      expect(result["coursekey"]).to eq(@course.coursekey)
+    end
+    it "student_checkmarks_course_info(sid, cid)" do
+      @student = FactoryGirl.create(:user, email:"u2@o.o")
+      AttendanceService.create_attendance(@student.id, @course.id)
+      result = CourseService.student_checkmarks_course_info(@student.id, @course.id)
+      expect(result.keys).to contain_exactly("coursekey","html_id","archived")
+      expect(result["coursekey"]).to eq(@course.coursekey)
     end
     
   end
   
   describe "more complex methods" do
+    before(:each) do
+      @course = FactoryGirl.create(:course, coursekey:"key1")
+    end
+  
+    it "update_course?(id,params)" do
+      expect(CourseService.find_by_coursekey("key1111")).to eq(nil)
+      @course2 = FactoryGirl.create(:course, coursekey:"key2")
+      proper_params = {"coursekey":"key1111", "name":"nimi1", "html_id":"id222", "startdate":"2017-02-02", "enddate":"2017-10-11"}
+      expect(CourseService.update_course?(@course2.id, proper_params)).to eq(true)
+      expect(CourseService.find_by_coursekey("key1111")).not_to eq(nil)
+    end
     
+    it "update_course?(id, params) - reserved coursekey" do
+      @course2 = FactoryGirl.create(:course, coursekey:"key2")
+      improper_params = {"coursekey": @course.coursekey, "name":"nimi1", "html_id":"id222", "startdate":"2017-02-02", "enddate":"2017-10-11"}
+      expect(CourseService.update_course?(@course2.id, improper_params)).to eq(false)
+    end
   
   end
 
-  # expect(CourseService.).to eq()
-  # expect().to eq()
+ 
 end

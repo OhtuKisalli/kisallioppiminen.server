@@ -30,7 +30,7 @@ RSpec.describe CoursesController, type: :controller do
         get 'mycourses_teacher', :format => :json, params: {"id":@testaaja.id}
         expect(response.status).to eq(200)
         body = JSON.parse(response.body)
-        expected = {}
+        expected = []
         expect(body).to eq(expected)
       end
       it "returns a course where user is teacher" do
