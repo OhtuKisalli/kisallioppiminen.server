@@ -6,10 +6,9 @@
   <thead>
     <tr>
       <th>ID</th>
-      <th>Name</th>
+      <th>Firstname</th>
       <th>Courses as teacher</th>
       <th>Courses as student</th>
-      <th colspan="2"></th>
     </tr>
   </thead>
 
@@ -17,11 +16,9 @@
     <% @users.each do |user| %>
       <tr>
         <td><%= link_to user.id, user %></td>
-        <td><%= user.first_name %> <%= user.last_name%></td>
+        <td><%= user.first_name %></td>
         <td><%= user.courses_to_teach.count %></td>
         <td><%= user.courses.count %></td>  
-        <td><%= link_to 'Edit', edit_user_path(user) %></td>
-        <td><%= link_to 'Destroy', user, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>
@@ -29,4 +26,3 @@
 
 <br>
 
-<%= link_to 'New User', new_user_path %>
