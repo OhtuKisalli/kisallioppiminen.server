@@ -13,6 +13,20 @@ class DeadlineService
     end
   end
   
+  def self.deadline_on_course?(cid, did)
+    deadline = Deadline.where(id: did).first
+    if deadline and deadline.exercises.any? and Course.where(id: cid).first
+      return deadline.exercises.first.course.id == cid.to_i
+    else
+      return false
+    end
+  end
+  
+  def self.remove_deadline(did)
+    Deadline.delete(did)
+    Schedule.where(deadline_id: did).destroy_all
+  end
+  
   def self.all_deadlines
     return Deadline.all
   end

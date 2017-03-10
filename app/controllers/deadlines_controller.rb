@@ -29,5 +29,22 @@ class DeadlinesController < ApplicationController
       render :json => {"error" => "Aikataulua ei voida tallentaa tietokantaan."}, status: 422
     end
   end
+  
+  # Teacher - delete schedule
+  # DELETE /courses/:cid/deadlines/:did
+  # params: cid (Course.id), did (Deadline.id)
+  def deletedeadline
+    cid = params[:cid]
+    did = params[:did]
+    if not TeacherService.has_rights?(current_user.id, cid)
+      render :json => {"error" => "Et ole kyseisen kurssin vastuuhenkilö."}, status: 401
+    elsif not DeadlineService.deadline_on_course?(cid, did)
+      render :json => {"error" => "Kyseinen aikataulu ei ole kurssilla."}, status: 401
+    else
+      DeadlineService.remove_deadline(did)
+      render :json => {"message" => "Aikataulu poistettu."}, status: 200
+    end
+  end
+  
 
 end

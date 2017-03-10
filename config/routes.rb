@@ -38,6 +38,9 @@ Rails.application.routes.draw do
   
   # Teacher - create schedule
   post '/courses/:id/deadlines/new' => 'deadlines#newdeadline', defaults: { format: 'json' }, constraints: {format: 'json'}
+  
+  # Teacher - delete schedule
+  delete '/courses/:cid/deadlines/:did' => 'deadlines#deletedeadline', defaults: { format: 'json' }, constraints: {format: 'json'}
 
   # Session
   get '/user/is_logged' => 'users#is_user_signed_in'
