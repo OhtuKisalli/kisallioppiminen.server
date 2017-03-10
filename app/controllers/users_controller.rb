@@ -6,7 +6,7 @@ class UsersController < ApplicationController
   # GET /users
   # GET /users.json
   def index
-    @users = User.all
+    @users = UserService.all_users
   end
 
   # GET /users/1
@@ -20,7 +20,11 @@ class UsersController < ApplicationController
 
   def get_session_user
       u = current_user
-      render :json => {"has_sign_in": {"id": u.id, "first_name": u.first_name}}
+      if current_user
+        render :json => {"has_sign_in": {"id": u.id, "first_name": u.first_name}}
+      else
+        render :json => {"has_sign_in" => nil}
+      end
   end
   
 end
