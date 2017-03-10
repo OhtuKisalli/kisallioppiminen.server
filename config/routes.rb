@@ -7,7 +7,6 @@ Rails.application.routes.draw do
   resources :checkmarks, only: [:index]
   resources :exercises, only: [:index, :show]
   resources :users, only: [:index, :show]
-  resources :test_students
  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   root 'welcome#index'
   
@@ -50,12 +49,7 @@ Rails.application.routes.draw do
   
   # Update course
   put 'courses/:id' => 'courses#update', defaults: { format: 'json' }, constraints: {format: 'json'}
-  
-  # TESTAILUA VARTEN
-  post '/test/json' => 'tests#jsontest', defaults: { format: 'json' }, constraints: {format: 'json'}
-  get '/test/idtest' => 'tests#idtest'
-  post '/test/idtest2' => 'tests#idtest2', defaults: { format: 'json' }, constraints: {format: 'json'}
-
+    
   resources :courses, only: [:index, :show]
 
 end
