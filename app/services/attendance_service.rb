@@ -22,6 +22,14 @@ class AttendanceService
     return result
   end
   
+  def self.is_archived?(sid, cid)
+    return Attendance.where(user_id: sid, course_id: cid).first.archived
+  end
+  
+  def self.create_attendance(sid, cid)
+    Attendance.create(user_id: sid, course_id: cid)
+  end
+  
   def self.change_archived_status(sid, cid, status)
     a = Attendance.where(user_id: sid, course_id: cid).first
     if status == "false"

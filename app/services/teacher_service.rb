@@ -19,6 +19,14 @@ class TeacherService
     end
   end
   
+  def self.is_archived?(sid, cid)
+    return Teaching.where(user_id: sid, course_id: cid).first.archived
+  end
+  
+  def self.create_teaching(sid, cid)
+    Teaching.create(user_id: sid, course_id: cid)
+  end
+  
   # todo: update when assistants added to database
   def self.has_rights?(sid, cid)
     return teacher_on_course?(sid, cid)
