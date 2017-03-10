@@ -20,4 +20,9 @@ FactoryGirl.define do
     coursekey "key1"
   end
   
+  factory :deadline do
+    description "nimi"
+    deadline "2011-11-11 11:11:11"
+  end
+  
 end

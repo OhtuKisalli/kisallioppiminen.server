@@ -108,9 +108,68 @@ RSpec.describe DeadlinesController, type: :controller do
         expect(@exercise5.deadlines.count).to eq(0)
         expect(@exercise6.deadlines.count).to eq(0)
       end
-            
     end
-      
+  end
+  
+  describe "Teacher – delete schedule" do
+    context "without rights" do
+      it "gives error message when not logged in" do
+        delete 'deletedeadline', :format => :json, params: {"cid" => 1, "did" => 1}
+        expect(response.status).to eq(401)
+        body = JSON.parse(response.body)
+        expected = {"error" => "Sinun täytyy ensin kirjautua sisään."}
+        expect(body).to eq(expected)
+      end
+      it "gives error message if not teacher of course" do
+        FactoryGirl.create(:course, coursekey:"key1")
+        @ope = FactoryGirl.create(:user, username:"ope1", email:"ope1@o.o")
+        sign_in @ope
+        delete 'deletedeadline', :format => :json, params: {"cid" => 1, "did" => 1}
+        expect(response.status).to eq(401)
+        body = JSON.parse(response.body)
+        expected = {"error" => "Et ole kyseisen kurssin vastuuhenkilö."}
+        expect(body).to eq(expected)
+      end
+    end
+    context "with rights" do
+      it "deletes deadline" do
+        @course = FactoryGirl.create(:course, coursekey:"key1")
+        @ope = FactoryGirl.create(:user, username:"ope1", email:"ope1@o.o")
+        Teaching.create(user_id: @ope.id, course_id: @course.id)
+        @e1 = Exercise.create(course_id: @course.id, html_id: "id1")
+        @e2 = Exercise.create(course_id: @course.id, html_id: "id2")
+        @deadline = FactoryGirl.create(:deadline)
+        @deadline.exercises << @e1
+        @deadline.exercises << @e2
+        @deadline.save
+        expect(Schedule.all.count).to eq(2)
+        sign_in @ope
+        delete 'deletedeadline', :format => :json, params: {"cid": @course.id, "did": @deadline.id}
+        expect(response.status).to eq(200)
+        body = JSON.parse(response.body)
+        expected = {"message" => "Aikataulu poistettu."}
+        expect(body).to eq(expected)
+        expect(@e1.deadlines.count).to eq(0)
+        expect(@e2.deadlines.count).to eq(0)
+        expect(Schedule.all.count).to eq(0)
+      end
+      it "doesnt delete deadline that not on course" do
+        @course = FactoryGirl.create(:course, coursekey:"key1")
+        @deadline = FactoryGirl.create(:deadline)
+        @ope = FactoryGirl.create(:user, username:"ope1", email:"ope1@o.o")
+        Teaching.create(user_id: @ope.id, course_id: @course.id)
+        sign_in @ope
+        delete 'deletedeadline', :format => :json, params: {"cid": @course.id, "did": @deadline.id}
+        body = JSON.parse(response.body)
+        expect(response.status).to eq(401)
+        expected = {"error" => "Kyseinen aikataulu ei ole kurssilla."}
+        expect(body).to eq(expected)
+        expect(Deadline.all.count).to eq(1)
+      end
+    
+    end
+  
+  
   end
 
 end
