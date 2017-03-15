@@ -2,7 +2,7 @@ class SchedulesController < ApplicationController
 
   # GET /schedules
   def index
-    @schedules = Schedule.all
+    @schedules = ScheduleService.all_schedules
   end
 
 
