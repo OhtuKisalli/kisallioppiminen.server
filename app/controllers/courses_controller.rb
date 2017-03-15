@@ -19,7 +19,7 @@ class CoursesController < ApplicationController
   # PUT 'courses/:id'
   # params: id, coursekey, name, startdate, enddate
   def update
-    if not TeacherService.teacher_on_course?(current_user.id, params[:id])
+    if not TeachingService.teacher_on_course?(current_user.id, params[:id])
       render :json => {"error" => "Et ole kyseisen kurssin opettaja."}, status: 401
     elsif CourseService.coursekey_reserved?(params[:coursekey])
       render :json => {"error" => "Kurssiavain on jo varattu."}, status: 403

@@ -31,7 +31,7 @@ class CourseService
   def self.create_new_course(sid, params)
     @course = Course.new(params)
     if not coursekey_reserved?(@course.coursekey) and @course.save
-      TeacherService.create_teaching(sid, @course.id)
+      TeachingService.create_teaching(sid, @course.id)
       return @course.id
     else
       return -1
@@ -89,7 +89,7 @@ class CourseService
       courses.each do |c|
         courseinfo = c.courseinfo
         if target == "teacher"
-          courseinfo["archived"] = TeacherService.is_archived?(id, c.id)
+          courseinfo["archived"] = TeachingService.is_archived?(id, c.id)
         elsif target == "student"
           courseinfo["archived"] = AttendanceService.is_archived?(id, c.id)
         end
