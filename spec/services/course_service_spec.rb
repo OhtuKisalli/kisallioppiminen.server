@@ -11,7 +11,7 @@ RSpec.describe CourseService, type: :service do
       expect(CourseService.find_by_coursekey(@course.coursekey).id).to eq(@course.id)
     end
     it "course_has_exercise?(course,hid)" do
-      exercise1 = Exercise.create(course_id: @course.id, html_id:"id1")
+      exercise1 = ExerciseService.create_exercise(@course.id, "id1")
       expect(CourseService.course_has_exercise?(@course,"eioo")).to eq(false)
       expect(CourseService.course_has_exercise?(@course,exercise1.html_id)).to eq(true)
     end  
@@ -39,7 +39,7 @@ RSpec.describe CourseService, type: :service do
     it "teacher_courses(id)" do
       @ope = FactoryGirl.create(:user, email:"o2@o.o")
       expect(CourseService.teacher_courses(@ope.id)).to eq([])
-      TeacherService.create_teaching(@ope.id, @course.id)
+      TeachingService.create_teaching(@ope.id, @course.id)
       result = CourseService.teacher_courses(@ope.id)
       expect(result.size).to eq(1)
       expect(result.first.keys).to contain_exactly("id", "coursekey", "html_id", "startdate", "enddate", "name", "archived")
