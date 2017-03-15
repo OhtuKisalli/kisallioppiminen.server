@@ -3,7 +3,7 @@ class TeachingsController < ApplicationController
 
   # GET /teachings
   def index
-    @teachings = Teaching.all
+    @teachings = TeachingService.all_teachings
   end
   
   # Archive/recover course
@@ -14,10 +14,10 @@ class TeachingsController < ApplicationController
     sid = params[:sid]
     if sid.to_i != current_user.id
       render :json => {"error" => "Voit muuttaa vain omien kurssiesi asetuksia."}, status: 401
-    elsif not TeacherService.teacher_on_course?(sid, cid)
+    elsif not TeachingService.teacher_on_course?(sid, cid)
       render :json => {"error" => "Et ole opettajana kyseisellä kurssilla."}, status: 403
     elsif params[:archived] == "false" or params[:archived] == "true"
-      TeacherService.change_archived_status(sid, cid, params[:archived])
+      TeachingService.change_archived_status(sid, cid, params[:archived])
       if params[:archived] == "false"
         render :json => {"message" => "Kurssi palautettu arkistosta."}, status: 200
       else
