@@ -15,7 +15,7 @@ class DeadlinesController < ApplicationController
   # POST /courses/:id/deadlines/new
   # params: description, deadline (timestamp), exercises ["html_id1", "html_id2"]
   def newdeadline
-    if not TeacherService.has_rights?(current_user.id, params[:id])
+    if not TeachingService.has_rights?(current_user.id, params[:id])
       render :json => {"error" => "Et ole kyseisen kurssin vastuuhenkilö."}, status: 401
     elsif not params[:description] or params[:description].blank?
       render :json => {"error" => "Aikataululla täytyy olla nimi."}, status: 422
@@ -36,7 +36,7 @@ class DeadlinesController < ApplicationController
   def deletedeadline
     cid = params[:cid]
     did = params[:did]
-    if not TeacherService.has_rights?(current_user.id, cid)
+    if not TeachingService.has_rights?(current_user.id, cid)
       render :json => {"error" => "Et ole kyseisen kurssin vastuuhenkilö."}, status: 401
     elsif not DeadlineService.deadline_on_course?(cid, did)
       render :json => {"error" => "Kyseinen aikataulu ei ole kurssilla."}, status: 401
