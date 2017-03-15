@@ -39,7 +39,7 @@ class CheckmarksController < ApplicationController
   def student_checkmarks
     sid = params[:sid]
     cid = params[:cid]
-    if sid.to_i != current_user.id and not TeacherService.teacher_on_course?(current_user.id, cid)
+    if sid.to_i != current_user.id and not TeachingService.teacher_on_course?(current_user.id, cid)
       render :json => {"error" => "Voit tarkastella vain omia tai oppilaidesi merkintöjä."}, status: 401
     elsif not AttendanceService.user_on_course?(sid, cid)
       render :json => {"error" => "Käyttäjä ei ole rekisteröitynyt kurssille."}, status: 422

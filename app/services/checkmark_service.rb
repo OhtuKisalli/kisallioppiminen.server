@@ -4,7 +4,7 @@ class CheckmarkService
   # returns array of JSONs [{},{},{},{}]
   # where JSON {"id":"exercise.html_id","status":"green/red/yellow/gray"}
   def self.student_checkmarks(cid, sid)
-    exercises = Exercise.where(course_id: cid).ids
+    exercises = ExerciseService.exercise_ids_of_course(cid)
     cmarks = Checkmark.joins(:exercise).where(user_id: sid, exercise_id: exercises).select("exercises.html_id","status")
     checkmarks = []
     cmarks.each do |c|
@@ -17,7 +17,7 @@ class CheckmarkService
   # params: sid (User.id), cid (Course.id), hid (Exercise.html_id), status ("green/red/yellow")
   # returns true if success
   def self.save_student_checkmark(sid, cid, hid, status)
-    exercise = Exercise.find_by(course_id: cid, html_id: hid)
+    exercise = ExerciseService.exercise_by_course_id_and_html_id(cid, hid)
       @checkmark = Checkmark.find_by(exercise_id: exercise.id, user_id: sid)
       if @checkmark.nil?
         @checkmark = Checkmark.new(user_id: sid, exercise_id: exercise.id)
@@ -29,9 +29,21 @@ class CheckmarkService
         return false
       end
   end
+  
+  def self.checkmarks_for_scoreboard(sid, exercises)
+    return Checkmark.joins(:exercise).where(user_id: sid, exercise_id: exercises).select("exercises.html_id","status")
+  end
 
   def self.all_checkmarks_count
     return Checkmark.all.count
+  end
+  
+  def self.create_checkmark(sid, eid, status)
+    @c = nil
+    if Checkmark.where(user_id: sid, exercise_id: eid).empty?
+      @c = Checkmark.create(user_id: sid, exercise_id: eid, status: status)
+    end
+    return @c
   end
 
 end
