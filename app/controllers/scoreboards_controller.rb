@@ -37,9 +37,9 @@ class ScoreboardsController < ApplicationController
   # return JSON
   def scoreboard
     sid = current_user.id
-    if not TeacherService.is_teacher?(sid)
+    if not TeachingService.is_teacher?(sid)
       render :json => {"error" => "Et ole opettaja."}, status: 401
-    elsif TeacherService.teacher_on_course?(sid, params[:id])
+    elsif TeachingService.teacher_on_course?(sid, params[:id])
       sboard = ScoreboardService.build_scoreboard(params[:id])
       render :json => sboard, status: 200
     else
@@ -52,7 +52,7 @@ class ScoreboardsController < ApplicationController
   # returns array of JSONs
   def scoreboards
     sid = current_user.id
-    if not TeacherService.is_teacher?(sid)
+    if not TeachingService.is_teacher?(sid)
       render :json => {"error" => "Et ole opettaja."}, status: 401
     else
       sbs = ScoreboardService.build_scoreboards(sid)

@@ -2,14 +2,14 @@ class ScoreboardService
 
   def self.build_student_scoreboard(cid, sid)
       checkmarks = CheckmarkService.student_checkmarks(cid, sid)
-      course = Course.find(cid)
+      course = CourseService.course_by_id(cid)
       scoreboard = course.courseinfo
       scoreboard["exercises"] = checkmarks
       return scoreboard
   end
   
   def self.build_student_scoreboards(sid)
-      courses = User.find(sid).courses
+      courses = UserService.student_courses(sid)
       sb = []
       courses.each do |c|
         if not AttendanceService.student_course_archived?(sid, c.id)
@@ -20,7 +20,7 @@ class ScoreboardService
   end
   
   def self.build_scoreboards(sid)
-    courses = User.find(sid).courses_to_teach
+    courses = UserService.teacher_courses(sid)
     sb = []
     courses.each do |c|
       sb << build_scoreboard(c.id)
@@ -31,7 +31,7 @@ class ScoreboardService
   # Scoreboard for course
   # cid = Course.id
   def self.build_scoreboard(cid)
-    course = Course.find(cid)
+    course = CourseService.course_by_id(cid)
     board = course.courseinfo
     exercises = course.exercises.ids
     students = course.students
@@ -46,7 +46,7 @@ class ScoreboardService
       studentjson = {}
       studentjson["user"] = name
       exercisearray = []
-      cmarks = Checkmark.joins(:exercise).where(user_id: s.id, exercise_id: exercises).select("exercises.html_id","status")
+      cmarks = CheckmarkService.checkmarks_for_scoreboard(s.id, exercises)
       cmarks.each do |c|
         h = {}
         h["id"] = c.html_id
