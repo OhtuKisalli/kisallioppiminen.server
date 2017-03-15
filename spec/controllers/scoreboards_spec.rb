@@ -19,16 +19,16 @@ RSpec.describe ScoreboardsController, type: :controller do
       before(:each) do
         @course1 = FactoryGirl.create(:course, coursekey:"key1")
         @course2 = FactoryGirl.create(:course, coursekey:"key2")
-        @exercise1 = Exercise.create(course_id: @course1.id, html_id:"id1")  
-        @exercise2 = Exercise.create(course_id: @course1.id, html_id:"id2")
-        @exercise3 = Exercise.create(course_id: @course2.id, html_id:"id1")  
+        @exercise1 = ExerciseService.create_exercise(@course1.id, "id1")
+        @exercise2 = ExerciseService.create_exercise(@course1.id, "id2")
+        @exercise3 = ExerciseService.create_exercise(@course2.id, "id1")
         @opiskelija1 = FactoryGirl.create(:user, username:"o1", first_name:"James", last_name:"Bond", email:"o1@o.o")
         @opiskelija2 = FactoryGirl.create(:user, username:"o2", first_name:"Bruce", last_name:"Wayne", email:"o2@o.o")
-        Attendance.create(user_id: @opiskelija1.id, course_id: @course1.id)
-        Attendance.create(user_id: @opiskelija1.id, course_id: @course2.id)
-        @checkmark1 = Checkmark.create(user_id: @opiskelija1.id, exercise_id: @exercise1.id, status:"green")
-        @checkmark2 = Checkmark.create(user_id: @opiskelija1.id, exercise_id: @exercise2.id, status:"red")
-        @checkmark3 = Checkmark.create(user_id: @opiskelija1.id, exercise_id: @exercise3.id, status:"red")
+        AttendanceService.create_attendance(@opiskelija1.id, @course1.id)
+        AttendanceService.create_attendance(@opiskelija1.id, @course2.id)
+        @checkmark1 = CheckmarkService.create_checkmark(@opiskelija1.id, @exercise1.id, status:"green")
+        @checkmark2 = CheckmarkService.create_checkmark(@opiskelija1.id, @exercise2.id, status:"red")
+        @checkmark3 = CheckmarkService.create_checkmark(@opiskelija1.id, @exercise3.id, status:"red")
       end
     
       it "cannot get scoreboards of other students" do
@@ -83,19 +83,19 @@ RSpec.describe ScoreboardsController, type: :controller do
       before(:each) do
         @course1 = FactoryGirl.create(:course, coursekey:"key1")
         @course2 = FactoryGirl.create(:course, coursekey:"key2")
-        @exercise1 = Exercise.create(course_id: @course1.id, html_id:"id1")  
-        @exercise2 = Exercise.create(course_id: @course1.id, html_id:"id2")
+        @exercise1 = ExerciseService.create_exercise(@course1.id, "id1")
+        @exercise2 = ExerciseService.create_exercise(@course1.id, "id2")
         @opiskelija1 = FactoryGirl.create(:user, username:"o1", first_name:"James", last_name:"Bond", email:"o1@o.o")
         @opiskelija2 = FactoryGirl.create(:user, username:"o2", first_name:"Bruce", last_name:"Wayne", email:"o2@o.o")
-        Attendance.create(user_id: @opiskelija1.id, course_id: @course1.id)
-        Attendance.create(user_id: @opiskelija2.id, course_id: @course1.id)
-        @checkmark1 = Checkmark.create(user_id: @opiskelija1.id, exercise_id: @exercise1.id, status:"green")
-        @checkmark2 = Checkmark.create(user_id: @opiskelija1.id, exercise_id: @exercise2.id, status:"red")
-        @checkmark3 = Checkmark.create(user_id: @opiskelija2.id, exercise_id: @exercise1.id, status:"red")
-        @checkmark4 = Checkmark.create(user_id: @opiskelija2.id, exercise_id: @exercise2.id, status:"green")
+        AttendanceService.create_attendance(@opiskelija1.id, @course1.id)
+        AttendanceService.create_attendance(@opiskelija2.id, @course1.id)
+        @checkmark1 = CheckmarkService.create_checkmark(@opiskelija1.id, @exercise1.id, status:"green")
+        @checkmark2 = CheckmarkService.create_checkmark(@opiskelija1.id, @exercise2.id, status:"red")
+        @checkmark3 = CheckmarkService.create_checkmark(@opiskelija2.id, @exercise1.id, status:"red")
+        @checkmark4 = CheckmarkService.create_checkmark(@opiskelija2.id, @exercise2.id, status:"green")
         @ope1 = FactoryGirl.create(:user, username:"ope1", email:"ope1@o.o")
-        Teaching.create(user_id: @ope1.id, course_id: @course1.id)
-        Teaching.create(user_id: @ope1.id, course_id: @course2.id)
+        TeachingService.create_teaching(@ope1.id, @course1.id)
+        TeachingService.create_teaching(@ope1.id, @course2.id)
       end
     
       it "have to be teacher" do
@@ -109,7 +109,7 @@ RSpec.describe ScoreboardsController, type: :controller do
       it "have to be teacher of the course" do
         @course3 = FactoryGirl.create(:course, coursekey:"key3")
         @ope2 = FactoryGirl.create(:user, username:"ope2", email:"ope2@o.o")
-        Teaching.create(user_id: @ope2.id, course_id: @course3.id)
+        TeachingService.create_teaching(@ope2.id, @course3.id)
         sign_in @ope2
         get 'scoreboard', :format => :json, params: {"id":@course1.id}
         expect(response.status).to eq(401)
@@ -147,7 +147,7 @@ RSpec.describe ScoreboardsController, type: :controller do
       end
       
       it "shows exercises that student is not done" do
-        @exercise3 = Exercise.create(course_id: @course1.id, html_id:"id3")
+        @exercise3 = ExerciseService.create_exercise(@course1.id, "id3")
         sign_in @ope1
         get 'scoreboard', :format => :json, params: {"id":@course1.id}
         expect(response.status).to eq(200)
@@ -160,12 +160,12 @@ RSpec.describe ScoreboardsController, type: :controller do
       it "students with no names stored in database are nimettömiä" do
         @opiskelija3 = FactoryGirl.create(:user, username:"o1", first_name: nil, last_name: nil, email:"p1@o.o")
         @opiskelija4 = FactoryGirl.create(:user, username:"o2", first_name: nil, last_name: nil, email:"p2@o.o")
-        Attendance.create(user_id: @opiskelija3.id, course_id: @course1.id)
-        Attendance.create(user_id: @opiskelija4.id, course_id: @course1.id)
-        Checkmark.create(user_id: @opiskelija3.id, exercise_id: @exercise1.id, status:"green")
-        Checkmark.create(user_id: @opiskelija3.id, exercise_id: @exercise2.id, status:"red")
-        Checkmark.create(user_id: @opiskelija4.id, exercise_id: @exercise1.id, status:"red")
-        Checkmark.create(user_id: @opiskelija4.id, exercise_id: @exercise2.id, status:"green")
+        AttendanceService.create_attendance(@opiskelija3.id, @course1.id)
+        AttendanceService.create_attendance(@opiskelija4.id, @course1.id)
+        CheckmarkService.create_checkmark(@opiskelija3.id, @exercise1.id, status:"green")
+        CheckmarkService.create_checkmark(@opiskelija3.id, @exercise2.id, status:"red")
+        CheckmarkService.create_checkmark(@opiskelija4.id, @exercise1.id, status:"red")
+        CheckmarkService.create_checkmark(@opiskelija4.id, @exercise2.id, status:"green")
         sign_in @ope1
         get 'scoreboard', :format => :json, params: {"id":@course1.id}
         expect(response.status).to eq(200)

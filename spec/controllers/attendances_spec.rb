@@ -33,7 +33,7 @@ RSpec.describe AttendancesController, type: :controller do
         expect(body.keys).to contain_exactly("message","courses")
       end
       it "doesn't allow to join same course again'" do
-        Attendance.create(user_id: @testaaja.id, course_id: @course1.id)
+        AttendanceService.create_attendance(@testaaja.id, @course1.id)
         post 'newstudent', :format => :json, params: {"coursekey": @course1.coursekey}
         expect(response.status).to eq(403)
         body = JSON.parse(response.body)
@@ -42,14 +42,14 @@ RSpec.describe AttendancesController, type: :controller do
         expect(@testaaja.courses.count).to eq(1)
       end
       it "allows to join more than one course" do
-        @course2 = Course.create(coursekey: "avain2", name: "kurssi2", html_id: "id2")
+        @course2 = FactoryGirl.create(:course, coursekey: "avain2")
         post 'newstudent', :format => :json, params: {"coursekey": @course1.coursekey}
         post 'newstudent', :format => :json, params: {"coursekey": @course2.coursekey}
         expect(@testaaja.courses.count).to eq(2)
       end
       it "new course is not archived" do
         post 'newstudent', :format => :json, params: {"coursekey": @course1.coursekey}
-        expect(Attendance.first.archived).to eq(false)
+        expect(AttendanceService.student_course_archived?(@testaaja.id, @course1.id)).to eq(false)
       end
     end
   end
@@ -84,42 +84,44 @@ RSpec.describe AttendancesController, type: :controller do
         expect(response.status).to eq(403)
       end
       it "cannot toggle archived without parameter archived" do
-        Attendance.create(user_id: @testaaja.id, course_id: @course1.id)
+        AttendanceService.create_attendance(@testaaja.id, @course1.id)
         post 'toggle_archived', :format => :json, params: {"sid":1,"cid":1,"aaa": "true"}
         expect(response.status).to eq(422)
       end
       it "cannot toggle archived with improper value" do
-        Attendance.create(user_id: @testaaja.id, course_id: @course1.id)
+        AttendanceService.create_attendance(@testaaja.id, @course1.id)
         post 'toggle_archived', :format => :json, params: {"sid":1,"cid":1,"archived": "joo"}
         expect(response.status).to eq(422)
       end
       it "can toggle archived from false to true" do
-        Attendance.create(user_id: @testaaja.id, course_id: @course1.id, archived: false)
+        AttendanceService.create_attendance(@testaaja.id, @course1.id)
         post 'toggle_archived', :format => :json, params: {"sid":1,"cid":1,"archived": "true"}
         expect(response.status).to eq(200)
         body = JSON.parse(response.body)
         expected = {"message" => "Kurssi arkistoitu."}
         expect(body).to eq(expected)
-        expect(Attendance.first.archived).to eq(true)
+        expect(AttendanceService.student_course_archived?(@testaaja.id, @course1.id)).to eq(true)
       end
       it "can toggle archived from true to false" do
-        Attendance.create(user_id: @testaaja.id, course_id: @course1.id, archived: true)
+        AttendanceService.create_attendance(@testaaja.id, @course1.id)
+        AttendanceService.change_archived_status(@testaaja.id, @course1.id, "true")
         post 'toggle_archived', :format => :json, params: {"sid":1,"cid":1,"archived": "false"}
         expect(response.status).to eq(200)
         body = JSON.parse(response.body)
         expected = {"message" => "Kurssi palautettu arkistosta."}
         expect(body).to eq(expected)
-        expect(Attendance.first.archived).to eq(false)
+        expect(AttendanceService.student_course_archived?(@testaaja.id, @course1.id)).to eq(false)
       end
       it "trying to archive archived course makes no changes" do
-        Attendance.create(user_id: @testaaja.id, course_id: @course1.id, archived: true)
+        AttendanceService.create_attendance(@testaaja.id, @course1.id)
+        AttendanceService.change_archived_status(@testaaja.id, @course1.id, "true")
         post 'toggle_archived', :format => :json, params: {"sid":1,"cid":1,"archived": "true"}
-        expect(Attendance.first.archived).to eq(true)
+        expect(AttendanceService.student_course_archived?(@testaaja.id, @course1.id)).to eq(true)
       end
       it "trying to recover course that is recovered makes on changes" do
-        Attendance.create(user_id: @testaaja.id, course_id: @course1.id, archived: false)
+        AttendanceService.create_attendance(@testaaja.id, @course1.id)
         post 'toggle_archived', :format => :json, params: {"sid":1,"cid":1,"archived": "false"}
-        expect(Attendance.first.archived).to eq(false)
+        expect(AttendanceService.student_course_archived?(@testaaja.id, @course1.id)).to eq(false)
       end
     
     end

@@ -34,7 +34,7 @@ RSpec.describe CoursesController, type: :controller do
         expect(body).to eq(expected)
       end
       it "returns a course where user is teacher" do
-        Teaching.create(user_id: @testaaja.id, course_id: @course1.id)
+        TeachingService.create_teaching(@testaaja.id, @course1.id)
         get 'mycourses_teacher', :format => :json, params: {"id":@testaaja.id}
         expect(response.status).to eq(200)
         body = JSON.parse(response.body)
@@ -43,8 +43,8 @@ RSpec.describe CoursesController, type: :controller do
         expect(body[0]["coursekey"]).to eq(@course1.coursekey)
       end
       it "return all courses where user is teacher" do
-        Teaching.create(user_id: @testaaja.id, course_id: @course1.id)
-        Teaching.create(user_id: @testaaja.id, course_id: @course2.id)
+        TeachingService.create_teaching(@testaaja.id, @course1.id)
+        TeachingService.create_teaching(@testaaja.id, @course2.id)
         get 'mycourses_teacher', :format => :json, params: {"id":@testaaja.id}
         expect(response.status).to eq(200)
         body = JSON.parse(response.body)
@@ -78,8 +78,8 @@ RSpec.describe CoursesController, type: :controller do
       end
       it "returns only own courses" do
         @opiskelija2 = FactoryGirl.create(:user, username:"o2", name:"bruce", email:"o2@o.o")
-        Attendance.create(user_id: @opiskelija2.id, course_id: @course1.id)
-        Attendance.create(user_id: @testaaja.id, course_id: @course1.id)
+        AttendanceService.create_attendance(@opiskelija2.id, @course1.id)
+        AttendanceService.create_attendance(@testaaja.id, @course1.id)
         get 'mycourses_student', :format => :json, params: {"id":@opiskelija2.id}
         expect(response.status).to eq(401)
         body = JSON.parse(response.body)
@@ -88,7 +88,7 @@ RSpec.describe CoursesController, type: :controller do
       end
       
       it "returns a course where user is student" do
-        Attendance.create(user_id: @testaaja.id, course_id: @course1.id)
+        AttendanceService.create_attendance(@testaaja.id, @course1.id)
         get 'mycourses_student', :format => :json, params: {"id":@testaaja.id}
         expect(response.status).to eq(200)
         body = JSON.parse(response.body)
@@ -96,8 +96,8 @@ RSpec.describe CoursesController, type: :controller do
         expect(body[0]["coursekey"]).to eq(@course1.coursekey)
       end
       it "return all courses where user is student" do
-        Attendance.create(user_id: @testaaja.id, course_id: @course1.id)
-        Attendance.create(user_id: @testaaja.id, course_id: @course2.id)
+        AttendanceService.create_attendance(@testaaja.id, @course1.id)
+        AttendanceService.create_attendance(@testaaja.id, @course2.id)
         get 'mycourses_student', :format => :json, params: {"id":@testaaja.id}
         expect(response.status).to eq(200)
         body = JSON.parse(response.body)
@@ -137,19 +137,21 @@ RSpec.describe CoursesController, type: :controller do
       end
       
       it "adds teacher to created course" do
-        expect(Teaching.all.count).to eq(0)
+        expect(TeachingService.all_teachings.count).to eq(0)
         post 'newcourse', :format => :json, params: {"coursekey":"avain1", "name":"kurssi"}
-        expect(Teaching.all.count).to eq(1)
-        expect(Teaching.first.id).to eq(@testaaja.id)
+        expect(TeachingService.all_teachings.count).to eq(1)
+        expect(TeachingService.is_teacher?(@testaaja.id)).to eq(true)
+        expect(UserService.teacher_courses(@testaaja.id).first.coursekey).to eq("avain1")
       end
       
       it "created course is not archived" do
         post 'newcourse', :format => :json, params: {"coursekey":"avain1", "name":"kurssi"}
-        expect(Teaching.first.archived).to eq(false)
+        @c = CourseService.find_by_coursekey("avain1")
+        expect(TeachingService.is_archived?(@testaaja.id, @c.id)).to eq(false)
       end
       
       it "creates course with exercises" do
-        expect(Exercise.all.count).to eq(0)
+        expect(ExerciseService.all_exercises.count).to eq(0)
         post 'newcourse', :format => :json, params: {"coursekey":"avain1", "name":"kurssi", "exercises": {"0.1": "23b6f818-3def-4c40-a794-6d5a9c45a0ff", "0.2": "ff50db85-f7a9-4c03-8faf-9a17d932b435","1.1": "0d7c9d8e-9c84-44fb-b5a7-33becc01af14"}}
         expect(response.status).to eq(200)
         expect(Course.find_by(coursekey:"avain1").exercises.count).to eq(3)
@@ -183,7 +185,7 @@ RSpec.describe CoursesController, type: :controller do
         expect(body).to eq(expected)
       end
       it "coursekey must not be reserved" do
-        Teaching.create(user_id: @testaaja.id, course_id: @course1.id)
+        TeachingService.create_teaching(@testaaja.id, @course1.id)
         FactoryGirl.create(:course, coursekey:"varattu")
         put 'update', :format => :json, params: {"id":1, "coursekey": "varattu"}
         expect(response.status).to eq(403)
