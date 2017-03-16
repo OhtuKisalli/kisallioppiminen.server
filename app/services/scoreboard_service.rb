@@ -4,6 +4,7 @@ class ScoreboardService
       checkmarks = CheckmarkService.student_checkmarks(cid, sid)
       course = CourseService.course_by_id(cid)
       scoreboard = course.courseinfo
+      checkmarks = add_gray_checkmarks(checkmarks, sid, course.exercises.ids, cid)
       scoreboard["exercises"] = checkmarks
       return scoreboard
   end
@@ -53,7 +54,7 @@ class ScoreboardService
         h["status"] = c.status
         exercisearray << h
       end
-      exercisearray = add_gray_checkmarks(exercisearray, s, exercises, cid)
+      exercisearray = add_gray_checkmarks(exercisearray, s.id, exercises, cid)
       studentjson["exercises"] = exercisearray
       studentlist << studentjson
     end
@@ -76,8 +77,8 @@ class ScoreboardService
       return name
     end
     
-    def self.add_gray_checkmarks(array,s,course_exs,cid)
-      not_done = course_exs - Checkmark.select(:exercise_id).where(user_id: s.id, exercise_id: course_exs).map(&:exercise_id)
+    def self.add_gray_checkmarks(array,sid,course_exs,cid)
+      not_done = course_exs - Checkmark.select(:exercise_id).where(user_id: sid, exercise_id: course_exs).map(&:exercise_id)
       not_done_exercises = Exercise.where(id: not_done)
       not_done_exercises.each do |e|
         array << {"id" => e.html_id, "status" => "gray"}

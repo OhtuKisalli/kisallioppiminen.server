@@ -64,6 +64,17 @@ RSpec.describe ScoreboardsController, type: :controller do
         expect(body["exercises"][1]["id"]).to eq(@exercise2.html_id)
       end
       
+      it "shows exercises that are not done" do
+        @exercise5 = ExerciseService.create_exercise(@course1.id, "id5")
+        sign_in @opiskelija1
+        get 'student_scoreboard', :format => :json, params: {"sid":@course1.id,"cid":@course1.id}
+        expect(response.status).to eq(200)
+        body = JSON.parse(response.body)
+        expect(body["exercises"].size).to eq(3)
+        expect(body["exercises"][2]["status"]).to eq("gray")
+        expect(body["exercises"][2]["id"]).to eq(@exercise5.html_id)
+      end
+      
     end
   end
 
