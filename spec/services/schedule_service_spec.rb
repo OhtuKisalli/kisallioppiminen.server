@@ -23,7 +23,7 @@ RSpec.describe ScheduleService, type: :service do
       expect(ScheduleService.all_schedules.last.exercise_id).to eq(@exercise2.id)
     end
     it "create_schedule(eid,did)" do
-      ScheduleService.create_schedule(@exercise3.id, 1)
+      ScheduleService.create_schedule(@exercise3.id, Deadline.first.id)
       expect(ScheduleService.number_of_schedules).to eq(3)
       expect(Schedule.last.exercise_id).to eq(@exercise3.id)
     end

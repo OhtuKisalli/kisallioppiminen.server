@@ -80,22 +80,22 @@ RSpec.describe AttendancesController, type: :controller do
         expect(body).to eq(expected)
       end
       it "cannot toggle archived if not on course" do
-        post 'toggle_archived', :format => :json, params: {"sid":1,"cid":1,"archived": "true"}
+        post 'toggle_archived', :format => :json, params: {"sid":@testaaja.id,"cid":@course1.id,"archived": "true"}
         expect(response.status).to eq(403)
       end
       it "cannot toggle archived without parameter archived" do
         AttendanceService.create_attendance(@testaaja.id, @course1.id)
-        post 'toggle_archived', :format => :json, params: {"sid":1,"cid":1,"aaa": "true"}
+        post 'toggle_archived', :format => :json, params: {"sid":@testaaja.id,"cid":@course1.id,"aaa": "true"}
         expect(response.status).to eq(422)
       end
       it "cannot toggle archived with improper value" do
         AttendanceService.create_attendance(@testaaja.id, @course1.id)
-        post 'toggle_archived', :format => :json, params: {"sid":1,"cid":1,"archived": "joo"}
+        post 'toggle_archived', :format => :json, params: {"sid":@testaaja.id,"cid":@course1.id,"archived": "joo"}
         expect(response.status).to eq(422)
       end
       it "can toggle archived from false to true" do
         AttendanceService.create_attendance(@testaaja.id, @course1.id)
-        post 'toggle_archived', :format => :json, params: {"sid":1,"cid":1,"archived": "true"}
+        post 'toggle_archived', :format => :json, params: {"sid":@testaaja.id,"cid":@course1.id,"archived": "true"}
         expect(response.status).to eq(200)
         body = JSON.parse(response.body)
         expected = {"message" => "Kurssi arkistoitu."}
@@ -105,7 +105,7 @@ RSpec.describe AttendancesController, type: :controller do
       it "can toggle archived from true to false" do
         AttendanceService.create_attendance(@testaaja.id, @course1.id)
         AttendanceService.change_archived_status(@testaaja.id, @course1.id, "true")
-        post 'toggle_archived', :format => :json, params: {"sid":1,"cid":1,"archived": "false"}
+        post 'toggle_archived', :format => :json, params: {"sid":@testaaja.id,"cid":@course1.id,"archived": "false"}
         expect(response.status).to eq(200)
         body = JSON.parse(response.body)
         expected = {"message" => "Kurssi palautettu arkistosta."}
@@ -115,12 +115,12 @@ RSpec.describe AttendancesController, type: :controller do
       it "trying to archive archived course makes no changes" do
         AttendanceService.create_attendance(@testaaja.id, @course1.id)
         AttendanceService.change_archived_status(@testaaja.id, @course1.id, "true")
-        post 'toggle_archived', :format => :json, params: {"sid":1,"cid":1,"archived": "true"}
+        post 'toggle_archived', :format => :json, params: {"sid":@testaaja.id,"cid":@course1.id,"archived": "true"}
         expect(AttendanceService.student_course_archived?(@testaaja.id, @course1.id)).to eq(true)
       end
       it "trying to recover course that is recovered makes on changes" do
         AttendanceService.create_attendance(@testaaja.id, @course1.id)
-        post 'toggle_archived', :format => :json, params: {"sid":1,"cid":1,"archived": "false"}
+        post 'toggle_archived', :format => :json, params: {"sid":@testaaja.id,"cid":@course1.id,"archived": "false"}
         expect(AttendanceService.student_course_archived?(@testaaja.id, @course1.id)).to eq(false)
       end
     

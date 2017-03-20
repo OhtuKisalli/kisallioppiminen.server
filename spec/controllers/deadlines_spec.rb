@@ -22,35 +22,35 @@ RSpec.describe DeadlinesController, type: :controller do
         sign_in @ope
       end
       it "description necessary" do
-        post 'newdeadline', :format => :json, params: {"id": 1, "deadline": "2017-03-04 23:59:59", "exercises": ["1","2","3"]}
+        post 'newdeadline', :format => :json, params: {"id": @course.id, "deadline": "2017-03-04 23:59:59", "exercises": ["1","2","3"]}
         expect(response.status).to eq(422)
         body = JSON.parse(response.body)
         expected = {"error" => "Aikataululla täytyy olla nimi."}
         expect(body).to eq(expected)
       end
       it "deadline necessary" do
-        post 'newdeadline', :format => :json, params: {"id": 1, "description": "nimi", "exercises": ["1","2","3"]}
+        post 'newdeadline', :format => :json, params: {"id": @course.id, "description": "nimi", "exercises": ["1","2","3"]}
         expect(response.status).to eq(422)
         body = JSON.parse(response.body)
         expected = {"error" => "Aikataululla täytyy olla päivämäärä."}
         expect(body).to eq(expected)
       end
       it "exercises necessary" do
-        post 'newdeadline', :format => :json, params: {"id": 1, "description": "nimi", "deadline": "2017-03-04 23:59:59"}
+        post 'newdeadline', :format => :json, params: {"id": @course.id, "description": "nimi", "deadline": "2017-03-04 23:59:59"}
         expect(response.status).to eq(422)
         body = JSON.parse(response.body)
         expected = {"error" => "Aikataululla täytyy olla vähintään yksi tehtävä."}
         expect(body).to eq(expected)
       end
       it "exercises cant be empty" do
-        post 'newdeadline', :format => :json, params: {"id": 1, "description": "nimi","deadline": "2017-03-04 23:59:59", "exercises": []}
+        post 'newdeadline', :format => :json, params: {"id": @course.id, "description": "nimi","deadline": "2017-03-04 23:59:59", "exercises": []}
         expect(response.status).to eq(422)
         body = JSON.parse(response.body)
         expected = {"error" => "Aikataululla täytyy olla vähintään yksi tehtävä."}
         expect(body).to eq(expected)
       end
       it "must be at least one exercise " do
-        post 'newdeadline', :format => :json, params: {"id": 1, "description": "nimi","deadline": "2017-03-04 23:59:59", "exercises": ["1"]}
+        post 'newdeadline', :format => :json, params: {"id": @course.id, "description": "nimi","deadline": "2017-03-04 23:59:59", "exercises": ["1"]}
         body = JSON.parse(response.body)
         expected = {"error" => "Aikataululla täytyy olla vähintään yksi tehtävä."}
         expect(body).not_to eq(expected)

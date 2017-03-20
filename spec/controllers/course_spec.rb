@@ -178,7 +178,7 @@ RSpec.describe CoursesController, type: :controller do
         sign_in @testaaja
       end
       it "only if teacher of the course" do
-        put 'update', :format => :json, params: {"id":1}
+        put 'update', :format => :json, params: {"id":@course1.id}
         expect(response.status).to eq(401)
         body = JSON.parse(response.body)
         expected = {"error" => "Et ole kyseisen kurssin opettaja."}
@@ -187,7 +187,7 @@ RSpec.describe CoursesController, type: :controller do
       it "coursekey must not be reserved" do
         TeachingService.create_teaching(@testaaja.id, @course1.id)
         FactoryGirl.create(:course, coursekey:"varattu")
-        put 'update', :format => :json, params: {"id":1, "coursekey": "varattu"}
+        put 'update', :format => :json, params: {"id":@course1.id, "coursekey": "varattu"}
         expect(response.status).to eq(403)
         body = JSON.parse(response.body)
         expected = {"error" => "Kurssiavain on jo varattu."}
@@ -200,7 +200,7 @@ RSpec.describe CoursesController, type: :controller do
         expect(@course1.name).not_to eq("uusinimi")
         expect(@course1.startdate).not_to eq(Date.parse("2017-06-01"))
         expect(@course1.enddate).not_to eq(Date.parse("2017-06-02"))
-        put 'update', :format => :json, params: {"id":1, "coursekey": "uusi", "name": "uusinimi", "startdate": "2017-06-01", "enddate": "2017-06-02"}
+        put 'update', :format => :json, params: {"id":@course1.id, "coursekey": "uusi", "name": "uusinimi", "startdate": "2017-06-01", "enddate": "2017-06-02"}
         expect(response.status).to eq(200)
         c = Course.find(@course1.id)
         expect(c.coursekey).to eq("uusi")

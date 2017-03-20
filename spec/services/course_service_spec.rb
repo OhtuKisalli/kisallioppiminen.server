@@ -34,7 +34,8 @@ RSpec.describe CourseService, type: :service do
       proper_params = {"coursekey":"key1111", "name":"nimi1", "html_id":"id222", "startdate":"2017-02-02", "enddate":"2017-10-11"}
       improper_params = {"coursekey": @course.coursekey, "name":"nimi1", "html_id":"id222", "startdate":"2017-02-02", "enddate":"2017-10-11"}
       expect(CourseService.create_new_course(@ope.id, improper_params)).to eq(-1)
-      expect(CourseService.create_new_course(@ope.id, proper_params)).to eq(2)
+      expect(CourseService.create_new_course(@ope.id, proper_params)).not_to eq(-1)
+      expect(CourseService.find_by_coursekey("key1111")).not_to eq(nil)
     end
     it "teacher_courses(id)" do
       @ope = FactoryGirl.create(:user, email:"o2@o.o")

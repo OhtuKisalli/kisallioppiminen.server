@@ -33,7 +33,7 @@ RSpec.describe ScoreboardsController, type: :controller do
     
       it "cannot get scoreboards of other students" do
         sign_in @opiskelija1
-        get 'student_scoreboard', :format => :json, params: {"sid": @opiskelija2.id,"cid":"1"}
+        get 'student_scoreboard', :format => :json, params: {"sid": @opiskelija2.id,"cid":@course1.id}
         expect(response.status).to eq(401)
         get 'student_scoreboards', :format => :json, params: {"id": @opiskelija2.id}
         expect(response.status).to eq(401)
@@ -41,7 +41,7 @@ RSpec.describe ScoreboardsController, type: :controller do
       
       it "returns all scoreboards for student" do
         sign_in @opiskelija1
-        get 'student_scoreboards', :format => :json, params: {"id":"1"}
+        get 'student_scoreboards', :format => :json, params: {"id":@opiskelija1}
         expect(response.status).to eq(200)
         body = JSON.parse(response.body)
         expect(body.size).to eq(2)
@@ -53,7 +53,7 @@ RSpec.describe ScoreboardsController, type: :controller do
       
       it "returns a scoreboard for student" do
         sign_in @opiskelija1
-        get 'student_scoreboard', :format => :json, params: {"sid":@course1.id,"cid":@course1.id}
+        get 'student_scoreboard', :format => :json, params: {"sid":@opiskelija1.id,"cid":@course1.id}
         expect(response.status).to eq(200)
         body = JSON.parse(response.body)
         expect(body.keys).to contain_exactly("name","coursekey","id", "html_id","startdate","enddate","exercises")
@@ -67,7 +67,7 @@ RSpec.describe ScoreboardsController, type: :controller do
       it "shows exercises that are not done" do
         @exercise5 = ExerciseService.create_exercise(@course1.id, "id5")
         sign_in @opiskelija1
-        get 'student_scoreboard', :format => :json, params: {"sid":@course1.id,"cid":@course1.id}
+        get 'student_scoreboard', :format => :json, params: {"sid":@opiskelija1,"cid":@course1.id}
         expect(response.status).to eq(200)
         body = JSON.parse(response.body)
         expect(body["exercises"].size).to eq(3)
@@ -128,7 +128,7 @@ RSpec.describe ScoreboardsController, type: :controller do
       
       it "returns all scoreboards for teacher" do
         sign_in @ope1
-        get 'scoreboards', :format => :json, params: {"id":"1"}
+        get 'scoreboards', :format => :json, params: {"id":@ope1.id}
         expect(response.status).to eq(200)
         body = JSON.parse(response.body)
         expect(body.size).to eq(2)
