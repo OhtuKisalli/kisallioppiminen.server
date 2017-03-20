@@ -12,7 +12,12 @@ class AttendanceService
   
   # returns []
   def self.all_attendances
-    return Attendance.select(:user_id, :course_id, :archived).order(:user_id)
+    return Attendance.select(:user_id, :course_id, :archived, :checkmarks).order(:user_id)
+  end
+  
+  # returns Attendance or nil
+  def self.get_attendance(sid, cid)
+    return Attendance.where(user_id: sid, course_id: cid).first
   end
   
   # returns {}, keys: coursekeys, values: {} with keys "id","coursename","coursekey","html_id","startdate","enddate"
@@ -36,7 +41,7 @@ class AttendanceService
     @user = UserService.user_by_id(sid)
     @course = CourseService.course_by_id(cid)
     if @user and @course and not user_on_course?(sid, cid)
-      Attendance.create(user_id: sid, course_id: cid)
+      Attendance.create(user_id: sid, course_id: cid, checkmarks: {})
       return true
     else
       return false
