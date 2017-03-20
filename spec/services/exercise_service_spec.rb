@@ -32,6 +32,21 @@ RSpec.describe ExerciseService, type: :service do
       ExerciseService.create_exercise(@course.id, "id2")
       expect(ExerciseService.all_exercises.count).to eq(2)
     end
+    
+    it "html_ids_of_exercises_by_course_id(cid)" do
+      html_ids = ExerciseService.html_ids_of_exercises_by_course_id(666)
+      expect(html_ids.size).to eq(0)
+      html_ids = ExerciseService.html_ids_of_exercises_by_course_id(@course.id)
+      expect(html_ids.size).to eq(1)
+      expect(html_ids[0]).to eq(@e1.html_id)
+    end
+    
+    it "exercise_on_course?(cid, hid)" do
+      @course2 = FactoryGirl.create(:course, coursekey:"key2")
+      expect(ExerciseService.exercise_on_course?(@course2.id, @e1.html_id)).to eq(false)
+      expect(ExerciseService.exercise_on_course?(@course.id, @e1.html_id)).to eq(true)
+    end
+    
   end
   
   describe "more complex methods" do

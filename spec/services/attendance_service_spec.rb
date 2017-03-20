@@ -50,6 +50,12 @@ RSpec.describe AttendanceService, type: :service do
       courseshash2 = AttendanceService.add_new_course_to_user(@student2.id, @course2.id)
       expect(courseshash2.keys).to contain_exactly(@course.coursekey, @course2.coursekey)
     end
+    it "get_attendance(sid, cid)" do
+      expect(AttendanceService.get_attendance(55, 55)).to eq(nil)
+      expect(AttendanceService.get_attendance(@student.id, 55)).to eq(nil)
+      expect(AttendanceService.get_attendance(55, @course.id)).to eq(nil)
+      expect(AttendanceService.get_attendance(@student.id, @course.id)).not_to eq(nil)
+    end
     
   end
 end
