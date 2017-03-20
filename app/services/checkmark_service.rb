@@ -4,11 +4,12 @@ class CheckmarkService
   # returns array of JSONs [{},{},{},{}]
   # where JSON {"id":"exercise.html_id","status":"green/red/yellow/gray"}
   def self.student_checkmarks(cid, sid)
-    exercises = ExerciseService.exercise_ids_of_course(cid)
-    cmarks = Checkmark.joins(:exercise).where(user_id: sid, exercise_id: exercises).select("exercises.html_id","status")
+    attendance = AttendanceService.get_attendance(sid, cid)
     checkmarks = []
-    cmarks.each do |c|
-      checkmarks << {"id" => c.html_id, "status" => c.status}
+    if attendance
+      attendance.checkmarks.each do |key, value|
+        checkmarks << {"id" => key, "status" => value}
+      end
     end
     return checkmarks
   end
@@ -17,25 +18,45 @@ class CheckmarkService
   # params: sid (User.id), cid (Course.id), hid (Exercise.html_id), status ("green/red/yellow")
   # returns true if success
   def self.save_student_checkmark(sid, cid, hid, status)
-    exercise = ExerciseService.exercise_by_course_id_and_html_id(cid, hid)
-      @checkmark = Checkmark.find_by(exercise_id: exercise.id, user_id: sid)
-      if @checkmark.nil?
-        @checkmark = Checkmark.new(user_id: sid, exercise_id: exercise.id)
-      end
-      @checkmark.status = status
-      if @checkmark.save 
-        return true 
-      else
-        return false
-      end
+    @a = AttendanceService.get_attendance(sid, cid)
+    if @a and ExerciseService.exercise_on_course?(cid, hid)
+      @a.checkmarks[hid] = status
+      return @a.save
+    else
+      return false
+    end
   end
   
-  def self.checkmarks_for_scoreboard(sid, exercises)
-    return Checkmark.joins(:exercise).where(user_id: sid, exercise_id: exercises).select("exercises.html_id","status")
+  def self.add_gray_checkmarks(exercisearray, sid, cid)
+    attendance = AttendanceService.get_attendance(sid, cid)
+    exercises = ExerciseService.html_ids_of_exercises_by_course_id(cid)
+    if attendance and exercises.size > 0
+      done_exs_hash = attendance.checkmarks
+      exercises.each do |html_id|
+        if not done_exs_hash.key?(html_id)
+          exercisearray << {"id" => html_id, "status" => "gray"}
+        end
+      end
+    end
+    return exercisearray
   end
-
+  
   def self.all_checkmarks_count
-    return Checkmark.all.count
+    attendances = AttendanceService.all_attendances
+    count = 0
+    attendances.each do |a|
+      count += a.checkmarks.size
+    end
+    return count
+  end
+  
+  def self.get_checkmark_status(sid,cid,hid)
+    a = AttendanceService.get_attendance(sid, cid)
+    status = nil
+    if a
+      status = a.checkmarks[hid]
+    end
+    return status
   end
   
   def self.create_checkmark(sid, eid, status)
