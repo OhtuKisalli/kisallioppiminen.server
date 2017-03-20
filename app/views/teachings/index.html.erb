@@ -14,7 +14,7 @@
   <tbody>
     <% @teachings.each do |teaching| %>
       <tr>
-        <td><%= link_to teaching.user_id, teaching.user %></td>
+        <td><%= teaching.user_id %></td>
         <td><%= link_to teaching.course_id, teaching.course %></td>
         <td><%= teaching.archived %></td>
       </tr>
