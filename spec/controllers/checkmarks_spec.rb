@@ -20,12 +20,12 @@ RSpec.describe CheckmarksController, type: :controller do
       it "cant checkmark exercise with incorrect coursekey" do
         post 'mark', :format => :json, params: {"html_id":@exercise.html_id,"coursekey":"perse","status":"green"}
         expect(response.status).to eq(403)
-        expect(Checkmark.count).to eq(0)
+        expect(CheckmarkService.all_checkmarks_count).to eq(0)
       end
       it "cant checkmark exercise if not joined course" do
         post 'mark', :format => :json, params: {"html_id":@exercise.html_id,"coursekey":@course.coursekey,"status":"green"}
         expect(response.status).to eq(422)
-        expect(Checkmark.count).to eq(0)
+        expect(CheckmarkService.all_checkmarks_count).to eq(0)
       end
       it "cant checkmark exercise that doesnt belong to course" do
         AttendanceService.create_attendance(@testaaja.id, @course.id)
@@ -33,23 +33,23 @@ RSpec.describe CheckmarksController, type: :controller do
         @exercise2 = ExerciseService.create_exercise(@course2.id, "id3")
         post 'mark', :format => :json, params: {"html_id":@exercise2.html_id,"coursekey":@course.coursekey,"status":"green"}
         expect(response.status).to eq(403)
-        expect(Checkmark.count).to eq(0)
+        expect(CheckmarkService.all_checkmarks_count).to eq(0)
       end
       it "creates new checkmark" do
         AttendanceService.create_attendance(@testaaja.id, @course.id)
         post 'mark', :format => :json, params: {"html_id":@exercise.html_id,"coursekey":@course.coursekey,"status":"green"}
         expect(response.status).to eq(201)
-        expect(Checkmark.count).to eq(1)
+        expect(CheckmarkService.all_checkmarks_count).to eq(1)
       end
       it "checkmarking again updates old one" do
         AttendanceService.create_attendance(@testaaja.id, @course.id)
         post 'mark', :format => :json, params: {"html_id":@exercise.html_id,"coursekey":@course.coursekey,"status":"green"}
         expect(response.status).to eq(201)
-        expect(Checkmark.count).to eq(1)
-        expect(Checkmark.first.status).to eq("green")
+        expect(CheckmarkService.all_checkmarks_count).to eq(1)
+        expect(CheckmarkService.get_checkmark_status(@testaaja.id,@course.id,@exercise.html_id)).to eq("green")
         post 'mark', :format => :json, params: {"html_id":@exercise.html_id,"coursekey":@course.coursekey,"status":"red"}
-        expect(Checkmark.count).to eq(1)
-        expect(Checkmark.first.status).to eq("red")
+        expect(CheckmarkService.all_checkmarks_count).to eq(1)
+        expect(CheckmarkService.get_checkmark_status(@testaaja.id,@course.id,@exercise.html_id)).to eq("red")
       end
     end
   end
@@ -69,8 +69,8 @@ RSpec.describe CheckmarksController, type: :controller do
         @exercise2 = ExerciseService.create_exercise(@course.id, "id2")
         @opiskelija1 = FactoryGirl.create(:user, username:"o1", email:"o1@o.o")
         Attendance.create(user_id: @opiskelija1.id, course_id: @course.id)
-        @checkmark1 = Checkmark.create(user_id: @opiskelija1.id, exercise_id: @exercise1.id, status:"green")
-        @checkmark2 = Checkmark.create(user_id: @opiskelija1.id, exercise_id: @exercise2.id, status:"red")
+        CheckmarkService.save_student_checkmark(@opiskelija1.id, @exercise1.course_id, @exercise1.html_id, "green")
+        CheckmarkService.save_student_checkmark(@opiskelija1.id, @exercise2.course_id, @exercise2.html_id, "red")
         @opiskelija2 = FactoryGirl.create(:user, username:"o2", email:"o2@o.o")
         @ope = FactoryGirl.create(:user, username:"ope1", email:"ope1@o.o")
         TeachingService.create_teaching(@ope.id, @course.id)
@@ -86,8 +86,8 @@ RSpec.describe CheckmarksController, type: :controller do
         expect(response.status).not_to eq(401)
         body = JSON.parse(response.body)
         expect(body.keys).to contain_exactly("html_id","exercises","coursekey","archived")
-        expect(body["exercises"][0]["status"]).to eq(@checkmark1.status)
-        expect(body["exercises"][1]["status"]).to eq(@checkmark2.status)
+        expect(body["exercises"][0]["status"]).to eq("green")
+        expect(body["exercises"][1]["status"]).to eq("red")
       end
       it "can see checkmarks of own students when teacher" do
         sign_in @ope
