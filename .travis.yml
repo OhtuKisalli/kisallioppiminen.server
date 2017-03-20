@@ -3,6 +3,8 @@ rvm:
 - 2.4.0
 services:
   - postgresql
+addons:
+-  postgresql: "9.3"
 before_script:
 -  "export DISPLAY=:99.0"
 -  "sh -e /etc/init.d/xvfb start"
