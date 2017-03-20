@@ -1,4 +1,6 @@
 class ExercisesController < ApplicationController
+
+  before_action :check_admin, only: [:index, :show]
   
   protect_from_forgery unless: -> { request.format.json? }
 

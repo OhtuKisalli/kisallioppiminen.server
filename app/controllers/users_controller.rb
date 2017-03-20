@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:show, :edit, :update, :destroy]
+  before_action :check_admin, only: [:index]
 
   protect_from_forgery unless: -> { request.format.json? }
 
@@ -7,11 +7,6 @@ class UsersController < ApplicationController
   # GET /users.json
   def index
     @users = UserService.all_users
-  end
-
-  # GET /users/1
-  # GET /users/1.json
-  def show
   end
 
   def is_user_signed_in

@@ -1,6 +1,7 @@
 class DeadlinesController < ApplicationController
   
   before_action :check_signed_in, except: [:index, :show]
+  before_action :check_admin, only: [:index, :show]
   
   # GET /deadlines
   def index
