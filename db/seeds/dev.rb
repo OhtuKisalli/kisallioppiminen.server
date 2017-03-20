@@ -5,46 +5,46 @@
 @ope4 = User.create(first_name: "Ms.", last_name: "Krabbapel", email:"o4@e.e", password:"qwerty") #4
 
 #students
-User.create(first_name: "James", last_name: "Bond", email:"u1@e.e", password:"qwerty") #5
-User.create(first_name: "Han", last_name: "Solo", email:"u2@e.e", password:"qwerty")
-User.create(first_name: "Indiana", last_name: "Jones", email:"u3@e.e", password:"qwerty")
-User.create(first_name: "Bruce", last_name: "Wayne", email:"u4@e.e", password:"qwerty")
-User.create(first_name: "Ellen", last_name: "Ripley", email:"u5@e.e", password:"qwerty")
-User.create(first_name: "John", last_name: "McClane", email:"u6@e.e", password:"qwerty")
-User.create(first_name: "Tyler", last_name: "Durden", email:"u7@e.e", password:"qwerty")
-User.create(first_name: "Darth", last_name: "Vader", email:"u8@e.e", password:"qwerty")
-User.create(first_name: "Michael", last_name: "Corleone", email:"u9@e.e", password:"qwerty")
-User.create(first_name: "Marty", last_name: "McFly", email:"u10@e.e", password:"qwerty")
-User.create(first_name: "Iron", last_name: "Man", email:"u11@e.e", password:"qwerty")
-User.create(first_name: "Jack", last_name: "Sparrow", email:"u12@e.e", password:"qwerty")
-User.create(first_name: "Ron", last_name: "Burgundy", email:"u13@e.e", password:"qwerty")
-User.create(first_name: "Rick", last_name: "Blaine", email:"u14@e.e", password:"qwerty")
-User.create(first_name: "Doc", last_name: "Brown", email:"u15@e.e", password:"qwerty")
-User.create(first_name: "Hannibal", last_name: "Lecter", email:"u16@e.e", password:"qwerty")
-User.create(first_name: "Travis", last_name: "Bickle", email:"u17@e.e", password:"qwerty")
-User.create(first_name: "Daniel", last_name: "Plainview", email:"u18@e.e", password:"qwerty")
-User.create(first_name: "Patrick", last_name: "Bateman", email:"u19@e.e", password:"qwerty")
-User.create(first_name: "Forrest", last_name: "Gump", email:"u20@e.e", password:"qwerty")
-User.create(first_name: "Snake", last_name: "Plissken", email:"u21@e.e", password:"qwerty")
-User.create(first_name: "Peter", last_name: "Venkman", email:"u22@e.e", password:"qwerty")
-User.create(first_name: "Jules", last_name: "Winnfield", email:"u23@e.e", password:"qwerty")
-User.create(first_name: "Mal", last_name: "Reynolds", email:"u24@e.e", password:"qwerty")
-User.create(first_name: "Atticus", last_name: "Finch", email:"u25@e.e", password:"qwerty")
-User.create(first_name: "Rocky", last_name: "Balboa", email:"u26@e.e", password:"qwerty")
-User.create(first_name: "Walter", last_name: "Sobchak", email:"u27@e.e", password:"qwerty")
-User.create(first_name: "Ferris", last_name: "Bueller", email:"u28@e.e", password:"qwerty")
-User.create(first_name: "Keyser", last_name: "Söze", email:"u29@e.e", password:"qwerty")
-User.create(first_name: "Lou", last_name: "Bloom", email:"u30@e.e", password:"qwerty")
-User.create(first_name: "Anton", last_name: "Chigurh", email:"u31@e.e", password:"qwerty")
-User.create(first_name: "Tommy", last_name: "DeVito", email:"u32@e.e", password:"qwerty")
-User.create(first_name: "Captain", last_name: "America", email:"u33@e.e", password:"qwerty")
-User.create(first_name: "Rick", last_name: "Deckard", email:"u34@e.e", password:"qwerty")
-User.create(first_name: "Lester", last_name: "Burnham", email:"u35@e.e", password:"qwerty")
-User.create(first_name: "Harry", last_name: "Callahan", email:"u36@e.e", password:"qwerty")
-User.create(first_name: "Luke", last_name: "Skywalker", email:"u37@e.e", password:"qwerty")
-User.create(first_name: "Obi-Wan", last_name: "Kenobi", email:"u38@e.e", password:"qwerty")
-User.create(first_name: "Shaun", last_name: "Riley", email:"u39@e.e", password:"qwerty")
-User.create(first_name: "Vito", last_name: "Corleone", email:"u40@e.e", password:"qwerty") #44
+@u5 = User.create(first_name: "James", last_name: "Bond", email:"u1@e.e", password:"qwerty") #5
+@u6 = User.create(first_name: "Han", last_name: "Solo", email:"u2@e.e", password:"qwerty")
+@u7 = User.create(first_name: "Indiana", last_name: "Jones", email:"u3@e.e", password:"qwerty")
+@u8 = User.create(first_name: "Bruce", last_name: "Wayne", email:"u4@e.e", password:"qwerty")
+@u9 = User.create(first_name: "Ellen", last_name: "Ripley", email:"u5@e.e", password:"qwerty")
+@u10 = User.create(first_name: "John", last_name: "McClane", email:"u6@e.e", password:"qwerty")
+@u11 = User.create(first_name: "Tyler", last_name: "Durden", email:"u7@e.e", password:"qwerty")
+@u12 = User.create(first_name: "Darth", last_name: "Vader", email:"u8@e.e", password:"qwerty")
+@u13 = User.create(first_name: "Michael", last_name: "Corleone", email:"u9@e.e", password:"qwerty")
+@u14 = User.create(first_name: "Marty", last_name: "McFly", email:"u10@e.e", password:"qwerty")
+@u15 = User.create(first_name: "Iron", last_name: "Man", email:"u11@e.e", password:"qwerty")
+@u16 = User.create(first_name: "Jack", last_name: "Sparrow", email:"u12@e.e", password:"qwerty")
+@u17 = User.create(first_name: "Ron", last_name: "Burgundy", email:"u13@e.e", password:"qwerty")
+@u18 = User.create(first_name: "Rick", last_name: "Blaine", email:"u14@e.e", password:"qwerty")
+@u19 = User.create(first_name: "Doc", last_name: "Brown", email:"u15@e.e", password:"qwerty")
+@u20 = User.create(first_name: "Hannibal", last_name: "Lecter", email:"u16@e.e", password:"qwerty")
+@u21 = User.create(first_name: "Travis", last_name: "Bickle", email:"u17@e.e", password:"qwerty")
+@u22 = User.create(first_name: "Daniel", last_name: "Plainview", email:"u18@e.e", password:"qwerty")
+@u23 = User.create(first_name: "Patrick", last_name: "Bateman", email:"u19@e.e", password:"qwerty")
+@u24 = User.create(first_name: "Forrest", last_name: "Gump", email:"u20@e.e", password:"qwerty")
+@u25 = User.create(first_name: "Snake", last_name: "Plissken", email:"u21@e.e", password:"qwerty")
+@u26 = User.create(first_name: "Peter", last_name: "Venkman", email:"u22@e.e", password:"qwerty")
+@u27 = User.create(first_name: "Jules", last_name: "Winnfield", email:"u23@e.e", password:"qwerty")
+@u28 = User.create(first_name: "Mal", last_name: "Reynolds", email:"u24@e.e", password:"qwerty")
+@u29 = User.create(first_name: "Atticus", last_name: "Finch", email:"u25@e.e", password:"qwerty")
+@u30 = User.create(first_name: "Rocky", last_name: "Balboa", email:"u26@e.e", password:"qwerty")
+@u31 = User.create(first_name: "Walter", last_name: "Sobchak", email:"u27@e.e", password:"qwerty")
+@u32 = User.create(first_name: "Ferris", last_name: "Bueller", email:"u28@e.e", password:"qwerty")
+@u33 = User.create(first_name: "Keyser", last_name: "Söze", email:"u29@e.e", password:"qwerty")
+@u34 = User.create(first_name: "Lou", last_name: "Bloom", email:"u30@e.e", password:"qwerty")
+@u35 = User.create(first_name: "Anton", last_name: "Chigurh", email:"u31@e.e", password:"qwerty")
+@u36 = User.create(first_name: "Tommy", last_name: "DeVito", email:"u32@e.e", password:"qwerty")
+@u37 = User.create(first_name: "Captain", last_name: "America", email:"u33@e.e", password:"qwerty")
+@u38 = User.create(first_name: "Rick", last_name: "Deckard", email:"u34@e.e", password:"qwerty")
+@u39 = User.create(first_name: "Lester", last_name: "Burnham", email:"u35@e.e", password:"qwerty")
+@u40 = User.create(first_name: "Harry", last_name: "Callahan", email:"u36@e.e", password:"qwerty")
+@u41 = User.create(first_name: "Luke", last_name: "Skywalker", email:"u37@e.e", password:"qwerty")
+@u42 = User.create(first_name: "Obi-Wan", last_name: "Kenobi", email:"u38@e.e", password:"qwerty")
+@u43 = User.create(first_name: "Shaun", last_name: "Riley", email:"u39@e.e", password:"qwerty")
+@u44 = User.create(first_name: "Vito", last_name: "Corleone", email:"u40@e.e", password:"qwerty") #44
 
 may1exs = ["23b6f818-3def-4c40-a794-6d5a9c45a0ff","ff50db85-f7a9-4c03-8faf-9a17d932b435","0d7c9d8e-9c84-44fb-b5a7-33becc01af14","a3d2bcd8-0c74-4034-80ea-dcfd0f2cb656","07a030ff-740e-4461-899c-a3886f06ec80","222e120d-8b5a-41c5-a35d-beaf4190dea0","5bec4f1f-4ae9-48fe-ae30-6de9fcabbfc9","dcb0e696-08e4-4a1b-ab0f-5fa9657f75ea","ae31cd0d-cb52-408e-b905-8f29c8c98359","8b399cd5-56d2-4d7f-9614-2101e471b4d9","23ed4d8d-2ff5-4272-af59-53cd38c3b88f","34e2140d-da3e-4cba-8a9f-36cc0b1aeb4f","702550c7-82c3-4391-9ede-a30facb92765","6e3ec32a-0721-4a2d-84ce-eaab8c372eac","d5a8e4b4-5dae-455c-9043-aa92d202815b","7daf6906-182b-4d93-97d5-6f78ae8b7eaa","1a1f0373-abeb-4b36-a578-355d9c952411","d0e8199b-3354-4801-ab30-a9aa525a6a24","af76b5e5-fdcc-4925-bde3-8b561f8387f1","3602451f-cfe3-4c9c-b533-6c486c519359","0c30cc38-580a-43ff-b316-bf8187880ff4","1183010f-7e44-469a-98b2-9203b0b59b89","fb51cddc-3bd6-43a9-8847-c4f89d7750b3","907cbded-c930-48af-9466-0e543278fca1","7e697790-d5c1-4a34-b9a6-3f886e3910c5","02c1df01-a2b4-4f44-9093-2d47084d5839","27ed3197-ac3b-4fea-ba05-fac016eec4b3","5289edb9-26fe-43fe-86e2-2ae27668b3e3","5d48a20f-e953-46c1-8f5c-4e10f70dc829","8778b43e-66c4-4a86-b59d-0f7e0164c152","b5972364-579b-448f-aecd-a43cb2c455e9","8e511808-7fe7-4900-8f9c-a1640930d469","e634a0e4-3694-4d4c-9f5e-a8e07311e504","d02b7f6e-d24b-4fe5-a67c-238972e16ea7","178ad29e-49f3-4f42-9f4c-c4d54778c605","496cc45d-b0d7-4613-ba28-d6f0a7f686e5","37e593b1-86cb-4c12-9237-d5756ee5eee9","a2ea94fb-747c-433e-832f-0dec0488be7f","9d435812-f3aa-4fb5-a3be-3570c1c583c0","e8768b7a-39d4-47af-8e11-ab9927143310","2fe6ae10-e01e-47a3-b8df-a42502b04853","848598ad-c854-41cd-8764-354c2781596a","8a1a0625-cde1-4289-a921-b5369042e574","3311ce49-2f5c-45f6-9a5d-adee4f7ee12d","5f033652-835d-4988-b221-5adbe48c6b9d","85878644-63f2-453e-a7a9-102ae212afc1","5c7c9295-53a4-4249-808b-d48abbf68d9e","e4e6997d-c29d-4a1f-bac6-a098070b718e","6ae7df6b-1395-467a-b791-18343b12a1c5","0f20f2ec-6cac-4694-9fb2-19aa95f2c698","467f2cee-81ea-479b-9690-53a0fea7ecd0","463b91ed-34f9-4029-a837-8be39a85a5c1","8acc4603-370f-40d9-a2dc-aaedde036cc9","0ad9d4d9-8691-4209-88d0-a74fe370ef69","b93373db-77fb-49fa-aab5-9a119dfb065a","52ea29b0-a62f-4764-8e53-f1571f31d086","28b8f523-e383-454c-b1ea-41d6b5de014a","d9b69f1c-aff8-4f61-8dc9-95fcbb555cbd","b0cb47df-455e-470b-ae4c-bb58df0b99e2","a5395ecd-60d6-4042-a627-05a3c1694d59","0210f4e1-b56f-4446-afa3-6750521d10be","2f73218c-3c07-4597-8ab1-63210823a2e2","2073fc13-4bf3-46b4-bf85-04ade2fd63de","90cb826a-f344-4999-9fd3-349b9c09715e","11d7b13e-4939-4a85-8f1d-52a7054f573b","81396ace-be51-4d4f-9d47-2c59d51e6d5d","ad2a42fe-3ddd-4642-89c1-6fa203c46783","caac472c-6088-4d2a-95b8-a0615aa9f3f1","8cd36b24-8653-4f75-939d-3b05c7623df9","0aa628c2-fef2-412e-8ede-492653d96a84","7890193a-3808-4544-83d1-840db09235b0","a6e0bd7b-c075-4a47-ace4-fb4ad57f68e5","426a590f-fef3-44ec-8bdd-bdbc2dbd46d3","d28b4064-6705-443d-9ea9-c5f54f8ad873","8aa33d6c-bbf3-404d-83d7-f89229198083","886e6e2e-f134-4da2-86db-567923bfd345","097ba32a-176a-4931-a7ff-aa47e8798baf","a3592f79-b9fa-40a2-a1d7-57fef701bcd3","fd1125da-5b32-4484-b629-e19ef6f3095e","f1768895-b3f5-4268-86e8-4d35bdcbfb0d","52f3545e-b927-4173-a79d-6e67f252e087","ee6aa5eb-c52e-4809-b53c-c71049ed156c","efcd6bdc-164b-48de-b2bb-2fd35b9e6873","e75fa7ac-4fbe-4350-8515-80d39427052a","3d9db25e-c12a-4898-8e6c-d096305ea140","68da800a-3727-420e-9351-4e76d54cd68b","587dd7ea-b3d2-4ef6-96f9-de476b8e3f8e","42807fef-aa0f-4146-8ce4-46712075eb9d","7fe4840f-5c5b-49c9-b68a-f6e787c94881","33dc07a4-4273-43d9-a1ca-a94d69dc0921","1625a6b8-f77c-4876-a66b-1420d3218159","1230ba47-7c47-44e0-a34d-3848bf14922c","43294d5a-a131-4608-8267-ebed43ac3457","bba27fae-fbbb-41b8-8c09-f311dbcb2557","e20de552-b0c3-43b8-a010-0deef2e31ad2","8e7b5a9f-b85e-4768-96ca-af4f876d1554","0bc72300-5da5-4761-a250-990be446f1bd","d3054507-bf9a-4574-8bff-de21e5b6729e","0139a4c0-4840-49f7-b7c6-d84fd1be3a59","af8aef4d-1a20-4125-8698-523fa8d73148","05b29277-8ed0-486b-812a-dfb28adff589","c57c1019-df82-4117-a257-ae450cb49894","1f7f8ba6-ebc8-402e-9b0c-dd9c781499d7","c16d8ed4-7dfd-424f-8117-b888db79ed93","b433aef3-6d43-405c-a3d9-315bff768c62","fc6bac54-cd27-413e-90d1-6fe2fcbc75a0","add12c70-6f3b-4dce-af54-720e21a14f29","ae0d2fee-31e6-4bb5-a544-8739e06b308d","a386b43b-737e-4efc-9007-cb0f5cca1af1","adda01a9-28d0-4443-9bed-566e36987b9c","8dc1547e-e4bd-47cf-9285-ca59c481f4aa","38999f73-887e-41d6-942f-6681b30ffc60","e64d9762-ac60-4a11-a11f-fe0a7af2ea84","a673f284-8e35-4116-9f92-2fc3a904d261","6af9dd82-68df-4cf5-9432-015e0ba6abcf","ed78217c-34e9-47af-a81a-4785d71f2c34","57fb5e7a-57b0-4abe-91fc-22f52776ec80","d2704333-3879-4da2-9c21-fbbfdc30854b","0ad566dd-c281-419a-ab71-0b826866cc00","c6a8fcd3-739e-4f47-8830-8eaa86f0b023","d700c3b9-3ca4-4965-aa22-b7765b421cc1","6707b116-2999-44ec-9cf3-40f3586063fa","2d5bc864-727a-49cd-bb3f-e85d9217f463","30f036fa-96de-4187-8b68-f0761b31fb8c","a604080a-adb2-4271-baca-83232f5b9fc2","c2d5f9cb-b775-461b-a360-8bc5c75752a1","9a6b9a72-f115-4956-bb30-714cc993a5c8","421bb053-5806-4ef2-afe1-03d628afb679","a421458d-aedf-4f9f-a2c9-b01d7a2878a8","ec569649-1589-42ca-9625-2233e27c1350","0f83dca3-25f1-4ff4-8d4a-f0a83d81387a","49e8eec5-37cc-4486-81a7-406f16e5f3cf","31a7308d-03b5-4dc6-8c37-2fc4469e74a9","9b856e92-b9ba-4342-b39a-1969f059de18","2b5bcf4c-bb7b-46e3-a2ce-29d6a708e886","36bf3b29-4ac1-4274-b9c2-1e360ae863ff","730c193f-8686-437f-b672-1afaaabfe030","2ea2be64-3c8e-40f0-ba4e-ef3331d78aac","c9647f05-525d-4c5f-9121-eb5eff6260dc","028681e6-c7f4-4481-b496-7dc001888024","bc106670-0226-4aca-9b5d-4b261a17cf93","1cc633f6-ebe3-4616-b4f3-8be3716d0ecc","d4014636-96c5-4951-8be8-5e0ab3a96b61","c0838139-b7df-44ac-bbbe-bc58ebfb4012","288fe10a-780e-45b5-afdf-3dd43e47d0eb","9b5c5ad5-1f1f-43ff-bb7b-ab3366a05c2a","807fe305-13d7-4486-8f49-52411ca7e9fd","ccdc0ca6-658d-4b2f-b93a-899b498d259e","460711a7-1f3c-4258-be58-6ee96f41c588","8adba402-3f76-4351-9b2c-59795ca9f9a8","76d66dd6-1102-40be-87df-3b701f94458b","e10a7567-44ec-418b-99e7-b4495f3a577b","80e9d87a-ec10-488a-ac27-3658a28a2178","59a8b1ed-4472-4250-8b63-32adb4a06334","6a5d4b21-93b2-423f-911c-cea21e1f9468","026efdc6-98b4-483e-b0b1-d86d38425d54","3ded06fe-1103-4a61-aaca-b230af13dfec","dab635a7-32d3-4841-9541-9271d877502a","34de18c2-9650-450c-9bef-472a66f3b770","4b81e2f4-7f54-4dd9-ba6d-53818e80b0b0","dffe0a88-85de-426e-b455-7a3247b60718","1a3ffad6-295a-4cc9-84e9-1e70a9949f0c","10534540-ef4d-4ae3-b69e-50c27675b604","be7957f8-4c33-4ee4-88c0-01c2e5b387b7","2e37e10a-b9d5-4c72-9860-b715b0815089","63e63963-4059-4625-966e-745363ae9ed7","9645eb6a-6d56-4a36-8a92-71f8d3a22589","3f973788-447b-4c02-95ba-bbf6a51c7d73","59d86c59-b6c8-4ded-94ba-5b75502d6ee5","475a6bc8-9fd1-4322-992d-c9049e38ead4","9ae7a5e9-7f13-4c71-b544-06e8b19b84d3","900b1184-b1e3-4e3b-81fb-82b72e97617d","ddd4ce1e-a02d-4030-b408-f668f2d37800","19a2f0c7-d599-4f64-9b2c-edaab0bb0bba","fc87d10d-eaf3-4623-b1ab-499168adf274","2e94373c-4043-487e-a35b-5dcd2e88197c","806608cd-6326-4328-9d37-d1a3e4e8a7ab","4eff9ca3-d4cd-4836-b706-42cef140004b","623dcccb-deaf-4cd3-a175-f49d799ebac2","836a898f-0b4d-4510-9905-ac50fa16c636","a783bd55-186f-4d4e-85d0-b5929ab84c6f","57c49efe-3e7b-4ef0-9e5b-4f0874fef476","5f9ecc26-2012-40b9-a04b-fc80f23cd34d","0c8a5b80-c0d4-4993-9eba-3f93ef2eb7eb","7ed0c95a-5aef-4714-b4c1-be086b2bc377","36c66bc2-a6f6-40f7-bc1f-c4b3562c203c","913c93ba-673a-4f17-87e3-7ef993e6dd4c","cd72e208-9fff-4c73-92cd-d8b0979ed9a1","5fff86eb-504b-4b50-8b4e-c56a4bcc6980","22d02d84-8573-46c3-8d5f-d9946187e019","327939a7-39b0-4785-9a5e-d632eb3ee4dd","3b817fe9-cf12-4cf8-96df-e6f1a225a3b0","8f5b578d-6824-4416-bed8-88ca9cd76e36","b626c440-73f4-4c65-831e-5d6ab9d20bc3","abdd18c5-577c-4c30-9513-5a38b6ce2568","20d9e66c-0253-46b1-baad-8b15c53c53ce","9ccc0ce9-c558-41db-a1d3-bd292b60bd8c","788a83db-4521-49a5-a80c-b4ab0d6a593a","6f7aac19-1439-46f0-8542-6710ca576e6c","6c1aaf18-7580-477f-a5b7-a24adc764f04","e9f8040a-1c79-457d-ab71-7e2c9c4470da","b1fed77a-04ee-46b0-afdc-43f25f7a470f","dbdfd589-399b-4878-a14c-2f868654748b","23096dae-9127-4681-bd6e-b1a81160b73d","ca2531b1-7ed2-45fa-8d3a-007dc4e78ee0","c287e196-8a74-48c5-84d6-1e2d4799cbd1","a7f9d321-df7b-4058-b4f5-e1b2827016b2","f75b24bf-0a0d-425a-a3e3-348e1840ec68","f2af786d-cc79-4b49-9ff9-12bf66cfeff1","768ba0f8-7cac-4285-96dc-6de0c8cd46ec","d174cc84-33c1-4094-b203-a3ec7e763708","0cf126d0-9bd8-45e8-b459-0d974ef721ca","565c6141-6ede-4e2a-9b19-00110fac1cb8","6f38bfbb-b0a7-41a9-8c52-c14bb237538e","e4e614d9-8c0a-4f68-8fe9-d24ffadc6390","ed8900d8-2c92-4344-bc3c-c5d29e4ade34","3347d27f-3119-4d84-86bd-c1040f6428ff","c76e6b73-07be-42d2-9656-9f5a4669d94e","778f4f14-f16c-42bd-917a-841a239c056a","b0f90ba6-1afb-41e8-aa5d-d184efc020b5","a1b8f7a9-76e7-4825-9151-b2d442e0e00d","17cb3dfb-b1e6-4d4e-9eab-1947b2da6d14","38f8061f-cef9-4cd4-90c9-2303195aa573","6fef58a4-c4b3-4bdb-b61a-40caf15536b1","e9fca102-ab7e-487c-b797-94ac35eebbc6","f0a02465-f7f8-448f-89f0-96f664bef104","5826f777-8ac5-4ae1-bc11-07e22309e92d","303e74fe-5a07-4305-ac63-3f901741121b","a1d590c5-e467-49a9-8841-aee3b977b9c0","34728d1e-979f-4443-bef3-3e913a787074","76c80b4a-0711-4ba8-9b54-4c66b414f75f","9b7918e3-414e-424d-9711-140e5865725c","34bcbb91-8dd6-4516-9469-14ba234ae5bd","621387a9-a020-4e30-8bcd-9d6f3333b7c2","f1d38d09-1353-4219-b394-463714d3d8ec","236fcf43-54dd-4d9a-a2f6-ba6289df1345","fe570e9d-16be-425f-9149-1a6e684a5809","4cabd41f-5195-4c03-993d-d18ff54dd8ae","256c453b-8a61-45af-ac22-a78e41fc66a7","b9f7617a-39d5-4164-a579-22c1e3a06951","f45421e6-4236-4456-b17e-baa97e568222","e3bec84d-573d-4e6b-a989-f6cbdda80f10","be6fd0c8-5651-44a5-afa1-771cfa3f46b0","2a9e414c-641e-44ff-b654-623cc979e3eb","002583bc-1b47-4cf1-aa26-27629a3aeb8e","893d0094-7e7e-4921-a8be-98e3a337fd1a","50bb6593-c99d-488f-9b65-243b9280ea7b","6aa34298-a3cb-4925-8450-829dd59788cf","0ac52030-ac27-4844-8605-d260aa04f0fa","ca3d3873-ca60-46b0-9a64-c2b22dc59b08","26b48636-f9c4-4aa9-9a57-7e5a9ad7b023","592f9866-ba81-469b-9684-cc4bfffed9d3","2ba70c01-392f-4668-b878-554cfd5403cf","455d1d64-1943-4157-a3aa-84ae15bbae6e","6c0d8d96-7f77-4a4b-a199-c98290bff4c3","06f20915-a8c6-45e4-bdda-d5644d4e8c46","0d5589bd-ba96-4ae0-88f8-989729e6a0a7","974a914a-ad83-449b-b748-675161c72eac","5035e32d-0031-4eb6-b283-819d4cfa8464","4164423a-640d-47cb-bb32-fe0fc212976d","a3ab3cb3-2bf3-469d-ada2-be215209bedf","660d8cff-3025-44e5-9f69-2097867ef08e","954a953b-49c1-4d6c-aa0f-609c435f1137","9697785a-cdff-4735-8d8d-5a85e06fff30","03d6038a-ed9b-401d-bcc8-3f81fa6d5b25","4b709976-1e32-49c8-a844-4d4a8f56cdcb","f9a8c15e-1d70-4ca4-84fe-ef2917a25b4a","c3fd91d2-545a-4938-ab01-047f77f743f5","92c79107-b1de-4147-9d8b-8c0417b85480","37c1be84-7d10-43ce-8965-0cbf15cb0499","50162c22-16a1-4afb-a69b-bb3cd9259ac5","888d8c9b-a435-4fbb-a3a1-a6b02b9478ad","80d784de-a993-4998-9b74-fe258cf4a8cb","0463274a-6163-410f-af98-06aed837a0fb","72c4089e-e38b-43bc-83b6-4bdb3b88512e","ffefa5dd-9099-40c7-a2f5-18cb70ecf49f","823232a7-bbd0-4794-b686-cccc83868800","0014b187-a417-41ce-987d-5cde85b54eb3","9ab19a00-5f46-4fce-a77a-43a2ecc5b33b","dd01d072-2eeb-48c3-a483-035358d1fc86","6ceb1bde-fbe7-4b3a-b7b1-beeb2cc93637","fe8c784a-aa5d-4af6-b9ff-463fbcd5f680","59003f29-0862-4285-b329-2b5f896a4de6","5ec64b83-73de-4d50-a422-2b906823200f","9f846ea0-d47a-4ae1-9ba1-3271f5c4cf47","2abc4dd3-e3fe-4b22-a9b0-67707de37f59","0dcca868-6554-41d2-bd3f-086a4fbe1928","38f72238-f5ba-44b2-9312-af2a2cbb7867","e960943f-3b1c-4e51-91e3-3517938435de","55d5db60-4c11-491c-93f4-318dfa1573b2","83107a25-c248-40b1-9ba0-b46502be41b6","956b3316-29ed-4c9c-8aff-dece88784ba0","88e7875d-3a6f-4579-891d-1be3d3164925","22556b17-418a-4a7a-900a-052306a53302","acca86e1-2bbf-4bdc-88f1-d0f876e640bd","78b06d09-f839-4e6e-8255-7975ad0b10cc","5c49ab96-822f-40fb-8369-bb3f5c75f89b","f074c761-e690-4deb-bc6c-007b4e640ff3","747c909f-ed0c-4035-974f-773281ddb945","f5545a8b-9c5b-4982-b77b-e2c2eeae28a0","d8d88aca-ce58-4f87-8246-79ffee9baef6","90c487aa-9b75-4c79-9742-1ea31e002268","9aca5823-ba75-4c7a-aabc-700c5e8940d1","3882c440-2e36-4e2d-8409-5c228bd273de","a5e2b7af-926f-4e97-8389-9666ed73170b","7ea166c2-d8a1-4bd7-8551-2526e6f4c200","bdfb8588-ca1b-47d2-a6fd-a35d3cfd4d52","30e5c9f5-04b5-44be-8f71-7a74c1b69367"]
 
@@ -56,125 +56,122 @@ maa3exs = ["0dca4faa-b685-4ad4-92a1-b54a0cf0a9d2","70a1ea31-93cf-48d9-957a-c053a
 @course2 = Course.create(html_id: "maa2", coursekey: "testiavain2", name: "MAA2", startdate: "2017-03-02", enddate: "2017-04-22")
 @course3 = Course.create(html_id: "maa3", coursekey: "testiavain3", name: "MAA3", startdate: "2017-03-03", enddate: "2017-05-02")
 
-may1exs.each do |e|
-  Exercise.create(html_id: e, course_id: @course1.id)
-end
-
-maa2exs.each do |e|
-  Exercise.create(html_id: e, course_id: @course2.id)
-end
-
-maa3exs.each do |e|
-  Exercise.create(html_id: e, course_id: @course3.id)
-end
-
 Teaching.create(user_id: @ope.id, course_id: @course1.id)
 Teaching.create(user_id: @ope.id, course_id: @course2.id)
 Teaching.create(user_id: @ope.id, course_id: @course3.id)
 
-Teaching.create(user_id: @ope2.id, course_id: 1)
-Teaching.create(user_id: @ope2.id, course_id: 2)
-Teaching.create(user_id: @ope3.id, course_id: 2)
-Teaching.create(user_id: @ope4.id, course_id: 2)
+Teaching.create(user_id: @ope2.id, course_id: @course1.id)
+Teaching.create(user_id: @ope2.id, course_id: @course2.id)
+Teaching.create(user_id: @ope3.id, course_id: @course2.id)
+Teaching.create(user_id: @ope4.id, course_id: @course2.id)
 
 #course1 attendances
-Attendance.create(user_id: 5, course_id: 1)
-Attendance.create(user_id: 6, course_id: 1)
-Attendance.create(user_id: 7, course_id: 1)
-Attendance.create(user_id: 8, course_id: 1)
-Attendance.create(user_id: 9, course_id: 1)
-Attendance.create(user_id: 10, course_id: 1)
-Attendance.create(user_id: 11, course_id: 1)
-Attendance.create(user_id: 12, course_id: 1)
-Attendance.create(user_id: 13, course_id: 1)
-Attendance.create(user_id: 14, course_id: 1)
-Attendance.create(user_id: 15, course_id: 1)
-Attendance.create(user_id: 16, course_id: 1)
-Attendance.create(user_id: 17, course_id: 1)
-Attendance.create(user_id: 18, course_id: 1)
-Attendance.create(user_id: 19, course_id: 1)
-Attendance.create(user_id: 20, course_id: 1)
-Attendance.create(user_id: 21, course_id: 1)
-Attendance.create(user_id: 22, course_id: 1)
-#Attendance.create(user_id: 23, course_id: 1)
-#Attendance.create(user_id: 24, course_id: 1)
-#Attendance.create(user_id: 25, course_id: 1)
-#Attendance.create(user_id: 26, course_id: 1)
-#Attendance.create(user_id: 27, course_id: 1)
-#Attendance.create(user_id: 28, course_id: 1)
-#Attendance.create(user_id: 29, course_id: 1)
-#Attendance.create(user_id: 30, course_id: 1)
-#Attendance.create(user_id: 31, course_id: 1)
-#Attendance.create(user_id: 32, course_id: 1)
-#Attendance.create(user_id: 33, course_id: 1)
-#Attendance.create(user_id: 34, course_id: 1)
-#Attendance.create(user_id: 35, course_id: 1)
-#Attendance.create(user_id: 36, course_id: 1)
-#Attendance.create(user_id: 37, course_id: 1)
-#Attendance.create(user_id: 38, course_id: 1)
-#Attendance.create(user_id: 39, course_id: 1)
-#Attendance.create(user_id: 40, course_id: 1)
-#Attendance.create(user_id: 41, course_id: 1)
-#Attendance.create(user_id: 42, course_id: 1)
-#Attendance.create(user_id: 43, course_id: 1)
-#Attendance.create(user_id: 44, course_id: 1)
+Attendance.create(user_id: @u5.id, course_id: @course1.id)
+Attendance.create(user_id: @u6.id, course_id: @course1.id)
+Attendance.create(user_id: @u7.id, course_id: @course1.id)
+Attendance.create(user_id: @u8.id, course_id: @course1.id)
+Attendance.create(user_id: @u9.id, course_id: @course1.id)
+Attendance.create(user_id: @u10.id, course_id: @course1.id)
+Attendance.create(user_id: @u11.id, course_id: @course1.id)
+Attendance.create(user_id: @u12.id, course_id: @course1.id)
+Attendance.create(user_id: @u13.id, course_id: @course1.id)
+Attendance.create(user_id: @u14.id, course_id: @course1.id)
+Attendance.create(user_id: @u15.id, course_id: @course1.id)
+Attendance.create(user_id: @u16.id, course_id: @course1.id)
+Attendance.create(user_id: @u17.id, course_id: @course1.id)
+Attendance.create(user_id: @u18.id, course_id: @course1.id)
+Attendance.create(user_id: @u19.id, course_id: @course1.id)
+Attendance.create(user_id: @u20.id, course_id: @course1.id)
+Attendance.create(user_id: @u21.id, course_id: @course1.id)
+Attendance.create(user_id: @u22.id, course_id: @course1.id)
+#Attendance.create(user_id: @u23.id, course_id: @course1.id)
+#Attendance.create(user_id: @u24.id, course_id: @course1.id)
+#Attendance.create(user_id: @u25.id, course_id: @course1.id)
+#Attendance.create(user_id: @u26.id, course_id: @course1.id)
+#Attendance.create(user_id: @u27.id, course_id: @course1.id)
+#Attendance.create(user_id: @u28.id, course_id: @course1.id)
+#Attendance.create(user_id: @u29.id, course_id: @course1.id)
+#Attendance.create(user_id: @u30.id, course_id: @course1.id)
+#Attendance.create(user_id: @u31.id, course_id: @course1.id)
+#Attendance.create(user_id: @u32.id, course_id: @course1.id)
+#Attendance.create(user_id: @u33.id, course_id: @course1.id)
+#Attendance.create(user_id: @u34.id, course_id: @course1.id)
+#Attendance.create(user_id: @u35.id, course_id: @course1.id)
+#Attendance.create(user_id: @u36.id, course_id: @course1.id)
+#Attendance.create(user_id: @u37.id, course_id: @course1.id)
+#Attendance.create(user_id: @u38.id, course_id: @course1.id)
+#Attendance.create(user_id: @u39.id, course_id: @course1.id)
+#Attendance.create(user_id: @u40.id, course_id: @course1.id)
+#Attendance.create(user_id: @u41.id, course_id: @course1.id)
+#Attendance.create(user_id: @u42.id, course_id: @course1.id)
+#Attendance.create(user_id: @u43.id, course_id: @course1.id)
+#Attendance.create(user_id: @u44.id, course_id: @course1.id)
 
 #course2 attendances
-Attendance.create(user_id: 5, course_id: 2)
-Attendance.create(user_id: 6, course_id: 2)
-Attendance.create(user_id: 7, course_id: 2)
-Attendance.create(user_id: 8, course_id: 2)
-Attendance.create(user_id: 9, course_id: 2)
-#Attendance.create(user_id: 10, course_id: 2)
-#Attendance.create(user_id: 11, course_id: 2)
-#Attendance.create(user_id: 12, course_id: 2)
-#Attendance.create(user_id: 13, course_id: 2)
-#Attendance.create(user_id: 14, course_id: 2)
+Attendance.create(user_id: @u5.id, course_id: @course2.id)
+Attendance.create(user_id: @u6.id, course_id: @course2.id)
+Attendance.create(user_id: @u7.id, course_id: @course2.id)
+Attendance.create(user_id: @u8.id, course_id: @course2.id)
+Attendance.create(user_id: @u9.id, course_id: @course2.id)
+#Attendance.create(user_id: @u10.id, course_id: @course2.id)
+#Attendance.create(user_id: @u11.id, course_id: @course2.id)
+#Attendance.create(user_id: @u12.id, course_id: @course2.id)
+#Attendance.create(user_id: @u13.id, course_id: @course2.id)
+#Attendance.create(user_id: @u14.id, course_id: @course2.id)
 
 #course3 attendances
-Attendance.create(user_id: 5, course_id: 3)
-Attendance.create(user_id: 6, course_id: 3)
-Attendance.create(user_id: 7, course_id: 3)
-Attendance.create(user_id: 8, course_id: 3)
-#Attendance.create(user_id: 9, course_id: 3)
-#Attendance.create(user_id: 10, course_id: 3)
-#Attendance.create(user_id: 11, course_id: 3)
+Attendance.create(user_id: @u5.id, course_id: @course3.id)
+Attendance.create(user_id: @u6.id, course_id: @course3.id)
+Attendance.create(user_id: @u7.id, course_id: @course3.id)
+Attendance.create(user_id: @u8.id, course_id: @course3.id)
+#Attendance.create(user_id: @u9.id, course_id: @course3.id)
+#Attendance.create(user_id: @u10.id, course_id: @course3.id)
+#Attendance.create(user_id: @u11.id, course_id: @course3.id)
 
-#students id:5..44
-exs = Course.find(1).exercises
-sts = Course.find(1).students.each
-exs.each do |e|
+sts = Course.find(@course1.id).students
+may1exs.each do |e|
+  Exercise.create(html_id: e, course_id: @course1.id)
   sts.each do |s|
     randomstatus = ["green","green","green","red","yellow","gray"].sample
-    if randomstatus != "gray"
-      Checkmark.create(user_id: s.id, exercise_id: e.id, status: randomstatus)
+    a = Attendance.where(user_id: s.id, course_id: @course1.id).first
+    if randomstatus != "gray" and a
+      a.checkmarks[e] = randomstatus
+      a.save
     end
   end
 end
 
-exs = Course.find(2).exercises
-sts = Course.find(2).students
-exs.each do |e|
+sts = Course.find(@course2.id).students
+maa2exs.each do |e|
+  Exercise.create(html_id: e, course_id: @course2.id)
   sts.each do |s|
     randomstatus = ["green","green","green","red","yellow","gray"].sample
-    Checkmark.create(user_id: s.id, exercise_id: e.id, status: randomstatus)
+    a = Attendance.where(user_id: s.id, course_id: @course2.id).first
+    if a
+      a.checkmarks[e] = randomstatus
+      a.save
+    end
   end
 end
 
-exs = Course.find(3).exercises
-sts = Course.find(3).students 
-exs.each do |e|
+sts = Course.find(@course3.id).students 
+maa3exs.each do |e|
+  Exercise.create(html_id: e, course_id: @course3.id)
   sts.each do |s|
     randomstatus = ["green","red","yellow","gray"].sample
-    if randomstatus != "gray"
-      Checkmark.create(user_id: s.id, exercise_id: e.id, status: randomstatus)
+    a = Attendance.where(user_id: s.id, course_id: @course2.id).first
+    if randomstatus != "gray" and a
+      a.checkmarks[e] = randomstatus
+      a.save
     end
   end
 end
 
-ex1 = @course1.exercises.where(:id => 1..50)
-ex2 = @course1.exercises.where(:id => 51..100)
-ex3 = @course1.exercises.where(:id => 101..150)
+n = @course1.exercises.first.id
+
+ex1 = @course1.exercises.where(:id => n..(n+50))
+ex2 = @course1.exercises.where(:id => (n+51)..(n+100))
+ex3 = @course1.exercises.where(:id => (n+101)..(n+150))
 
 @d1 = Deadline.create(description: "Eka setti", deadline: "2017-03-20 23:59:59")
 @d2 = Deadline.create(description: "Toka setti", deadline: "2017-03-25 23:59:59")
