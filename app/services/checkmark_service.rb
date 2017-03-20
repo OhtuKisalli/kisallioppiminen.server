@@ -59,13 +59,5 @@ class CheckmarkService
     return status
   end
   
-  def self.create_checkmark(sid, eid, status)
-    @c = nil
-    if Checkmark.where(user_id: sid, exercise_id: eid).empty?
-      @c = Checkmark.create(user_id: sid, exercise_id: eid, status: status)
-    end
-    return @c
-  end
-
 end
 
