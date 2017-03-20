@@ -30,6 +30,11 @@ class ExerciseService
     return Exercise.where(course_id: cid, html_id: exercises)
   end
   
+  # returns ["html_id1", "html_id2"] or [] if no exercises
+  def self.html_ids_of_exercises_by_course_id(cid)
+    return Exercise.where(course_id: cid).map(&:html_id)
+  end
+  
   #
   def self.create_exercise(cid, hid)
     Exercise.create(course_id: cid, html_id: hid)
@@ -38,5 +43,10 @@ class ExerciseService
   #
   def self.all_exercises
     return Exercise.all
+  end
+  
+  # returns true or false
+  def self.exercise_on_course?(cid, hid)
+    return Exercise.where(course_id: cid, html_id: hid).any?
   end
 end
