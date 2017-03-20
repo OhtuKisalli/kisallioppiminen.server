@@ -26,9 +26,9 @@ RSpec.describe ScoreboardsController, type: :controller do
         @opiskelija2 = FactoryGirl.create(:user, username:"o2", first_name:"Bruce", last_name:"Wayne", email:"o2@o.o")
         AttendanceService.create_attendance(@opiskelija1.id, @course1.id)
         AttendanceService.create_attendance(@opiskelija1.id, @course2.id)
-        @checkmark1 = CheckmarkService.create_checkmark(@opiskelija1.id, @exercise1.id, status:"green")
-        @checkmark2 = CheckmarkService.create_checkmark(@opiskelija1.id, @exercise2.id, status:"red")
-        @checkmark3 = CheckmarkService.create_checkmark(@opiskelija1.id, @exercise3.id, status:"red")
+        CheckmarkService.save_student_checkmark(@opiskelija1.id, @exercise1.course_id, @exercise1.html_id, "green")
+        CheckmarkService.save_student_checkmark(@opiskelija1.id, @exercise2.course_id, @exercise2.html_id, "red")
+        CheckmarkService.save_student_checkmark(@opiskelija1.id, @exercise3.course_id, @exercise3.html_id, "red")
       end
     
       it "cannot get scoreboards of other students" do
@@ -58,9 +58,9 @@ RSpec.describe ScoreboardsController, type: :controller do
         body = JSON.parse(response.body)
         expect(body.keys).to contain_exactly("name","coursekey","id", "html_id","startdate","enddate","exercises")
         expect(body["exercises"][0].keys).to contain_exactly("id","status")
-        expect(body["exercises"][0]["status"]).to eq(@checkmark1.status)
+        expect(body["exercises"][0]["status"]).to eq("green")
         expect(body["exercises"][0]["id"]).to eq(@exercise1.html_id)
-        expect(body["exercises"][1]["status"]).to eq(@checkmark2.status)
+        expect(body["exercises"][1]["status"]).to eq("red")
         expect(body["exercises"][1]["id"]).to eq(@exercise2.html_id)
       end
       
@@ -100,10 +100,10 @@ RSpec.describe ScoreboardsController, type: :controller do
         @opiskelija2 = FactoryGirl.create(:user, username:"o2", first_name:"Bruce", last_name:"Wayne", email:"o2@o.o")
         AttendanceService.create_attendance(@opiskelija1.id, @course1.id)
         AttendanceService.create_attendance(@opiskelija2.id, @course1.id)
-        @checkmark1 = CheckmarkService.create_checkmark(@opiskelija1.id, @exercise1.id, status:"green")
-        @checkmark2 = CheckmarkService.create_checkmark(@opiskelija1.id, @exercise2.id, status:"red")
-        @checkmark3 = CheckmarkService.create_checkmark(@opiskelija2.id, @exercise1.id, status:"red")
-        @checkmark4 = CheckmarkService.create_checkmark(@opiskelija2.id, @exercise2.id, status:"green")
+        CheckmarkService.save_student_checkmark(@opiskelija1.id, @exercise1.course_id, @exercise1.html_id, "green")
+        CheckmarkService.save_student_checkmark(@opiskelija1.id, @exercise2.course_id, @exercise2.html_id, "red")
+        CheckmarkService.save_student_checkmark(@opiskelija2.id, @exercise1.course_id, @exercise1.html_id, "red")
+        CheckmarkService.save_student_checkmark(@opiskelija2.id, @exercise2.course_id, @exercise2.html_id, "green")
         @ope1 = FactoryGirl.create(:user, username:"ope1", email:"ope1@o.o")
         TeachingService.create_teaching(@ope1.id, @course1.id)
         TeachingService.create_teaching(@ope1.id, @course2.id)
@@ -147,13 +147,13 @@ RSpec.describe ScoreboardsController, type: :controller do
         expect(body["students"][0]["user"]).to eq("Bond James")
         expect(body["students"][1]["user"]).to eq("Wayne Bruce")
         expect(body["students"][0]["exercises"].size).to eq(2)
-        expect(body["students"][0]["exercises"][0]["status"]).to eq(@checkmark1.status)
+        expect(body["students"][0]["exercises"][0]["status"]).to eq("green")
         expect(body["students"][0]["exercises"][0]["id"]).to eq(@exercise1.html_id)
-        expect(body["students"][0]["exercises"][1]["status"]).to eq(@checkmark2.status)
+        expect(body["students"][0]["exercises"][1]["status"]).to eq("red")
         expect(body["students"][0]["exercises"][1]["id"]).to eq(@exercise2.html_id)
-        expect(body["students"][1]["exercises"][0]["status"]).to eq(@checkmark3.status)
+        expect(body["students"][1]["exercises"][0]["status"]).to eq("red")
         expect(body["students"][1]["exercises"][0]["id"]).to eq(@exercise1.html_id)
-        expect(body["students"][1]["exercises"][1]["status"]).to eq(@checkmark4.status)
+        expect(body["students"][1]["exercises"][1]["status"]).to eq("green")
         expect(body["students"][1]["exercises"][1]["id"]).to eq(@exercise2.html_id)
       end
       
@@ -173,10 +173,10 @@ RSpec.describe ScoreboardsController, type: :controller do
         @opiskelija4 = FactoryGirl.create(:user, username:"o2", first_name: nil, last_name: nil, email:"p2@o.o")
         AttendanceService.create_attendance(@opiskelija3.id, @course1.id)
         AttendanceService.create_attendance(@opiskelija4.id, @course1.id)
-        CheckmarkService.create_checkmark(@opiskelija3.id, @exercise1.id, status:"green")
-        CheckmarkService.create_checkmark(@opiskelija3.id, @exercise2.id, status:"red")
-        CheckmarkService.create_checkmark(@opiskelija4.id, @exercise1.id, status:"red")
-        CheckmarkService.create_checkmark(@opiskelija4.id, @exercise2.id, status:"green")
+        CheckmarkService.save_student_checkmark(@opiskelija3.id, @exercise1.course_id, @exercise1.html_id, "green")
+        CheckmarkService.save_student_checkmark(@opiskelija3.id, @exercise2.course_id, @exercise2.html_id, "red")
+        CheckmarkService.save_student_checkmark(@opiskelija4.id, @exercise1.course_id, @exercise1.html_id, "red")
+        CheckmarkService.save_student_checkmark(@opiskelija4.id, @exercise2.course_id, @exercise2.html_id, "green")
         sign_in @ope1
         get 'scoreboard', :format => :json, params: {"id":@course1.id}
         expect(response.status).to eq(200)
@@ -211,12 +211,7 @@ RSpec.describe ScoreboardsController, type: :controller do
         expect(body["students"][0]["user"]).to eq("Bond James")
         expect(body["students"][1]["user"]).to eq("James")
       end
-      
-      
     end
   end
-
-
-
 
 end
