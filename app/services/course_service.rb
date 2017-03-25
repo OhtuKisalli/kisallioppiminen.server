@@ -83,6 +83,31 @@ class CourseService
     return build_coursehash(courses, "student", id)
   end
   
+  # returns {"total": 25, "html_id1": {"green": 10, "red": 5, "yellow": 1}, ... }
+  # where total is number of students on course
+  def self.statistics(cid)
+    result = {}
+    course = CourseService.course_by_id(cid)
+    students = course.students
+    count = students.count
+    result["total"] = count
+    html_ids = ExerciseService.html_ids_of_exercises_by_course_id(course.id)
+    html_ids.each do |e|
+      result[e] = {"green" => 0, "red" => 0, "yellow" => 0}
+    end
+    students.each do |s|
+      a = AttendanceService.get_attendance(s.id, course.id)
+      if a
+        a.checkmarks.each do |key, value|
+          if ["green","red","yellow"].include?(value)
+            result[key][value] = result[key][value] + 1
+          end
+        end
+      end
+    end
+    return result
+  end
+  
   private
     def self.build_coursehash(courses, target, id)
       result = []

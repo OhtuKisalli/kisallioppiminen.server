@@ -86,8 +86,36 @@ RSpec.describe CourseService, type: :service do
       improper_params = {"coursekey": @course.coursekey, "name":"nimi1", "html_id":"id222", "startdate":"2017-02-02", "enddate":"2017-10-11"}
       expect(CourseService.update_course?(@course2.id, improper_params)).to eq(false)
     end
+    
+    it "statistics(cid)" do
+      ExerciseService.create_exercise(@course.id, "id1")
+      ExerciseService.create_exercise(@course.id, "id2")
+      @student1 = FactoryGirl.create(:user, email:"u1@o.o")
+      @student2 = FactoryGirl.create(:user, email:"u2@o.o")
+      @student3 = FactoryGirl.create(:user, email:"u3@o.o")
+      @student4 = FactoryGirl.create(:user, email:"u4@o.o")
+      AttendanceService.create_attendance(@student1.id, @course.id)
+      AttendanceService.create_attendance(@student2.id, @course.id)
+      AttendanceService.create_attendance(@student3.id, @course.id)
+      AttendanceService.create_attendance(@student4.id, @course.id)
+      CheckmarkService.save_student_checkmark(@student1, @course.id, "id1", "green")
+      CheckmarkService.save_student_checkmark(@student2, @course.id, "id1", "red")
+      CheckmarkService.save_student_checkmark(@student3, @course.id, "id1", "yellow")
+      CheckmarkService.save_student_checkmark(@student4, @course.id, "id1", "green")
+      stats = CourseService.statistics(@course.id)
+      expect(stats.size).to eq(3)
+      expect(stats.keys).to contain_exactly("total","id1","id2")
+      expect(stats["total"]).to eq(4)
+      expect(stats["id1"].keys).to contain_exactly("green","yellow","red")
+      expect(stats["id2"].keys).to contain_exactly("green","yellow","red")
+      expect(stats["id1"]["green"]).to eq(2)
+      expect(stats["id2"]["green"]).to eq(0)
+      expect(stats["id1"]["red"]).to eq(1)
+      expect(stats["id2"]["red"]).to eq(0)
+      expect(stats["id1"]["yellow"]).to eq(1)
+      expect(stats["id2"]["yellow"]).to eq(0)
+    end
   
   end
-
  
 end
