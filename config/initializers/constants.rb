@@ -1,0 +1,2 @@
+MAX_COURSE_PER_DAY = 5
+
