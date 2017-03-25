@@ -23,6 +23,7 @@ FactoryGirl.define do
   factory :deadline do
     description "nimi"
     deadline "2011-11-11 11:11:11"
+    course_id 1
   end
   
 end

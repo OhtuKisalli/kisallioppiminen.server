@@ -4,8 +4,9 @@ RSpec.describe DeadlineService, type: :service do
 
   describe "deadlineservice" do
     before(:each) do
-      @deadline1 = Deadline.create(description:"name", deadline: "2017-03-05 20:28:33")
-      @deadline2 = Deadline.create(description:"name2", deadline: "2017-01-01 10:28:33")
+      @course1 = FactoryGirl.create(:course, coursekey:"key0")
+      @deadline1 = Deadline.create(description:"name", course_id: @course1.id, deadline: "2017-03-05 20:28:33")
+      @deadline2 = Deadline.create(description:"name2", course_id: @course1.id, deadline: "2017-01-01 10:28:33")
     end
     it "all_deadlines lists all deadlines" do
       deadline = DeadlineService.all_deadlines
@@ -41,15 +42,9 @@ RSpec.describe DeadlineService, type: :service do
       expect(@exercise3.deadlines.count).to eq(0)
     end
     it "tells if deadline is on course" do
-      expect(DeadlineService.deadline_on_course?(1,1)).to eq(false)
-      @course = FactoryGirl.create(:course, coursekey:"key1")
-      expect(DeadlineService.deadline_on_course?(@course.id,1)).to eq(false)
-      expect(DeadlineService.deadline_on_course?(@course.id,@deadline1.id)).to eq(false)
       @course2 = FactoryGirl.create(:course, coursekey:"key2")
-      @exercise2 = ExerciseService.create_exercise(@course2.id, "id1")
-      ScheduleService.create_schedule(@exercise2.id, @deadline2.id)
-      expect(DeadlineService.deadline_on_course?(@course.id,@deadline2.id)).to eq(false)
-      expect(DeadlineService.deadline_on_course?(@course2.id,@deadline2.id)).to eq(true)
+      expect(DeadlineService.deadline_on_course?(@course2.id,@deadline1.id)).to eq(false)
+      expect(DeadlineService.deadline_on_course?(@course1.id,@deadline1.id)).to eq(true)
     end
     it "deadline can be removed" do
       @course = FactoryGirl.create(:course, coursekey:"key2")
@@ -69,6 +64,16 @@ RSpec.describe DeadlineService, type: :service do
       expect(@deadline2.exercises.count).to eq(2)
       DeadlineService.remove_deadline(@deadline2.id)
       expect(ScheduleService.number_of_schedules).to eq(0)
+    end
+    it "remove_deadlines_of_course(cid)" do
+      @course2 = FactoryGirl.create(:course, coursekey:"key2")
+      @exercise1 = ExerciseService.create_exercise(@course1.id, "id1")
+      ScheduleService.create_schedule(@exercise1.id, @deadline1.id)
+      DeadlineService.remove_deadlines_of_course(@course2.id)
+      expect(Deadline.all.count).to eq(2)
+      DeadlineService.remove_deadlines_of_course(@course1.id)
+      expect(Deadline.all.count).to eq(0)
+      expect(Schedule.all.count).to eq(0)
     end
   
   end

@@ -6,6 +6,7 @@ class DeadlineService
     @deadline = Deadline.new
     @deadline.description = description
     @deadline.deadline = deadline
+    @deadline.course_id = cid
     exs = ExerciseService.exercises_by_course_id_and_html_id_array(cid, exercises)
     @deadline.exercises << exs
     if @deadline.save
@@ -17,12 +18,7 @@ class DeadlineService
   
   # returns true or false
   def self.deadline_on_course?(cid, did)
-    deadline = Deadline.where(id: did).first
-    if deadline and deadline.exercises.any? and CourseService.course_by_id(cid)
-      return deadline.exercises.first.course.id == cid.to_i
-    else
-      return false
-    end
+    return Deadline.where(id: did, course_id: cid).any?
   end
   
   # returns nothing
@@ -42,6 +38,11 @@ class DeadlineService
   # returns Deadline or nil
   def self.deadline_by_id(did)
     return Deadline.where(id: did).first
+  end
+  
+  # returns nothing
+  def self.remove_deadlines_of_course(cid)
+    Deadline.where(course_id: cid).destroy_all
   end
   
 

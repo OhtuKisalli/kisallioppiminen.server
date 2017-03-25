@@ -138,7 +138,7 @@ RSpec.describe DeadlinesController, type: :controller do
         Teaching.create(user_id: @ope.id, course_id: @course.id)
         @e1 = Exercise.create(course_id: @course.id, html_id: "id1")
         @e2 = Exercise.create(course_id: @course.id, html_id: "id2")
-        @deadline = FactoryGirl.create(:deadline)
+        @deadline = FactoryGirl.create(:deadline, course_id: @course.id)
         @deadline.exercises << @e1
         @deadline.exercises << @e2
         @deadline.save
@@ -155,7 +155,8 @@ RSpec.describe DeadlinesController, type: :controller do
       end
       it "doesnt delete deadline that not on course" do
         @course = FactoryGirl.create(:course, coursekey:"key1")
-        @deadline = FactoryGirl.create(:deadline)
+        @course2 = FactoryGirl.create(:course, coursekey:"key2")
+        @deadline = FactoryGirl.create(:deadline, course_id: @course2.id)
         @ope = FactoryGirl.create(:user, username:"ope1", email:"ope1@o.o")
         Teaching.create(user_id: @ope.id, course_id: @course.id)
         sign_in @ope
