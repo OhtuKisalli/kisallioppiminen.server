@@ -46,5 +46,11 @@ class TeachingService
   def self.number_of_teachings
     return Teaching.all.count
   end
-
+  
+  # returns how many courses user created today
+  # sid = User.id
+  def self.courses_created_today(sid)
+    return Teaching.where(["created_at >= ? AND user_id = ?", Time.now.beginning_of_day, sid]).count
+  end
+  
 end

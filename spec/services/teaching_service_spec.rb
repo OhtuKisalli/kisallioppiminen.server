@@ -39,6 +39,10 @@ RSpec.describe TeachingService, type: :service do
       TeachingService.change_archived_status(@ope.id, @course.id, "false")
       expect(TeachingService.is_archived?(@ope.id, @course.id)).to eq(false)
     end
+    it "courses_created_today(sid)" do
+      expect(TeachingService.courses_created_today(@ope.id)).to eq(1)
+      expect(TeachingService.courses_created_today(@ope2.id)).to eq(0)
+    end
     
   end
 
