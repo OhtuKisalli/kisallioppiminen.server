@@ -1,5 +1,5 @@
 class TeachingsController < ApplicationController
-  before_action :check_signed_in, except: [:index]
+  before_action :check_signed_in
   before_action :check_admin, only: [:index]
 
   # GET /teachings

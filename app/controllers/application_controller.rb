@@ -19,16 +19,14 @@ class ApplicationController < ActionController::Base
     end
   end
   
-  # temp fix. todo: admin-role
   def check_admin
-    if Rails.env.production?
+    if not user_admin
       render :json => {"error" => "Tarvitset admin-oikeudet kyseiseen toimintoon"}, status: 401
     end  
   end
-  
-  # temp fix
+
   def user_admin
-    return (not Rails.env.production?)
+    return (user_signed_in? and current_user.admin)
   end
 
 end

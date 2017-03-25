@@ -1,5 +1,5 @@
 class CoursesController < ApplicationController
-  before_action :check_signed_in, except: [:index, :show]
+  before_action :check_signed_in
   before_action :check_admin, only: [:index, :show]
   
   protect_from_forgery unless: -> { request.format.json? }
