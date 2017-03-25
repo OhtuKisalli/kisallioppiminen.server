@@ -224,5 +224,41 @@ RSpec.describe CoursesController, type: :controller do
       end
     end
   end
+  
+  describe "exercise statistics" do
+    context "when not logged in " do
+      it "gives error message" do
+        get 'exercise_stats', :format => :json, params: {"id":1}
+        expect(response.status).to eq(401)
+        body = JSON.parse(response.body)
+        expected = {"error" => "Sinun täytyy ensin kirjautua sisään."}
+        expect(body).to eq(expected)
+      end
+    end
+  
+    context "when logged in" do
+      before(:each) do
+        @course1 = FactoryGirl.create(:course, coursekey:"key1")
+        @testaaja = FactoryGirl.create(:user)
+        sign_in @testaaja
+      end
+      it "doesnt give stats for student" do
+        AttendanceService.create_attendance(@testaaja.id, @course1.id)
+        get 'exercise_stats', :format => :json, params: {"id":@course1.id}
+        expect(response.status).to eq(401)
+        body = JSON.parse(response.body)
+        expected = {"error" => "Et ole kyseisen kurssin opettaja."}
+        expect(body).to eq(expected)
+      end
+      it "gives stats for teacher " do
+        TeachingService.create_teaching(@testaaja.id, @course1.id)
+        get 'exercise_stats', :format => :json, params: {"id":@course1.id}
+        expect(response.status).to eq(200)
+        body = JSON.parse(response.body)
+        expected = {"total" => 0}
+        expect(body).to eq(expected)
+      end
+    end
+  end
     
 end

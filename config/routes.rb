@@ -50,6 +50,9 @@ Rails.application.routes.draw do
   post 'students/:sid/courses/:cid/toggle_archived' => 'attendances#toggle_archived', defaults: { format: 'json' }, constraints: {format: 'json'}
   post 'teachers/:sid/courses/:cid/toggle_archived' => 'teachings#toggle_archived', defaults: { format: 'json' }, constraints: {format: 'json'}
   
+  # Exercise statistics of course
+  get '/courses/:id/exercises/statistics' => 'courses#exercise_stats'
+  
   # Update course
   put 'courses/:id' => 'courses#update', defaults: { format: 'json' }, constraints: {format: 'json'}
     

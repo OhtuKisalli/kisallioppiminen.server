@@ -73,6 +73,19 @@ class CoursesController < ApplicationController
       end
     end
   end
+  
+  # Exercise statistics of course
+  # get '/courses/:id/exercises/statistics'
+  # params: id (Course.id)
+  # returns {"total": 30, "html_id1": {"green": 10, "red": 5, "yellow": 7},...}
+  def exercise_stats
+    if not TeachingService.teacher_on_course?(current_user.id, params[:id])
+      render :json => {"error" => "Et ole kyseisen kurssin opettaja."}, status: 401  
+    else
+      stats = CourseService.statistics(params[:id])
+      render :json => stats, status: 200
+    end
+  end
 
   private
     
