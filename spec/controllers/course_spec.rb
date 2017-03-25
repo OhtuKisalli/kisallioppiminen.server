@@ -130,6 +130,20 @@ RSpec.describe CoursesController, type: :controller do
         expect(Course.all.count).to eq(1)
       end
       
+      it "doesnt allow to create too many courses" do
+        MAX_COURSE_PER_DAY.times do
+          Teaching.create(user_id: @testaaja.id, course_id: @course2.id)
+        end
+        post 'newcourse', :format => :json, params: {"coursekey":"avain1", "name":"kurssi"}
+        expect(response.status).to eq(403)
+        body = JSON.parse(response.body)
+        errosmsg = errormsg = "Voit luoda korkeintaan " + MAX_COURSE_PER_DAY.to_s + " kurssia päivässä."
+        expected = {"error" => errormsg}
+        expect(body).to eq(expected)
+        expect(Course.all.count).to eq(1)
+        expect(TeachingService.courses_created_today(@testaaja.id)).to eq(MAX_COURSE_PER_DAY)
+      end
+      
       it "creates course but warns if no exercises selected" do
         post 'newcourse', :format => :json, params: {"coursekey":"avain1", "name":"kurssi"}
         expect(response.status).to eq(202)

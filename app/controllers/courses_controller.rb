@@ -58,6 +58,9 @@ class CoursesController < ApplicationController
   def newcourse
     if CourseService.coursekey_reserved?(params[:coursekey])
         render :json => {"error" => "Kurssiavain on jo varattu."}, status: 403
+    elsif TeachingService.courses_created_today(current_user.id) >= MAX_COURSE_PER_DAY
+        errormsg = "Voit luoda korkeintaan " + MAX_COURSE_PER_DAY.to_s + " kurssia päivässä."
+        render :json => {"error" => errormsg}, status: 403
     else
       cid = CourseService.create_new_course(current_user.id, course_params)
       if cid > -1 and params[:exercises]
