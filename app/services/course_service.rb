@@ -69,6 +69,17 @@ class CourseService
     end
   end
   
+  # returns true or false
+  def self.delete_course(cid)
+    course = Course.where(id: cid).first
+    if not course
+      return false
+    end
+    course.destroy
+    DeadlineService.remove_deadlines_of_course(cid)
+    return true
+  end
+  
   # returns [{},{},{}], [] when empty
   # JSON keys: "id", "coursekey", "html_id", "startdate", "enddate", "name", "archived"
   def self.teacher_courses(id)

@@ -65,6 +65,25 @@ RSpec.describe CourseService, type: :service do
       expect(result.keys).to contain_exactly("coursekey","html_id","archived")
       expect(result["coursekey"]).to eq(@course.coursekey)
     end
+    it "delete_course(cid)" do
+      expect(CourseService.delete_course(@course.id + 1)).to eq(false)
+      ExerciseService.create_exercise(@course.id, "id1")
+      @student = FactoryGirl.create(:user, email:"u2@o.o")
+      AttendanceService.create_attendance(@student.id, @course.id)
+      TeachingService.create_teaching(@student.id, @course.id)
+      Deadline.create(description:"name", course_id: @course.id, deadline: "2017-03-05 20:28:33")
+      expect(CourseService.all_courses.count).to eq(1)
+      expect(TeachingService.all_teachings.count).to eq(1)
+      expect(AttendanceService.all_attendances.size).to eq(1)
+      expect(ExerciseService.all_exercises.count).to eq(1)
+      expect(DeadlineService.all_deadlines.count).to eq(1)
+      expect(CourseService.delete_course(@course.id)).to eq(true)
+      expect(CourseService.all_courses.count).to eq(0)
+      expect(TeachingService.all_teachings.count).to eq(0)
+      expect(AttendanceService.all_attendances.size).to eq(0)
+      expect(ExerciseService.all_exercises.count).to eq(0)
+      expect(DeadlineService.all_deadlines.count).to eq(0)
+    end
     
   end
   
