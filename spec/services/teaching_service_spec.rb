@@ -43,6 +43,12 @@ RSpec.describe TeachingService, type: :service do
       expect(TeachingService.courses_created_today(@ope.id)).to eq(1)
       expect(TeachingService.courses_created_today(@ope2.id)).to eq(0)
     end
+    it "teacher_courses_ids(sid)" do
+      expect(TeachingService.teacher_courses_ids(@ope2.id).size).to eq(0)
+      ids = TeachingService.teacher_courses_ids(@ope.id)
+      expect(ids.size).to eq(1)
+      expect(ids.include? @course.id).to eq(true)
+    end
   end
   
   describe "more complex methods" do

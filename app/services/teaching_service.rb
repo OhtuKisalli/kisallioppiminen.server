@@ -59,4 +59,9 @@ class TeachingService
     return Teaching.group('user_id').order('count_all DESC').count
   end
   
+  # returns [12, 13, 14] or []
+  def self.teacher_courses_ids(sid)
+    Teaching.where(user_id: sid).map(&:course_id)
+  end
+  
 end
