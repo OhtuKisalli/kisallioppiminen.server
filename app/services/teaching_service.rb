@@ -53,4 +53,10 @@ class TeachingService
     return Teaching.where(["created_at >= ? AND user_id = ?", Time.now.beginning_of_day, sid]).count
   end
   
+  # TODO: update when assistants added
+  # returns {177=>3, 178=>2, 179=>1, 180=>1} or {}
+  def self.course_count_rank
+    return Teaching.group('user_id').order('count_all DESC').count
+  end
+  
 end

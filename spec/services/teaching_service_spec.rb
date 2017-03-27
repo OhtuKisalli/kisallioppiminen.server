@@ -43,7 +43,27 @@ RSpec.describe TeachingService, type: :service do
       expect(TeachingService.courses_created_today(@ope.id)).to eq(1)
       expect(TeachingService.courses_created_today(@ope2.id)).to eq(0)
     end
-    
   end
+  
+  describe "more complex methods" do
+    it "course_count_rank" do
+      expect(TeachingService.course_count_rank.empty?).to eq(true)
+      @ope1 = FactoryGirl.create(:user, email:"u1@o.o")
+      @ope2 = FactoryGirl.create(:user, email:"u2@o.o")
+      @ope3 = FactoryGirl.create(:user, email:"u3@o.o")
+      @course1 = FactoryGirl.create(:course, coursekey:"key1")
+      @course2 = FactoryGirl.create(:course, coursekey:"key2")
+      @course3 = FactoryGirl.create(:course, coursekey:"key3")
+      Teaching.create(user_id: @ope2.id, course_id: @course2.id)
+      Teaching.create(user_id: @ope1.id, course_id: @course1.id)
+      Teaching.create(user_id: @ope1.id, course_id: @course2.id)
+      Teaching.create(user_id: @ope3.id, course_id: @course3.id)
+      Teaching.create(user_id: @ope3.id, course_id: @course2.id)
+      Teaching.create(user_id: @ope3.id, course_id: @course1.id)
+      result = TeachingService.course_count_rank
+      expect(result.size).to eq(3)
+      expect(result).to eq({@ope3.id => 3, @ope1.id => 2, @ope2.id => 1})
+    end
 
+  end
 end
