@@ -64,6 +64,16 @@ RSpec.describe ScoreboardsController, type: :controller do
         expect(body["exercises"][1]["id"]).to eq(@exercise2.html_id)
       end
       
+      it "doesnt return scoreboard if not on course" do
+        @opiskelija3 = FactoryGirl.create(:user, username:"o1", first_name:"James", last_name:"Bond", email:"o5@o.o")
+        sign_in @opiskelija3
+        get 'student_scoreboard', :format => :json, params: {"sid":@opiskelija3.id,"cid":@course1.id}
+        expect(response.status).to eq(422)
+        body = JSON.parse(response.body)
+        expected = {"error" => "Et ole liittynyt kyseiselle kurssille."}
+        expect(body).to eq(expected)
+      end
+      
       it "shows exercises that are not done" do
         @exercise5 = ExerciseService.create_exercise(@course1.id, "id5")
         sign_in @opiskelija1
