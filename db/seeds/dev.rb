@@ -84,28 +84,28 @@ Attendance.create(user_id: @u19.id, course_id: @course1.id)
 Attendance.create(user_id: @u20.id, course_id: @course1.id)
 Attendance.create(user_id: @u21.id, course_id: @course1.id)
 Attendance.create(user_id: @u22.id, course_id: @course1.id)
-#Attendance.create(user_id: @u23.id, course_id: @course1.id)
-#Attendance.create(user_id: @u24.id, course_id: @course1.id)
-#Attendance.create(user_id: @u25.id, course_id: @course1.id)
-#Attendance.create(user_id: @u26.id, course_id: @course1.id)
-#Attendance.create(user_id: @u27.id, course_id: @course1.id)
-#Attendance.create(user_id: @u28.id, course_id: @course1.id)
-#Attendance.create(user_id: @u29.id, course_id: @course1.id)
-#Attendance.create(user_id: @u30.id, course_id: @course1.id)
-#Attendance.create(user_id: @u31.id, course_id: @course1.id)
-#Attendance.create(user_id: @u32.id, course_id: @course1.id)
-#Attendance.create(user_id: @u33.id, course_id: @course1.id)
-#Attendance.create(user_id: @u34.id, course_id: @course1.id)
-#Attendance.create(user_id: @u35.id, course_id: @course1.id)
-#Attendance.create(user_id: @u36.id, course_id: @course1.id)
-#Attendance.create(user_id: @u37.id, course_id: @course1.id)
-#Attendance.create(user_id: @u38.id, course_id: @course1.id)
-#Attendance.create(user_id: @u39.id, course_id: @course1.id)
-#Attendance.create(user_id: @u40.id, course_id: @course1.id)
-#Attendance.create(user_id: @u41.id, course_id: @course1.id)
-#Attendance.create(user_id: @u42.id, course_id: @course1.id)
-#Attendance.create(user_id: @u43.id, course_id: @course1.id)
-#Attendance.create(user_id: @u44.id, course_id: @course1.id)
+Attendance.create(user_id: @u23.id, course_id: @course1.id)
+Attendance.create(user_id: @u24.id, course_id: @course1.id)
+Attendance.create(user_id: @u25.id, course_id: @course1.id)
+Attendance.create(user_id: @u26.id, course_id: @course1.id)
+Attendance.create(user_id: @u27.id, course_id: @course1.id)
+Attendance.create(user_id: @u28.id, course_id: @course1.id)
+Attendance.create(user_id: @u29.id, course_id: @course1.id)
+Attendance.create(user_id: @u30.id, course_id: @course1.id)
+Attendance.create(user_id: @u31.id, course_id: @course1.id)
+Attendance.create(user_id: @u32.id, course_id: @course1.id)
+Attendance.create(user_id: @u33.id, course_id: @course1.id)
+Attendance.create(user_id: @u34.id, course_id: @course1.id)
+Attendance.create(user_id: @u35.id, course_id: @course1.id)
+Attendance.create(user_id: @u36.id, course_id: @course1.id)
+Attendance.create(user_id: @u37.id, course_id: @course1.id)
+Attendance.create(user_id: @u38.id, course_id: @course1.id)
+Attendance.create(user_id: @u39.id, course_id: @course1.id)
+Attendance.create(user_id: @u40.id, course_id: @course1.id)
+Attendance.create(user_id: @u41.id, course_id: @course1.id)
+Attendance.create(user_id: @u42.id, course_id: @course1.id)
+Attendance.create(user_id: @u43.id, course_id: @course1.id)
+Attendance.create(user_id: @u44.id, course_id: @course1.id)
 
 #course2 attendances
 Attendance.create(user_id: @u5.id, course_id: @course2.id)
@@ -113,58 +113,85 @@ Attendance.create(user_id: @u6.id, course_id: @course2.id)
 Attendance.create(user_id: @u7.id, course_id: @course2.id)
 Attendance.create(user_id: @u8.id, course_id: @course2.id)
 Attendance.create(user_id: @u9.id, course_id: @course2.id)
-#Attendance.create(user_id: @u10.id, course_id: @course2.id)
-#Attendance.create(user_id: @u11.id, course_id: @course2.id)
-#Attendance.create(user_id: @u12.id, course_id: @course2.id)
-#Attendance.create(user_id: @u13.id, course_id: @course2.id)
-#Attendance.create(user_id: @u14.id, course_id: @course2.id)
+Attendance.create(user_id: @u10.id, course_id: @course2.id)
+Attendance.create(user_id: @u11.id, course_id: @course2.id)
+Attendance.create(user_id: @u12.id, course_id: @course2.id)
+Attendance.create(user_id: @u13.id, course_id: @course2.id)
+Attendance.create(user_id: @u14.id, course_id: @course2.id)
+Attendance.create(user_id: @u15.id, course_id: @course2.id)
+Attendance.create(user_id: @u16.id, course_id: @course2.id)
+Attendance.create(user_id: @u17.id, course_id: @course2.id)
+Attendance.create(user_id: @u18.id, course_id: @course2.id)
+Attendance.create(user_id: @u19.id, course_id: @course2.id)
+Attendance.create(user_id: @u20.id, course_id: @course2.id)
+Attendance.create(user_id: @u21.id, course_id: @course2.id)
+Attendance.create(user_id: @u22.id, course_id: @course2.id)
+Attendance.create(user_id: @u23.id, course_id: @course2.id)
+Attendance.create(user_id: @u24.id, course_id: @course2.id)
+
 
 #course3 attendances
 Attendance.create(user_id: @u5.id, course_id: @course3.id)
 Attendance.create(user_id: @u6.id, course_id: @course3.id)
 Attendance.create(user_id: @u7.id, course_id: @course3.id)
 Attendance.create(user_id: @u8.id, course_id: @course3.id)
-#Attendance.create(user_id: @u9.id, course_id: @course3.id)
-#Attendance.create(user_id: @u10.id, course_id: @course3.id)
-#Attendance.create(user_id: @u11.id, course_id: @course3.id)
+Attendance.create(user_id: @u9.id, course_id: @course3.id)
+Attendance.create(user_id: @u10.id, course_id: @course3.id)
+Attendance.create(user_id: @u11.id, course_id: @course3.id)
 
 sts = Course.find(@course1.id).students
+
 may1exs.each do |e|
   Exercise.create(html_id: e, course_id: @course1.id)
-  sts.each do |s|
-    randomstatus = ["green","green","green","red","yellow","gray"].sample
-    a = Attendance.where(user_id: s.id, course_id: @course1.id).first
-    if randomstatus != "gray" and a
-      a.checkmarks[e] = randomstatus
-      a.save
-    end
-  end
 end
 
-sts = Course.find(@course2.id).students
+sts.each do |s|
+  cms = {}
+  may1exs.each do |e|
+    randomstatus = ["green", "green","green","green","red","yellow","gray"].sample
+    if randomstatus != "gray"
+      cms[e] = randomstatus
+    end
+  end  
+  a = Attendance.where(user_id: s.id, course_id: @course1.id).first
+  a.checkmarks = cms
+  a.save
+end
+
+sts2 = Course.find(@course2.id).students
+
 maa2exs.each do |e|
   Exercise.create(html_id: e, course_id: @course2.id)
-  sts.each do |s|
-    randomstatus = ["green","green","green","red","yellow","gray"].sample
-    a = Attendance.where(user_id: s.id, course_id: @course2.id).first
-    if a
-      a.checkmarks[e] = randomstatus
-      a.save
-    end
+end
+  
+sts2.each do |s|
+  cms = {}
+  maa2exs.each do |e|
+    randomstatus = ["green","green","green","green","green","red","yellow","gray"].sample
+    cms[e] = randomstatus  
   end
+  a = Attendance.where(user_id: s.id, course_id: @course2.id).first
+  a.checkmarks = cms
+  a.save
 end
 
-sts = Course.find(@course3.id).students 
+sts3 = Course.find(@course3.id).students 
+
 maa3exs.each do |e|
   Exercise.create(html_id: e, course_id: @course3.id)
-  sts.each do |s|
+end
+  
+sts3.each do |s|
+  cms = {}
+  maa3exs.each do |e|
     randomstatus = ["green","red","yellow","gray"].sample
-    a = Attendance.where(user_id: s.id, course_id: @course2.id).first
-    if randomstatus != "gray" and a
-      a.checkmarks[e] = randomstatus
-      a.save
+    if randomstatus != "gray"
+      cms[e] = randomstatus
     end
   end
+  a = Attendance.where(user_id: s.id, course_id: @course3.id).first
+  a.checkmarks = cms
+  a.save
 end
 
 n = @course1.exercises.first.id
