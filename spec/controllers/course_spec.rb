@@ -166,7 +166,7 @@ RSpec.describe CoursesController, type: :controller do
       
       it "creates course with exercises" do
         expect(ExerciseService.all_exercises.count).to eq(0)
-        post 'newcourse', :format => :json, params: {"coursekey":"avain1", "name":"kurssi", "exercises": {"0.1": "23b6f818-3def-4c40-a794-6d5a9c45a0ff", "0.2": "ff50db85-f7a9-4c03-8faf-9a17d932b435","1.1": "0d7c9d8e-9c84-44fb-b5a7-33becc01af14"}}
+        post 'newcourse', :format => :json, params: {"coursekey":"avain1", "name":"kurssi", "exercises": [{"id": "23b6f818-3def-4c40-a794-6d5a9c45a0ff", "number": "0.1"}, {"id": "ff50db85-f7a9-4c03-8faf-9a17d932b435", "number": "0.2"},{"id": "0d7c9d8e-9c84-44fb-b5a7-33becc01af14", "number": "1.1"}]}
         expect(response.status).to eq(200)
         expect(Course.find_by(coursekey:"avain1").exercises.count).to eq(3)
       end

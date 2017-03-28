@@ -54,7 +54,7 @@ RSpec.describe ExerciseService, type: :service do
         @course = FactoryGirl.create(:course, coursekey:"key1")
       end
       it "adds exercises to course" do
-        exs = {"2" => "id2", "3" => "id3"}
+        exs = [{"id" => "id2", "number" => "0.1"}, {"id" => "id3", "number" => "0.2"}]
         expect(@course.exercises.count).to eq(0)
         ExerciseService.add_exercises_to_course(exs, @course.id)
         expect(@course.exercises.count).to eq(2)
@@ -62,12 +62,12 @@ RSpec.describe ExerciseService, type: :service do
         expect(ExerciseService.exercise_by_course_id_and_html_id(@course.id, "id3")).not_to eq(nil)
       end
       it "doesnt allow to add same exercises again" do
-        exs = {"2" => "id2", "3" => "id3"}
+        exs = [{"id" => "id2", "number" => "0.1"}, {"id" => "id3", "number" => "0.2"}]
         ExerciseService.add_exercises_to_course(exs, @course.id)
         expect(@course.exercises.count).to eq(2)
         ExerciseService.add_exercises_to_course(exs, @course.id)
         expect(@course.exercises.count).to eq(2)
-        exs = {"2" => "id2", "3" => "id4"}
+        exs = [{"id" => "id2", "number" => "0.1"}, {"id" => "id4", "number" => "0.4"}]
         ExerciseService.add_exercises_to_course(exs, @course.id)
         expect(@course.exercises.count).to eq(3)
       end

@@ -1,9 +1,10 @@
 class ExerciseService
 
-  # exercises {"1.1": "html_id1", "1.2": "html_id2"}
+  # exs = [{"id": "id2", "number": "0.1"}, {"id": "id3", "number": "0.2"}]
   # returns nothing
   def self.add_exercises_to_course(exercises, cid)
-    exercises.each do |key, value|
+    exercises.each do |e|
+      value = e["id"]
       if Exercise.where(html_id: value, course_id: cid).empty?
         Exercise.create(html_id: value, course_id: cid)
       end
