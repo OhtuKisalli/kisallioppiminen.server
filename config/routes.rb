@@ -2,7 +2,6 @@ Rails.application.routes.draw do
   resources :teachings, only: [:index]
   devise_for :users, :controllers => { :omniauth_callbacks => "callbacks" }
   resources :schedules, only: [:index]
-  resources :deadlines, only: [:index, :show]
   resources :attendances, only: [:index]
   resources :checkmarks, only: [:index]
   resources :exercises, only: [:index, :show]
@@ -36,11 +35,14 @@ Rails.application.routes.draw do
   # Teacher – I can create coursekeys for students to join my course
   post '/courses/newcourse' => 'courses#newcourse', defaults: { format: 'json' }, constraints: {format: 'json'}
   
-  # Teacher - create schedule
-  post '/courses/:id/deadlines/new' => 'deadlines#newdeadline', defaults: { format: 'json' }, constraints: {format: 'json'}
+  # Teacher - add schedule to schedules list
+  post '/courses/:id/schedules/new' => 'schedules#new_schedule', defaults: { format: 'json' }, constraints: {format: 'json'}
   
   # Teacher - delete schedule
-  delete '/courses/:cid/deadlines/:did' => 'deadlines#deletedeadline', defaults: { format: 'json' }, constraints: {format: 'json'}
+  delete '/courses/:cid/schedules/:did' => 'schedules#delete_deadline', defaults: { format: 'json' }, constraints: {format: 'json'}
+  
+  # Teacher - Add / update exercises of schedules created
+  post '/courses/:id/schedules/' => 'schedules#update_exercises', defaults: { format: 'json' }, constraints: {format: 'json'}
 
   # Session
   get '/user/is_logged' => 'users#is_user_signed_in'
