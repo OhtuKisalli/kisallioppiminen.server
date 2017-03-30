@@ -25,8 +25,17 @@ class SchedulesController < ApplicationController
   
   # Teacher - delete schedule
   # delete '/courses/:cid/schedules/:did' 
-  def delete_deadline
-  
+  def delete_schedule
+    cid = params[:cid]
+    did = params[:did]
+    if not TeachingService.has_rights?(current_user.id, cid)
+      render :json => {"error" => "Et ole kyseisen kurssin vastuuhenkilö."}, status: 401
+    elsif not ScheduleService.schedule_on_course?(cid, did)
+      render :json => {"error" => "Kyseinen tavoite ei ole kurssilla."}, status: 401
+    else
+      ScheduleService.delete_schedule(did)
+      render :json => {"message" => "Tavoite poistettu."}, status: 200
+    end
   end
   
   # Teacher - Add / update exercises of schedules created

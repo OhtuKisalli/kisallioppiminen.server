@@ -21,4 +21,14 @@ class ScheduleService
     end
   end
   
+  #
+  def self.delete_schedule(id)
+    Schedule.delete(id)
+  end
+  
+  # returns true or false
+  def self.schedule_on_course?(cid, id)
+    return Schedule.where(id: id, course_id: cid).any?
+  end
+  
 end

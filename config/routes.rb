@@ -39,7 +39,7 @@ Rails.application.routes.draw do
   post '/courses/:id/schedules/new' => 'schedules#new_schedule', defaults: { format: 'json' }, constraints: {format: 'json'}
   
   # Teacher - delete schedule
-  delete '/courses/:cid/schedules/:did' => 'schedules#delete_deadline', defaults: { format: 'json' }, constraints: {format: 'json'}
+  delete '/courses/:cid/schedules/:did' => 'schedules#delete_schedule', defaults: { format: 'json' }, constraints: {format: 'json'}
   
   # Teacher - Add / update exercises of schedules created
   post '/courses/:id/schedules/' => 'schedules#update_exercises', defaults: { format: 'json' }, constraints: {format: 'json'}
