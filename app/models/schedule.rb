@@ -1,6 +1,5 @@
 class Schedule < ApplicationRecord
 
-  belongs_to :exercise
-  belongs_to :deadline
+  belongs_to :course
 
 end
