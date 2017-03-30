@@ -76,7 +76,6 @@ class CourseService
       return false
     end
     course.destroy
-    DeadlineService.remove_deadlines_of_course(cid)
     return true
   end
   
