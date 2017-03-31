@@ -118,4 +118,85 @@ RSpec.describe SchedulesController, type: :controller do
       end
     end
   end
+  
+  describe "Teacher – I can create schedule for course" do
+  
+    context "when not logged in" do
+      it "gives error message" do
+        post 'update_exercises', :format => :json, params: {"id":1}
+        expect(response.status).to eq(401)
+        body = JSON.parse(response.body)
+        expected = {"error" => "Sinun täytyy ensin kirjautua sisään."}
+        expect(body).to eq(expected)
+      end
+    end
+    
+    context "params" do
+      before(:each) do
+        @course = FactoryGirl.create(:course, coursekey:"key1")
+        @ope = FactoryGirl.create(:user, username:"ope1", email:"ope1@o.o")
+        TeachingService.create_teaching(@ope.id, @course.id)
+        sign_in @ope
+      end
+      it "schedules necessary" do
+        post 'update_exercises', :format => :json, params: {"id": @course.id}
+        expect(response.status).to eq(422)
+        body = JSON.parse(response.body)
+        expected = {"error" => "Parametri schedules on virheellinen."}
+        expect(body).to eq(expected)
+      end
+                 
+    end
+        
+    context "with proper params" do
+      before(:each) do
+        @course = FactoryGirl.create(:course, coursekey:"key1")
+        @ope = FactoryGirl.create(:user, username:"ope1", email:"ope1@o.o")
+        TeachingService.create_teaching(@ope.id, @course.id)
+        @schedule = Schedule.create(name: "nimi", course_id: @course.id, exercises: [])
+        sign_in @ope
+      end
+      it "must be teacher of the course" do
+        @ope2 = FactoryGirl.create(:user, username:"ope21", email:"ope21@o.o")
+        sign_in @ope2
+        post 'update_exercises', :format => :json, params: {"id": @course.id,"schedules": {"id1": true}}
+        expect(response.status).to eq(401)
+        body = JSON.parse(response.body)
+        expected = {"error" => "Et ole kyseisen kurssin vastuuhenkilö."}
+        expect(body).to eq(expected)
+      end
+      it "saves schedule correctly" do
+        sign_in @ope
+        @schedule2 = Schedule.create(name: "nimi2", course_id: @course.id, exercises: [])
+        @schedule3 = Schedule.create(name: "nimi3", course_id: @course.id, exercises: ["id1"])
+        @schedule4 = Schedule.create(name: "nimi4", course_id: @course.id, exercises: ["id2"])
+        hash = {}
+        hash[@schedule.id.to_s] = {"id1" => true, "id2" => true}
+        hash[@schedule2.id.to_s] = {"id1" => false}
+        hash[@schedule3.id.to_s] = {"id1" => true}
+        hash[@schedule4.id.to_s] = {"id2" => false}
+        #post 'update_exercises', :format => :json, params: {"id": @course.id, "schedules": hash}
+        post 'update_exercises', params: {"id": @course.id, "schedules": hash}, as: :json
+        expect(response.status).to eq(200)
+        body = JSON.parse(response.body)
+        expected = {"message" => "Tavoitteet tallennettu tietokantaan."}
+        expect(body).to eq(expected)
+        s1 = Schedule.where(id: @schedule.id).first
+        s2 = Schedule.where(id: @schedule2.id).first
+        s3 = Schedule.where(id: @schedule3.id).first
+        s4 = Schedule.where(id: @schedule4.id).first
+        expect(s1.exercises.include? "id1").to eq(true)
+        expect(s1.exercises.include? "id2").to eq(true)
+        expect(s2.exercises.include? "id1").to eq(false)
+        expect(s3.exercises.include? "id1").to eq(true)
+        expect(s4.exercises.include? "id2").to eq(false)
+        expect(s1.exercises.size).to eq(2)
+        expect(s2.exercises.size).to eq(0)
+        expect(s3.exercises.size).to eq(1)
+        expect(s4.exercises.size).to eq(0)
+      end
+    end
+  end
+  
+  
 end

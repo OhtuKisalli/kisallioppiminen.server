@@ -26,12 +26,12 @@ RSpec.describe ScheduleService, type: :service do
       expect(schedule.course_id).to eq(@course.id)
       expect(schedule.exercises).to eq([])
       expect(ScheduleService.add_new_schedule(@course.id, "nimi")).to eq(false)
-      expect(ScheduleService.all_schedules.count).to eq(1)
+      expect(Schedule.count).to eq(1)
     end
     it "delete_schedule(id)" do
       s = Schedule.create(name: "nimi", course_id: @course.id, exercises: [])
       ScheduleService.delete_schedule(s.id)
-      expect(ScheduleService.all_schedules.count).to eq(0)
+      expect(Schedule.count).to eq(0)
     end
     it "schedule_on_course?(cid, id)" do
       expect(ScheduleService.schedule_on_course?(@course.id, 666)).to eq(false)
@@ -39,8 +39,50 @@ RSpec.describe ScheduleService, type: :service do
       expect(ScheduleService.schedule_on_course?(@course.id, schedule.id)).to eq(true)
     end
     
-    
-    
   end
 
+  describe "update_schedule_exercises(cid, schedules)" do
+    it "course must exist" do
+      expect(ScheduleService.update_schedule_exercises(1, [])).to eq(false)
+    end
+    it "doesnt do anything if schedule not exist" do
+      @course = FactoryGirl.create(:course, coursekey:"key1")
+      schedule = Schedule.create(name: "nimi", course_id: @course.id, exercises: [])
+      s = (schedule.id + 1).to_s
+      hash = {s => {"id1" => true}}
+      expect(ScheduleService.update_schedule_exercises(@course.id, hash)).to eq(true)
+      expect(schedule.exercises.size).to eq(0)
+    end
+    it "adds exercises to schedules" do
+      @course = FactoryGirl.create(:course, coursekey:"key1")
+      schedule = Schedule.create(name: "nimi", course_id: @course.id, exercises: [])
+      schedule2 = Schedule.create(name: "nimi2", course_id: @course.id, exercises: [])
+      id1 = schedule.id.to_s
+      id2 = schedule2.id.to_s
+      hash = {id1 => {"id1" => true, "id2" => true}, id2 => {"id1" => false}}
+      expect(ScheduleService.update_schedule_exercises(@course.id, hash)).to eq(true)
+      s1 = Schedule.where(name: "nimi").first
+      s2 = Schedule.where(name: "nimi2").first
+      expect(s1.exercises.include? "id1").to eq(true)
+      expect(s1.exercises.include? "id2").to eq(true)
+      expect(s2.exercises.include? "id1").to eq(false)
+    end
+    it "add/remove works correctly to values exist" do
+      @course = FactoryGirl.create(:course, coursekey:"key2")
+      schedule = Schedule.create(name: "name1", course_id: @course.id, exercises: ["id1"])
+      schedule2 = Schedule.create(name: "name2", course_id: @course.id, exercises: ["id2"])
+      expect(schedule.exercises.include? "id1").to eq(true)
+      expect(schedule2.exercises.include? "id2").to eq(true)
+      hash = {schedule.id.to_s => {"id1" => true}, schedule2.id.to_s => {"id2" => false}}
+      expect(ScheduleService.update_schedule_exercises(@course.id, hash)).to eq(true)
+      s1 = Schedule.where(name: "name1").first
+      s2 = Schedule.where(name: "name2").first
+      expect(s1.exercises.include? "id1").to eq(true)
+      expect(s1.exercises.size).to eq(1)
+      expect(s2.exercises.include? "id2").to eq(false)
+      expect(s2.exercises.size).to eq(0)
+    end
+    
+  end
+  
 end

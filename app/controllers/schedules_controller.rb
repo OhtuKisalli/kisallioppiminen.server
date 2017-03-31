@@ -8,7 +8,9 @@ class SchedulesController < ApplicationController
   end
 
   # Teacher - add schedule to schedules list
-  # post '/courses/:id/schedules/new' 
+  # post '/courses/:id/schedules/new'
+  # params: id (Course.id), name (string)
+  # TODO returns GET
   def new_schedule
     if not TeachingService.has_rights?(current_user.id, params[:id])
       render :json => {"error" => "Et ole kyseisen kurssin vastuuhenkilö."}, status: 401
@@ -24,7 +26,9 @@ class SchedulesController < ApplicationController
   end
   
   # Teacher - delete schedule
-  # delete '/courses/:cid/schedules/:did' 
+  # delete '/courses/:cid/schedules/:did'
+  # params Course.id, Schedule.id
+  # TODO returns GET
   def delete_schedule
     cid = params[:cid]
     did = params[:did]
@@ -40,9 +44,22 @@ class SchedulesController < ApplicationController
   
   # Teacher - Add / update exercises of schedules created
   # post '/courses/:id/schedules/'
+  # # schedules: {
+  # "1" : {"ex_html_id1" : true, "ex_html_id2" : false},
+  # "2" : { },
+  # "3" : {"ex_html_id3" : false}}
+  # TODO returns GET
   def update_exercises
-  
+    if not TeachingService.has_rights?(current_user.id, params[:id])
+      render :json => {"error" => "Et ole kyseisen kurssin vastuuhenkilö."}, status: 401
+    elsif not params[:schedules]
+      render :json => {"error" => "Parametri schedules on virheellinen."}, status: 422
+    elsif ScheduleService.update_schedule_exercises(params[:id], params[:schedules])
+      render :json => {"message" => "Tavoitteet tallennettu tietokantaan."}, status: 200
+      #render :json => {"message" => params[:schedules]}, status: 200
+    else
+      render :json => {"error" => "Tavoitteita ei voitu tallentaa tietokantaan."}, status: 422
+    end
   end
-
-
+  
 end

@@ -6,6 +6,11 @@ class ScheduleService
   end
   
   #
+  def self.count
+    return Schedule.count
+  end
+  
+  #
   def self.name_reserved?(cid, name)
     return Schedule.where(course_id: cid, name: name).any?
   end
@@ -21,6 +26,22 @@ class ScheduleService
     end
   end
   
+  # cid = Course.id
+  # schedules: {
+  # "1" : {"ex_html_id1" : true, "ex_html_id2" : false},
+  # "2" : { },
+  # "3" : {"ex_html_id3" : false}}
+  def self.update_schedule_exercises(cid, schedules)
+    course = CourseService.course_by_id(cid)
+    if not course
+      return false
+    end
+    schedules.each do |key, value|
+      update_schedule_exercise(key.to_i, value)
+    end
+    return true
+  end
+  
   #
   def self.delete_schedule(id)
     Schedule.delete(id)
@@ -30,5 +51,22 @@ class ScheduleService
   def self.schedule_on_course?(cid, id)
     return Schedule.where(id: id, course_id: cid).any?
   end
+  
+  private
+    def self.update_schedule_exercise(sid, value)
+      @schedule = Schedule.where(id: sid).first
+      if @schedule
+        exs = @schedule.exercises
+        value.each do |k, v|
+          if (v == "true" or v == true) and not exs.include? k
+            exs << k  
+          elsif (v == "false" or v == false) and exs.include? k
+            exs.delete(k)
+          end
+        end
+        @schedule.exercises = exs
+        @schedule.save
+      end
+    end
   
 end
