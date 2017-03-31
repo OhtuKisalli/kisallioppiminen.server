@@ -44,6 +44,9 @@ Rails.application.routes.draw do
   # Teacher - Add / update exercises of schedules created
   post '/courses/:id/schedules/' => 'schedules#update_exercises', defaults: { format: 'json' }, constraints: {format: 'json'}
 
+  # User - get schedules
+  get '/courses/:id/schedules/' => 'schedules#get_schedules'
+
   # Session
   get '/user/is_logged' => 'users#is_user_signed_in'
   get '/user/get_session_user' => 'users#get_session_user'

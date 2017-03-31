@@ -56,10 +56,23 @@ class SchedulesController < ApplicationController
       render :json => {"error" => "Parametri schedules on virheellinen."}, status: 422
     elsif ScheduleService.update_schedule_exercises(params[:id], params[:schedules])
       render :json => {"message" => "Tavoitteet tallennettu tietokantaan."}, status: 200
-      #render :json => {"message" => params[:schedules]}, status: 200
     else
       render :json => {"error" => "Tavoitteita ei voitu tallentaa tietokantaan."}, status: 422
     end
   end
+  
+  # User - get schedules
+  # get '/courses/:id/schedules/'
+  # returns [{"id" : 1,"name" : "eka aikataulu","exercises":["ex_html_id1", "ex_html_id2"]},
+  # {"id" : 2,"name" : "toka aikataulu","exercises":[]}]
+  def get_schedules
+    if not (TeachingService.teacher_on_course?(current_user.id, params[:id]) or AttendanceService.user_on_course?(current_user.id, params[:id]))
+      render :json => {"error" => "Et ole kyseisen kurssin oppilas tai opettaja."}, status: 401  
+    else
+      render :json => ScheduleService.course_schedules(params[:id]), status: 200
+    end  
+  end
+  
+
   
 end

@@ -198,5 +198,67 @@ RSpec.describe SchedulesController, type: :controller do
     end
   end
   
+  describe "User – get_schedules" do
+    context "without rights" do
+      it "gives error message when not logged in" do
+        get 'get_schedules', :format => :json, params: {"id": 666}
+        expect(response.status).to eq(401)
+        body = JSON.parse(response.body)
+        expected = {"error" => "Sinun täytyy ensin kirjautua sisään."}
+        expect(body).to eq(expected)
+      end
+      it "gives error message if not teacher or student course" do
+        @course = FactoryGirl.create(:course, coursekey:"key1")
+        @ope = FactoryGirl.create(:user, username:"ope1", email:"ope1@o.o")
+        sign_in @ope
+        get 'get_schedules', :format => :json, params: {"id": @course.id}
+        expect(response.status).to eq(401)
+        body = JSON.parse(response.body)
+        expected = {"error" => "Et ole kyseisen kurssin oppilas tai opettaja."}
+        expect(body).to eq(expected)
+      end
+    end
+    context "with rights" do
+      before(:each) do
+        @course = FactoryGirl.create(:course, coursekey:"key1")
+        @ope = FactoryGirl.create(:user, username:"ope1", email:"ope1@o.o")
+        TeachingService.create_teaching(@ope.id, @course.id)
+      end
+      it "gives schedules to teacher" do
+        sign_in @ope
+        get 'get_schedules', :format => :json, params: {"id": @course.id}
+        expect(response.status).to eq(200)
+        body = JSON.parse(response.body)
+        expect(body).to eq([])
+      end
+      it "gives schedules to student" do
+        @opiskelija1 = FactoryGirl.create(:user, username:"o1", first_name:"James", last_name:"Bond", email:"o1@o.o")
+        AttendanceService.create_attendance(@opiskelija1.id, @course.id)
+        sign_in @opiskelija1
+        get 'get_schedules', :format => :json, params: {"id": @course.id}
+        expect(response.status).to eq(200)
+        body = JSON.parse(response.body)
+        expect(body).to eq([])
+      end
+      it "gives schedules" do
+        s1 = Schedule.create(name: "nimi", course_id: @course.id, exercises: [])
+        s2 = Schedule.create(name: "nimi2", course_id: @course.id, exercises: ["aaa","bbb"])
+        sign_in @ope
+        get 'get_schedules', :format => :json, params: {"id": @course.id}
+        expect(response.status).to eq(200)
+        body = JSON.parse(response.body)
+        expect(body.size).to eq(2)
+        expect(body[0].keys).to contain_exactly("id","name","exercises")
+        expect(body[0]["id"]).to eq(s1.id)
+        expect(body[0]["name"]).to eq(s1.name)
+        expect(body[0]["exercises"]).to eq(s1.exercises)
+        expect(body[1].keys).to contain_exactly("id","name","exercises")
+        expect(body[1]["id"]).to eq(s2.id)
+        expect(body[1]["name"]).to eq(s2.name)
+        expect(body[1]["exercises"]).to eq(s2.exercises)
+      end
+    end
+  end
+  
   
 end
