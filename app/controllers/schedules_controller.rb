@@ -19,7 +19,7 @@ class SchedulesController < ApplicationController
     elsif ScheduleService.name_reserved?(params[:id], params[:name])
       render :json => {"error" => "Kahdella tavoitteella ei voi olla samaa nimeä."}, status: 422
     elsif ScheduleService.add_new_schedule(params[:id], params[:name])
-      render :json => {"message" => "Tavoite tallennettu tietokantaan."}, status: 200
+      render :json => ScheduleService.course_schedules(params[:id]), status: 200
     else 
       render :json => {"error" => "Tavoitetta ei voida tallentaa tietokantaan."}, status: 422
     end
@@ -38,7 +38,7 @@ class SchedulesController < ApplicationController
       render :json => {"error" => "Kyseinen tavoite ei ole kurssilla."}, status: 401
     else
       ScheduleService.delete_schedule(did)
-      render :json => {"message" => "Tavoite poistettu."}, status: 200
+      render :json => ScheduleService.course_schedules(params[:id]), status: 200
     end
   end
   
@@ -48,14 +48,13 @@ class SchedulesController < ApplicationController
   # "1" : {"ex_html_id1" : true, "ex_html_id2" : false},
   # "2" : { },
   # "3" : {"ex_html_id3" : false}}
-  # TODO returns GET
   def update_exercises
     if not TeachingService.has_rights?(current_user.id, params[:id])
       render :json => {"error" => "Et ole kyseisen kurssin vastuuhenkilö."}, status: 401
     elsif not params[:schedules]
       render :json => {"error" => "Parametri schedules on virheellinen."}, status: 422
     elsif ScheduleService.update_schedule_exercises(params[:id], params[:schedules])
-      render :json => {"message" => "Tavoitteet tallennettu tietokantaan."}, status: 200
+      render :json => ScheduleService.course_schedules(params[:id]), status: 200
     else
       render :json => {"error" => "Tavoitteita ei voitu tallentaa tietokantaan."}, status: 422
     end

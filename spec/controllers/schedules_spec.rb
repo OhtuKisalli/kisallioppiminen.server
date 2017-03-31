@@ -60,8 +60,7 @@ RSpec.describe SchedulesController, type: :controller do
         post 'new_schedule', :format => :json, params: {"id": @course.id, "name": "name1"}
         expect(response.status).to eq(200)
         body = JSON.parse(response.body)
-        expected = {"message" => "Tavoite tallennettu tietokantaan."}
-        expect(body).to eq(expected)
+        expect(body.size).to eq(1)
         schedule = ScheduleService.all_schedules.first
         expect(schedule.name).to eq("name1")
         expect(schedule.course_id).to eq(@course.id)
@@ -103,7 +102,7 @@ RSpec.describe SchedulesController, type: :controller do
         delete 'delete_schedule', :format => :json, params: {"cid": @course.id, "did": ScheduleService.all_schedules.first.id}
         expect(response.status).to eq(200)
         body = JSON.parse(response.body)
-        expected = {"message" => "Tavoite poistettu."}
+        expected = []
         expect(body).to eq(expected)
         expect(ScheduleService.all_schedules.count).to eq(0)
       end
@@ -179,8 +178,7 @@ RSpec.describe SchedulesController, type: :controller do
         post 'update_exercises', params: {"id": @course.id, "schedules": hash}, as: :json
         expect(response.status).to eq(200)
         body = JSON.parse(response.body)
-        expected = {"message" => "Tavoitteet tallennettu tietokantaan."}
-        expect(body).to eq(expected)
+        expect(body.size).to eq(4)
         s1 = Schedule.where(id: @schedule.id).first
         s2 = Schedule.where(id: @schedule2.id).first
         s3 = Schedule.where(id: @schedule3.id).first
