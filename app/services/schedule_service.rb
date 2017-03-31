@@ -15,6 +15,20 @@ class ScheduleService
     return Schedule.where(course_id: cid, name: name).any?
   end
   
+  # [{},{},{}] or []
+  # where {"id": 1, "name":"Tavoite1", "exercises": ["html_id1", "html_id2"]}
+  def self.course_schedules(cid)
+    course = Course.where(id: cid).first
+    if not course or course.schedules.empty?
+      return []
+    end
+    result = []
+    course.schedules.each do |s|
+      result << {"id": s.id, "name": s.name, "exercises": s.exercises}
+    end
+    return result
+  end
+  
   #
   def self.add_new_schedule(cid, name)
     course = CourseService.course_by_id(cid)

@@ -38,6 +38,18 @@ RSpec.describe ScheduleService, type: :service do
       schedule = Schedule.create(name: "nimi", course_id: @course.id, exercises: [])
       expect(ScheduleService.schedule_on_course?(@course.id, schedule.id)).to eq(true)
     end
+    it "course_schedules(cid)" do
+      expect(ScheduleService.course_schedules(@course.id + 1)).to eq([])
+      expect(ScheduleService.course_schedules(@course.id)).to eq([])
+      s1 = Schedule.create(name: "nimi", course_id: @course.id, exercises: [])
+      expected = [{"id": s1.id, "name": s1.name, "exercises": []}]
+      expect(ScheduleService.course_schedules(@course.id)).to eq(expected)
+      s2 = Schedule.create(name: "nimi2", course_id: @course.id, exercises: ["aaa","bbb"])
+      expected = [{"id": s1.id, "name": s1.name, "exercises": []},{"id": s2.id, "name": s2.name, "exercises": s2.exercises}]
+      result = ScheduleService.course_schedules(@course.id)
+      expect(result.size).to eq(2)
+      expect(result).to eq(expected)
+    end
     
   end
 
