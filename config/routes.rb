@@ -62,5 +62,11 @@ Rails.application.routes.draw do
   put 'courses/:id' => 'courses#update', defaults: { format: 'json' }, constraints: {format: 'json'}
     
   resources :courses, only: [:index, :show]
+  
+  ### admin-tools ###
+  get '/admins/exerciselists/' => 'admin#sync_exercises_index'
+  post '/admins/exerciselists/new' => 'admin#sync_exercises_new'
+  delete '/admins/exerciselists/:id' => 'admin#sync_exercises_delete'
+  post '/admins/exerciselists/save' => 'admin#sync_exercises_save'
 
 end

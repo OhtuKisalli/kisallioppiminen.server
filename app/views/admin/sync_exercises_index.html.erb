@@ -1,0 +1,51 @@
+<h1>Tallennetut tehtävälistat</h1>
+
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th>kurssipohjan ID</th>
+      <th>tehtävien lukumäärä</th>
+      <th>kurssien lukumäärä</th>
+      <th colspan="2"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @exerciselists.each do |elist| %>
+      <tr>
+        <td><%= elist.html_id  %></td>
+        <td><%= elist.exercises.count %></td>
+        <td><%= elist.courses.count %></td>
+        <td>
+          <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown">Näytä tehtävät<span class="caret"></span></button>
+          <ul class="dropdown-menu">
+            <% if elist.exercises.count > 0 %>
+              <% elist.exercises.each do |e| %>
+                <li><%= e.html_id %></li>
+              <% end %>
+            <% end %>
+          </ul>
+        </td>
+        <td><%= link_to 'tähän tulee Edit-nappi', '#' %></td>
+        <td><%= link_to 'Poista', "/admins/exerciselists/#{elist.id}", method: :delete, data: { confirm: 'Oletko varma? Tämä poistaa tehtävät kaikilta kurssipohjaa käyttävältä #{elist.courses.count} kurssilta!' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+</br>
+</br>
+<h2>Lisää uusi kurssipohja</h2>
+<%= form_tag '/admins/exerciselists/new' do %>
+  
+  <div class="field">
+    <%= label_tag 'kurssipohjan id - esim: may1' %>
+    <%= text_field_tag "hid" %><br>
+  </div>
+  <div class="field">
+    <%= label_tag 'linkki print-sivulle - esim: http://beta.kisallioppiminen.fi/kurssit/may1/print.html' %>
+    <%= text_field_tag "url" %>
+  </div>
+  <div class="actions">
+    <%= submit_tag "Hae tehtävät"%>
+  </div>
+<% end %>

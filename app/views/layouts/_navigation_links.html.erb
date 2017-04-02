@@ -1,16 +1,28 @@
 <% if user_admin %>
-  <li><%= link_to 'users', users_path %></li>
-  <li><%= link_to 'courses', courses_path %></li>
-  <li><%= link_to 'exercises', exercises_path %></li>
-  <li><%= link_to 'checkmarks', checkmarks_path %></li>
-  <li><%= link_to 'attendances', attendances_path %></li>
-  <li><%= link_to 'teachings', teachings_path %></li>
-  <li><%= link_to 'deadlines', deadlines_path %></li>
-  <li><%= link_to 'schedules', schedules_path %></li>
+  <li>
+      <a href="#" data-toggle="dropdown" class="dropdown-toggle">Admin-työkalut<b class="caret"></b></a>
+      <ul class="dropdown-menu">
+        <li><%= link_to 'Synkronoi tehtävät', '/admins/exerciselists/' %></li>
+      </ul>
+  </li>
+  <li>
+      <a href="#" data-toggle="dropdown" class="dropdown-toggle">Tietokannan sisältö<b class="caret"></b></a>
+      <ul class="dropdown-menu">
+          <li><%= link_to 'users', users_path %></li>
+          <li><%= link_to 'courses', courses_path %></li>
+          <li><%= link_to 'exercises', exercises_path %></li>
+          <li><%= link_to 'checkmarks', checkmarks_path %></li>
+          <li><%= link_to 'attendances', attendances_path %></li>
+          <li><%= link_to 'teachings', teachings_path %></li>
+          <li><%= link_to 'schedules', schedules_path %></li>
+      </ul>
+  </li>
+  
 <% end %>
+
 <% if user_signed_in? %>
   <li>
-  <%= link_to('-signout-', destroy_user_session_path) %>        
+  <%= link_to('-kirjaudu ulos-', destroy_user_session_path) %>        
   </li>
 <% else %>
   <li>

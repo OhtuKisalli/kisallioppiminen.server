@@ -1,0 +1,32 @@
+<text>kurssipohjan id: <%= @hid %></text>
+</br>
+<text>linkki print-sivulle: <%= @url %></text>
+</br>
+<h4><%= @notice %></h4>
+
+</br>
+ <div class="dropdown">
+  <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown">Löydetyt tehtävät (<% if @exercises %><%= @exercises.size %><% else %>0<% end %>)
+  <span class="caret"></span></button>
+  <ul class="dropdown-menu">
+    <% if @exercises %>
+      <% @exercises.each do |e| %>
+        <li><%= e %></li>
+      <% end %>
+    <% end %>
+  </ul>
+</div>
+
+<%= form_tag '/admins/exerciselists/save' do %>
+  <% @exercises.each do |e| %>
+    <div class="field"><%= hidden_field_tag 'exercises[]', e %></div>
+  <% end %>
+  <div class="field"><%= hidden_field_tag :hid, @hid %></div>
+  <div class="actions">
+    <%= submit_tag "Tallenna"%>
+  </div>
+<% end %>
+
+<input type="button" class="btn btn-info" value="Takaisin" onclick="location.href = '/admins/exerciselists/';">
+
+
