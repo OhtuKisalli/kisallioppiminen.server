@@ -1,5 +1,5 @@
 class Exercise < ApplicationRecord
 
-  belongs_to :course
+  belongs_to :exerciselist
   
 end
