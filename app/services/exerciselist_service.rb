@@ -8,5 +8,24 @@ class ExerciselistService
     end
     return elist.id
   end
+  
+  #
+  def self.all_exerciselists
+    return Exerciselist.all
+  end
+  
+  #
+  def self.delete(id)
+    return Exerciselist.delete(id)
+  end
+  
+  #
+  def self.new_list(html_id)
+    if elist_id_by_html_id(html_id)
+      return nil
+    else
+      return Exerciselist.create(html_id: html_id)
+    end
+  end
 
 end
