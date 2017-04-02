@@ -119,7 +119,7 @@ RSpec.describe CoursesController, type: :controller do
     
     context "when logged in" do
       before(:each) do
-        @course2 = FactoryGirl.create(:course, coursekey:"key2")
+        @course2 = FactoryGirl.create(:course, coursekey:"key2",html_id: "maa5")
         @testaaja = FactoryGirl.create(:user)
         sign_in @testaaja
       end
@@ -144,32 +144,29 @@ RSpec.describe CoursesController, type: :controller do
         expect(TeachingService.courses_created_today(@testaaja.id)).to eq(MAX_COURSE_PER_DAY)
       end
       
-      it "creates course but warns if no exercises selected" do
-        post 'newcourse', :format => :json, params: {"coursekey":"avain1", "name":"kurssi"}
-        expect(response.status).to eq(202)
-        expect(Course.all.count).to eq(2)
+      it "doesnt create course if exerciselist not created" do
+        post 'newcourse', :format => :json, params: {"coursekey":"avain1", "name":"kurssi", "html_id":"notsaved"}
+        expect(response.status).to eq(422)
+        body = JSON.parse(response.body)
+        expected = {"error" => "Kurssin tehtäviä ei vielä olla tallennettu tietokantaan."}
+        expect(body).to eq(expected)
+        expect(Course.all.count).to eq(1)
       end
       
       it "adds teacher to created course" do
         expect(TeachingService.all_teachings.count).to eq(0)
-        post 'newcourse', :format => :json, params: {"coursekey":"avain1", "name":"kurssi"}
+        post 'newcourse', :format => :json, params: {"coursekey":"avain1", "name":"kurssi", html_id: "maa5"}
         expect(TeachingService.all_teachings.count).to eq(1)
         expect(TeachingService.is_teacher?(@testaaja.id)).to eq(true)
         expect(UserService.teacher_courses(@testaaja.id).first.coursekey).to eq("avain1")
       end
       
       it "created course is not archived" do
-        post 'newcourse', :format => :json, params: {"coursekey":"avain1", "name":"kurssi"}
+        post 'newcourse', :format => :json, params: {"coursekey":"avain1", "name":"kurssi", html_id: "maa5"}
         @c = CourseService.find_by_coursekey("avain1")
         expect(TeachingService.is_archived?(@testaaja.id, @c.id)).to eq(false)
       end
-      
-      it "creates course with exercises" do
-        expect(ExerciseService.all_exercises.count).to eq(0)
-        post 'newcourse', :format => :json, params: {"coursekey":"avain1", "name":"kurssi", "exercises": [{"id": "23b6f818-3def-4c40-a794-6d5a9c45a0ff", "number": "0.1"}, {"id": "ff50db85-f7a9-4c03-8faf-9a17d932b435", "number": "0.2"},{"id": "0d7c9d8e-9c84-44fb-b5a7-33becc01af14", "number": "1.1"}]}
-        expect(response.status).to eq(200)
-        expect(Course.find_by(coursekey:"avain1").exercises.count).to eq(3)
-      end
+            
     end
   end
   

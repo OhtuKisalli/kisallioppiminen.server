@@ -54,20 +54,19 @@ class CoursesController < ApplicationController
     
   # Teacher – I can create coursekeys for students to join my course
   # post '/courses/newcourse'
-  # params: coursekey, name, html_id, startdate, enddate, exercises (json)
+  # params: coursekey, name, html_id, startdate, enddate
   def newcourse
     if CourseService.coursekey_reserved?(params[:coursekey])
         render :json => {"error" => "Kurssiavain on jo varattu."}, status: 403
     elsif TeachingService.courses_created_today(current_user.id) >= MAX_COURSE_PER_DAY
         errormsg = "Voit luoda korkeintaan " + MAX_COURSE_PER_DAY.to_s + " kurssia päivässä."
         render :json => {"error" => errormsg}, status: 403
+    elsif ExerciselistService.elist_id_by_html_id(params[:html_id]) == nil
+        render :json => {"error" => "Kurssin tehtäviä ei vielä olla tallennettu tietokantaan."}, status: 422
     else
       cid = CourseService.create_new_course(current_user.id, course_params)
-      if cid > -1 and params[:exercises]
-        ExerciseService.add_exercises_to_course(params[:exercises], cid)
-        render :json => {"message" => "Uusi kurssi luotu!"}, status: 200        
-      elsif cid > -1
-        render :json => {"message" => "Kurssi luotu ilman tehtäviä."}, status: 202
+      if cid > -1
+        render :json => {"message" => "Uusi kurssi luotu!"}, status: 200
       else
         render :json => {"error" => "Kurssia ei voida tallentaa tietokantaan."}, status: 422
       end
