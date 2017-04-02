@@ -13,7 +13,7 @@ RSpec.describe CheckmarksController, type: :controller do
     context "when logged in" do
       before(:each) do
         @course = FactoryGirl.create(:course, coursekey:"key2")
-        @exercise = ExerciseService.create_exercise(@course.id, "id2")
+        @exercise = ExerciseService.create_exercise(@course.html_id, "id2")
         @testaaja = FactoryGirl.create(:user)
         sign_in @testaaja
       end
@@ -29,8 +29,8 @@ RSpec.describe CheckmarksController, type: :controller do
       end
       it "cant checkmark exercise that doesnt belong to course" do
         AttendanceService.create_attendance(@testaaja.id, @course.id)
-        @course2 = FactoryGirl.create(:course, coursekey:"key3")
-        @exercise2 = ExerciseService.create_exercise(@course2.id, "id3")
+        @course2 = FactoryGirl.create(:course, coursekey:"key3", html_id: "maa8")
+        @exercise2 = ExerciseService.create_exercise(@course2.html_id, "id3")
         post 'mark', :format => :json, params: {"html_id":@exercise2.html_id,"coursekey":@course.coursekey,"status":"green"}
         expect(response.status).to eq(403)
         expect(CheckmarkService.all_checkmarks_count).to eq(0)
@@ -65,12 +65,12 @@ RSpec.describe CheckmarksController, type: :controller do
     context "when logged in" do
       before(:each) do
         @course = FactoryGirl.create(:course, coursekey:"key1")
-        @exercise1 = ExerciseService.create_exercise(@course.id, "id1")
-        @exercise2 = ExerciseService.create_exercise(@course.id, "id2")
+        @exercise1 = ExerciseService.create_exercise(@course.html_id, "id1")
+        @exercise2 = ExerciseService.create_exercise(@course.html_id, "id2")
         @opiskelija1 = FactoryGirl.create(:user, username:"o1", email:"o1@o.o")
         Attendance.create(user_id: @opiskelija1.id, course_id: @course.id)
-        CheckmarkService.save_student_checkmark(@opiskelija1.id, @exercise1.course_id, @exercise1.html_id, "green")
-        CheckmarkService.save_student_checkmark(@opiskelija1.id, @exercise2.course_id, @exercise2.html_id, "red")
+        CheckmarkService.save_student_checkmark(@opiskelija1.id, @course.id, @exercise1.html_id, "green")
+        CheckmarkService.save_student_checkmark(@opiskelija1.id, @course.id, @exercise2.html_id, "red")
         @opiskelija2 = FactoryGirl.create(:user, username:"o2", email:"o2@o.o")
         @ope = FactoryGirl.create(:user, username:"ope1", email:"ope1@o.o")
         TeachingService.create_teaching(@ope.id, @course.id)

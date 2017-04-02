@@ -17,18 +17,18 @@ RSpec.describe ScoreboardsController, type: :controller do
     
     context "when logged in" do
       before(:each) do
-        @course1 = FactoryGirl.create(:course, coursekey:"key1")
-        @course2 = FactoryGirl.create(:course, coursekey:"key2")
-        @exercise1 = ExerciseService.create_exercise(@course1.id, "id1")
-        @exercise2 = ExerciseService.create_exercise(@course1.id, "id2")
-        @exercise3 = ExerciseService.create_exercise(@course2.id, "id1")
+        @course1 = FactoryGirl.create(:course, coursekey:"key1", html_id:"eka")
+        @course2 = FactoryGirl.create(:course, coursekey:"key2", html_id:"toka")
+        @exercise1 = ExerciseService.create_exercise(@course1.html_id, "id1")
+        @exercise2 = ExerciseService.create_exercise(@course1.html_id, "id2")
+        @exercise3 = ExerciseService.create_exercise(@course2.html_id, "id1")
         @opiskelija1 = FactoryGirl.create(:user, username:"o1", first_name:"James", last_name:"Bond", email:"o1@o.o")
         @opiskelija2 = FactoryGirl.create(:user, username:"o2", first_name:"Bruce", last_name:"Wayne", email:"o2@o.o")
         AttendanceService.create_attendance(@opiskelija1.id, @course1.id)
         AttendanceService.create_attendance(@opiskelija1.id, @course2.id)
-        CheckmarkService.save_student_checkmark(@opiskelija1.id, @exercise1.course_id, @exercise1.html_id, "green")
-        CheckmarkService.save_student_checkmark(@opiskelija1.id, @exercise2.course_id, @exercise2.html_id, "red")
-        CheckmarkService.save_student_checkmark(@opiskelija1.id, @exercise3.course_id, @exercise3.html_id, "red")
+        CheckmarkService.save_student_checkmark(@opiskelija1.id, @course1.id, @exercise1.html_id, "green")
+        CheckmarkService.save_student_checkmark(@opiskelija1.id, @course1.id, @exercise2.html_id, "red")
+        CheckmarkService.save_student_checkmark(@opiskelija1.id, @course2.id, @exercise3.html_id, "red")
       end
     
       it "cannot get scoreboards of other students" do
@@ -75,7 +75,7 @@ RSpec.describe ScoreboardsController, type: :controller do
       end
       
       it "shows exercises that are not done" do
-        @exercise5 = ExerciseService.create_exercise(@course1.id, "id5")
+        @exercise5 = ExerciseService.create_exercise(@course1.html_id, "id5")
         sign_in @opiskelija1
         get 'student_scoreboard', :format => :json, params: {"sid":@opiskelija1,"cid":@course1.id}
         expect(response.status).to eq(200)
@@ -104,16 +104,16 @@ RSpec.describe ScoreboardsController, type: :controller do
       before(:each) do
         @course1 = FactoryGirl.create(:course, coursekey:"key1")
         @course2 = FactoryGirl.create(:course, coursekey:"key2")
-        @exercise1 = ExerciseService.create_exercise(@course1.id, "id1")
-        @exercise2 = ExerciseService.create_exercise(@course1.id, "id2")
+        @exercise1 = ExerciseService.create_exercise(@course1.html_id, "id1")
+        @exercise2 = ExerciseService.create_exercise(@course1.html_id, "id2")
         @opiskelija1 = FactoryGirl.create(:user, username:"o1", first_name:"James", last_name:"Bond", email:"o1@o.o")
         @opiskelija2 = FactoryGirl.create(:user, username:"o2", first_name:"Bruce", last_name:"Wayne", email:"o2@o.o")
         AttendanceService.create_attendance(@opiskelija1.id, @course1.id)
         AttendanceService.create_attendance(@opiskelija2.id, @course1.id)
-        CheckmarkService.save_student_checkmark(@opiskelija1.id, @exercise1.course_id, @exercise1.html_id, "green")
-        CheckmarkService.save_student_checkmark(@opiskelija1.id, @exercise2.course_id, @exercise2.html_id, "red")
-        CheckmarkService.save_student_checkmark(@opiskelija2.id, @exercise1.course_id, @exercise1.html_id, "red")
-        CheckmarkService.save_student_checkmark(@opiskelija2.id, @exercise2.course_id, @exercise2.html_id, "green")
+        CheckmarkService.save_student_checkmark(@opiskelija1.id, @course1.id, @exercise1.html_id, "green")
+        CheckmarkService.save_student_checkmark(@opiskelija1.id, @course1.id, @exercise2.html_id, "red")
+        CheckmarkService.save_student_checkmark(@opiskelija2.id, @course1.id, @exercise1.html_id, "red")
+        CheckmarkService.save_student_checkmark(@opiskelija2.id, @course1.id, @exercise2.html_id, "green")
         @ope1 = FactoryGirl.create(:user, username:"ope1", email:"ope1@o.o")
         TeachingService.create_teaching(@ope1.id, @course1.id)
         TeachingService.create_teaching(@ope1.id, @course2.id)
@@ -168,7 +168,7 @@ RSpec.describe ScoreboardsController, type: :controller do
       end
       
       it "shows exercises that student is not done" do
-        @exercise3 = ExerciseService.create_exercise(@course1.id, "id3")
+        @exercise3 = ExerciseService.create_exercise(@course1.html_id, "id3")
         sign_in @ope1
         get 'scoreboard', :format => :json, params: {"id":@course1.id}
         expect(response.status).to eq(200)
@@ -183,10 +183,10 @@ RSpec.describe ScoreboardsController, type: :controller do
         @opiskelija4 = FactoryGirl.create(:user, username:"o2", first_name: nil, last_name: nil, email:"p2@o.o")
         AttendanceService.create_attendance(@opiskelija3.id, @course1.id)
         AttendanceService.create_attendance(@opiskelija4.id, @course1.id)
-        CheckmarkService.save_student_checkmark(@opiskelija3.id, @exercise1.course_id, @exercise1.html_id, "green")
-        CheckmarkService.save_student_checkmark(@opiskelija3.id, @exercise2.course_id, @exercise2.html_id, "red")
-        CheckmarkService.save_student_checkmark(@opiskelija4.id, @exercise1.course_id, @exercise1.html_id, "red")
-        CheckmarkService.save_student_checkmark(@opiskelija4.id, @exercise2.course_id, @exercise2.html_id, "green")
+        CheckmarkService.save_student_checkmark(@opiskelija3.id, @course1.id, @exercise1.html_id, "green")
+        CheckmarkService.save_student_checkmark(@opiskelija3.id, @course1.id, @exercise2.html_id, "red")
+        CheckmarkService.save_student_checkmark(@opiskelija4.id, @course1.id, @exercise1.html_id, "red")
+        CheckmarkService.save_student_checkmark(@opiskelija4.id, @course1.id, @exercise2.html_id, "green")
         sign_in @ope1
         get 'scoreboard', :format => :json, params: {"id":@course1.id}
         expect(response.status).to eq(200)
