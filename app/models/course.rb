@@ -2,7 +2,8 @@ require 'date'
 
 class Course < ApplicationRecord
 
-  has_many :exercises, dependent: :destroy
+  belongs_to :exerciselist
+  has_many :exercises, through: :exerciselist
   has_many :attendances, dependent: :destroy
   has_many :schedules, dependent: :destroy
   has_many :students, through: :attendances, source: :user
