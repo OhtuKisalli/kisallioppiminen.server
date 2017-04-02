@@ -52,11 +52,27 @@ maa2exs = ["287c3ee4-8ac7-4d9b-8bc2-cfc3e87bb4e2","0e89b75f-dd3f-48f1-9a16-29cfb
 
 maa3exs = ["0dca4faa-b685-4ad4-92a1-b54a0cf0a9d2","70a1ea31-93cf-48d9-957a-c053a01d6237","04e93b33-8e65-4aa0-9861-b7b76bf890fc","8c10168d-1b33-460d-bb20-1c0b58ddf021","7170400a-5a34-44a9-ba8e-6ac9b7b986b9","d863a9a2-dde5-41ee-a1fd-17c45c366af9","96a5e852-9c4b-4944-b59a-48009a5910e0","c66c2404-300e-47ed-b605-d16bae6858a9","432a38db-094b-47df-9a43-dcd3332b797e","ee6f4c8a-9251-4396-b5f1-4e8ae9a93f61","805ca64d-e6d2-463f-b912-b03564161ec0","c2843e21-160e-44ce-a100-1febcb9f262d","f3f549d4-31f8-444d-abf1-f991518e642a","035e7ed8-120c-4e40-ac6e-e8105de6e90c","e2703781-1abc-4812-96a7-9d1dc0514c84","5860d133-62a9-4f1f-a0e7-6d043eb76ff5","c1a7c3a5-4689-461a-8b4c-837e2fafe24c","b4c66aab-306c-4744-a6dc-be7597e2f9b4","fa2e426a-6c6c-4bf2-8ae0-58b3fcb6c7f8","55b75638-6b46-4fde-ad17-a45ba637b77d","778bcc0e-1933-443a-a52b-2abdeff95e9d","943f0eb1-040e-4372-9c4e-6f904afe6789","b432fedb-5960-4d0a-af38-96c5ed0b205d","14b0d5e8-f64d-421b-8f35-61266cb8c0f0","77f899e7-3d17-454d-9dc2-0117654c6e65","aaaaf67e-022a-4d72-acca-d29b86fbc29c","712fdc7d-fe1e-4866-a56e-b09be314a517","bd8c25d1-98c5-4111-868c-1cbe5763f7d1","6c8b4487-f2a9-434c-a11d-8f99676c2bed","c33f9528-0e59-47ca-a71a-9d7e01c229cc","697cba6d-2bb3-4757-805c-167d00f21231","b1d8ad62-c3df-477d-a376-ae93314cf76a","8aa3ded8-67d9-47a3-97d6-241f3681bd3d","d6b36bfa-d31c-48dd-b5be-665a0e5c5774","0c4de817-023f-4ee0-a988-eb5454a3e4ef","ec32b191-0573-4eee-b4e0-3eab9b48c1d5","95a47537-a314-4a77-9f8e-c142ae5388ec","9476b014-a6e5-4f20-ac0a-55e3b28438f8","7467cf22-2e32-478e-ae88-b3821600f6a8","3f514c2c-71a7-4e22-a8d4-9dba2ef886ba","bd327927-5292-4d27-b427-fc2ae9aa2718","5ebf8bd5-f893-4b87-9300-c7f1f53761f0","4ab4dcda-28a9-4f59-8ea8-d72e529f2a51","a7460a37-0f7d-4ce8-bbab-ad4da4d5b3fc","03be964d-0336-49e6-8b1d-067ff5ae9150","1010a2d7-5eff-4da8-b8f6-fd463fdb98ce","7222fb9e-1fe3-44fb-b2db-2014dc44ef8f","7a62c929-9d78-465c-93f5-48871d74fea2","1314013c-aa4d-4f7b-85d2-856815fc41c5","7415e832-41a0-40ca-bcc5-48a795f13eb1","f09f8f15-2e72-473a-89d4-1ad23386c639","ab831663-9c0e-4d78-81a4-78619783a889","bc3095c4-1586-417f-80b8-d30b0bcbd158","e5bcc138-a43b-4668-b1f9-8792d2c93cd3","21281179-06de-4b0c-a03e-446a9a082ad5","9eb91e3f-2acc-40ae-a760-ee11e5c12b78","dc72fa6d-71f7-4137-baba-29a5b6faf8f5","87b2eae3-a452-410f-aff4-afd056d67dc2","59d8fb93-1b3e-4e92-882e-3c0fb47b6d7f","1a66d979-7f8c-4d1f-b2bd-d508e4b4c95c","59e6ebc5-64c4-4180-a3b9-775d8476c74d","ebaec2ec-7b3f-44f4-a883-c69e43fb044f","b940d053-2681-4cf5-9239-36c590f14632","7ac492e3-5ebe-41ef-9888-20b7acc12d32","823fc953-ad81-479e-b5c4-433d62e15a11","8b29e87c-5061-4d86-ad87-33d1954ffd4a","587352e9-8ee2-436f-a918-a9e9f89e1e58","57076dfb-42a3-48a9-9971-672bb1249e48","2cfef166-c198-4e59-9129-09626d6f415b","18cbdf56-ca2b-408d-aae0-5336cc2fb3d6","a96f191c-005c-4ce2-a538-5c78b5498f63","e64c1cfc-0a44-40a4-894f-182e11ffdba1","5258b9f2-d321-473f-8607-b43f2873cc59","4cf324ec-2eac-4bd8-8155-5d72e50ff143","91cbf71e-3847-40bf-90f3-1f41bd2484b8","3f1cdd45-8d23-4cc2-971b-0c11c66e4860","77e312b0-8ab5-45d0-b5af-74ad3507a1ca","5f0cb016-7477-4fac-8897-f31b91816791","5797919d-4e21-4ab9-90b4-370bd1af7180","6f1557ad-7b7f-43c4-98fd-dd507c75d66a","232aaa37-9872-4557-bd3a-0386d622517e","3e3bda05-051c-4e4a-80b6-136aae7231f0","823c94cd-52c1-480f-b258-f3dad47b8722","a5a7f013-73dc-4337-b1ac-b5c2f65404de","084c55f1-557d-4f04-9a41-9d0847d10a82","8426c7b6-ee3c-47e5-b312-4042f475b7d7","a21e531f-e5fa-409f-aa8e-c7502b0bbefb","94bd1364-6fbb-4eb5-9874-52e76e1e99e8","4085967d-320b-49ce-9303-58823265afa2","2661ef3c-7e14-473c-8e91-65f6be77262e","a919c97e-cdea-4c78-9a22-24335036408c","08aef350-f30e-4f91-86a2-4e3a488a22a2","d7674c5e-ce98-46d3-b6ab-924875edc809","5bff829e-897a-45e1-bd51-4c84d2f27f18","f933ab54-2b11-4f08-8416-0e5053291dc8","dc3de33a-6cce-4751-8c3b-beeb57973436","ece36e42-3655-453f-aa18-a3f08964f8ac","848668d0-af96-4659-8dcc-0cda945c082e","00d074f1-a71e-43b8-82c6-97433a3c6ca6","0b2e6b31-def8-4912-9db4-b0aa5d757dbd","43118093-6178-490b-8b08-a718c7af5423","b78fbe8a-4a2e-44fc-ade8-ffee205d060e","832483e3-2e80-40c1-b584-adad573512cc","1fc58dcb-7cad-4bc8-b7d9-f521dc4f40f9","dd6780f7-9843-4007-bd76-eda9e005b86c","7eb516df-3afb-423b-b3a7-e584e2959807","cb6fbddb-bb42-4fe8-802c-23ad68a6999d","48718ea8-354b-49bc-bf1f-1dd83ffccc50","5c482d09-e226-4cda-b208-14c389947228","7eb0006b-2aa3-48cf-af90-70eafc047c8d","9e2ce2de-0bf4-4e67-a69d-d8567132d9a4","e22957b2-bf5b-4b0b-8388-e2435a9792b3","3fd0c61a-baa2-4d27-ba34-766a1d7d8314","fbf3b85c-c012-4dfc-8feb-5d1fd5d00df8","44e53cf4-2681-4ddd-af9f-e9a9a795caf7","e741e64e-8c3b-4589-84f0-5ee78e43757e","2d8115f1-2e61-4ec0-8059-e0ad49ae650c","8c1b72b5-e447-4ef7-9561-6a2251190715","6e468f17-a518-4f65-90a8-62d6914ad84e","df4c062f-1f27-4ab7-be35-0933b84e5fea","2288eb94-c954-46a6-a44e-52f34736480e","85a84a6f-0462-4199-b2c7-d0dadc93ce8e","85047859-4f04-4209-b5c1-fa540e94d957","b0a13005-1456-4a5f-acaf-c4ab70b6c3b4","43e6f901-b21e-4d23-95c9-9ceae8a12904","bf1e211e-a84c-4f01-ac1c-adefbe0c3d41","dde0645b-79d8-43ef-a40d-e5f950bda996","f26c1d92-a5cd-4099-a9a1-4cd2a58d566c","e861b439-8f99-48b3-a6c3-45ae82688eb6","601df4d6-213f-4a79-ab22-b30fa120c00f","71eb088e-1ed4-44ae-b255-d2e63213efc9","d2ac7d29-d9c1-4e6e-ba3d-02e2f5945068","858bc748-a1cd-4aec-bc8b-9880e6bf7073","33a4c767-8061-4009-8907-388749601052","fcc134ed-8940-458b-99d4-74c6ae15d82f","2309b19d-872a-4be4-9fa9-e9752b423f19","d8c7ed04-1c4e-4340-b52b-47203c4ddff2","7bf99a48-4088-4030-8e88-3a85541ed163","580f2c36-4cec-460a-a977-54b3783eafec","05373d7e-0a1a-44c8-891d-61f211bd3cbf","02445af9-d9db-4253-828a-e4e8a99280f5","058ce264-acde-4ac5-908a-797c04ea71f8","146ac0ae-5876-44eb-bba5-c6bb97e4afc6","ff13c7fc-b1b6-47e5-b13a-d02dee5cfae4","39f2919f-2a54-4c2c-8cd0-56c1e5f70347","44530da9-45ee-4603-b332-bb95da9aa4e1","d2e6e671-21d0-453b-b070-bad65f362a00","93f9125e-dff0-459f-ba74-5d6826ba3a37","82066e11-b825-47b2-95cf-c0c299ce983b","cef1df67-5f82-4af9-bfe6-d5aae073ed00","768064f2-d85a-42a6-945f-45e67811b09b","b4b4c0c7-5e13-4732-954a-1d5054ed3ba0","6ab5f359-3531-459c-b8f6-29f3e2373c2d","681387b3-35b2-463e-a50b-7a073245f536","2ba4a715-4127-4535-903c-2167363f9619","646463c6-651c-4c4a-820f-9e2df79e4b59","04b94214-313b-46c5-88b1-441bd1cb0b2d","bba79675-78d8-4654-8cb0-32edbc0014bd","59e845e5-d649-4351-a618-d7ba00398d63","908959e9-8268-4ce7-8ddb-0b483f29a683","86c2f903-8ab7-43ae-899e-5ba8befed6f1","9ed122c5-bde8-4141-b468-3c05bb578ed4","ea8185ad-02f8-460a-9a2d-84cb97ad799c","5e822ce6-36d4-43aa-a5ad-d13f503e2871","82c7b6ee-467a-4989-88b2-bc5f0aefedab","60780159-775d-4879-97ec-2e2682e5d4f9","ac933cd9-7cec-4228-acad-bb1a6aafb4c5","2a2b2f08-76a2-49d1-8e3e-39a7f06f125e","46a3489e-b4e1-4743-9aaf-f35247e53202","0029b551-ebd5-4720-86d4-ac1e96e7d109","e045ef65-69b9-4cb4-bb14-5d8047482b77","370d5a44-6373-4afb-b032-ddb8e696d3f4","831e63ac-9288-4e0d-9fd8-812f9edb29ae","3ed5f84a-64c3-4e7b-93b0-95d073c5db11","31f84ef3-6e10-44d3-bbac-3dc27db3fe4a","6f9d8be2-90e8-41c3-8c11-522bab1d3b41","bc69a1e6-03a2-4d29-94e6-5832b6bcf3ec","5a350a84-5785-43a5-b914-cacf4be3a7bf","adf8bfef-8aa7-4f16-920a-6cc067a86862","cb5730b8-4d71-4341-a756-1f4977b6fb9e","eec41641-37c2-4ac4-8c56-2fb1cdff7e29","7aac0c04-6310-43a8-88da-0fe91acd1605","e9b3f0f6-64c7-4403-a3be-99ca2471d968","5b5efb5a-25b3-4418-b713-8733a8c4474e","aea5ec14-7aff-4446-a6cb-c9352c3a494f","08b58fbc-836d-4546-969b-5c60f4ec6a99","28c57dfe-3973-4658-9012-090736e3067d","f002ec14-3a51-4371-b481-66f6dc07d2a3","545ed191-c303-4de6-b1de-6919d875ac9b","22272bb5-89be-4f63-a1ec-c6d828225f7a","a9a6478a-1941-41de-988f-43b6895cd49b","82a031ae-bf69-4382-823a-084635d72707","3ce14565-1449-48a6-99a1-04fb32f489d1","4a811772-64e2-4121-8897-c09e6d9c2438","61a1b573-3045-4c42-b9c7-92d2ea4c2bc8","8483a5d0-e4b1-4916-ba0d-dc73d03ae675","f40a1821-34f2-48a9-8216-8085abc80994","2e2a33a5-5deb-49c7-8962-3172afde85f3","f78cf5e0-97ed-44b1-9cfc-df1d290517a3","53953020-c175-451b-a992-7971e9f8f4ac","bf3ec8c9-e3f7-4993-a9c0-10f29dd0388e","1ba5282d-3875-46fe-979c-9ade8c6c2c0f","49cf308e-d89e-4020-8ecf-a2cbae2e8558","ba3d4043-c954-4a75-b69f-89eacf392c50","5d87f0c3-faf0-412d-8eda-96fe8040507b","39c69858-5331-4d28-ab40-b5b5a5eaa391","b2621bc9-8c16-4e9b-9478-3fb98115c5d7","4239fd72-d43d-4103-9497-8dd460691528","cfcd9d54-ac8f-41cb-b5a4-d885d65ff307","a88910a9-69fc-434b-8a78-0a1e0429d86b","acb74c3b-abb4-4c7f-886e-4fa2ffe8b02f","c3988bba-527a-4ae0-b681-c4d476d067cb","af67d54e-b279-45c7-ba3a-47e1015bbf30","b4224ba5-d441-45e5-9720-39a9a3bce648","b7b1156f-c741-4dcd-bfd8-93d73df567e6","738bdf2f-ad76-44f8-92cd-bc43092c18d7","1befbea2-86a6-48b5-b84f-8b8c49fbb8da","3af72d31-9b9c-4976-b3f7-c7e35f55297b","0715f898-3229-4546-9910-e1c549dc2d10","5342ac2e-5fe5-4467-b3b1-857d14b55e1b","e254922c-05b4-4c52-9483-7dfb01690b25","f3989add-3530-4c3a-abcd-c323c736101e","8e4478e0-be40-444b-9bf4-0ae56ba79248"]
 
-@course1 = Course.create(html_id:"may1", coursekey:"testiavain1", name:"MAY1", startdate: "2017-03-01", enddate: "2017-04-11")
-@course2 = Course.create(html_id: "maa2", coursekey: "testiavain2", name: "MAA2", startdate: "2017-03-02", enddate: "2017-04-22")
-@course3 = Course.create(html_id: "maa3", coursekey: "testiavain3", name: "MAA3", startdate: "2017-03-03", enddate: "2017-05-02")
-@course11 = Course.create(html_id:"may1", coursekey:"testiavain11", name:"MAY1", startdate: "2017-03-01", enddate: "2017-04-11")
-@course22 = Course.create(html_id: "maa2", coursekey: "testiavain22", name: "MAA2", startdate: "2017-03-02", enddate: "2017-04-22")
+@elist1 = Exerciselist.create(html_id: "may1")
+@elist2 = Exerciselist.create(html_id: "maa2")
+@elist3 = Exerciselist.create(html_id: "maa3")
+
+may1exs.each do |e|
+  Exercise.create(html_id: e, exerciselist_id: @elist1.id)
+end
+
+maa2exs.each do |e|
+  Exercise.create(html_id: e, exerciselist_id: @elist2.id)
+end
+
+maa3exs.each do |e|
+  Exercise.create(html_id: e, exerciselist_id: @elist3.id)
+end
+
+@course1 = Course.create(html_id:"may1", exerciselist_id: @elist1.id, coursekey:"testiavain1", name:"MAY1", startdate: "2017-03-01", enddate: "2017-04-11")
+@course2 = Course.create(html_id: "maa2", exerciselist_id: @elist2.id, coursekey: "testiavain2", name: "MAA2", startdate: "2017-03-02", enddate: "2017-04-22")
+@course3 = Course.create(html_id: "maa3", exerciselist_id: @elist3.id, coursekey: "testiavain3", name: "MAA3", startdate: "2017-03-03", enddate: "2017-05-02")
+@course11 = Course.create(html_id:"may1", exerciselist_id: @elist1.id, coursekey:"testiavain11", name:"MAY1", startdate: "2017-03-01", enddate: "2017-04-11")
+@course22 = Course.create(html_id: "maa2", exerciselist_id: @elist2.id, coursekey: "testiavain22", name: "MAA2", startdate: "2017-03-02", enddate: "2017-04-22")
 
 Teaching.create(user_id: @ope.id, course_id: @course1.id)
 Teaching.create(user_id: @ope.id, course_id: @course2.id)
@@ -143,15 +159,6 @@ Attendance.create(user_id: @u11.id, course_id: @course3.id)
 
 sts = Course.find(@course1.id).students
 
-may1exs.each do |e|
-  Exercise.create(html_id: e, course_id: @course1.id)
-end
-
-may1exs.each do |e|
-  Exercise.create(html_id: e, course_id: @course11.id)
-end
-
-
 sts.each do |s|
   cms = {}
   may1exs.each do |e|
@@ -166,15 +173,6 @@ sts.each do |s|
 end
 
 sts2 = Course.find(@course2.id).students
-
-maa2exs.each do |e|
-  Exercise.create(html_id: e, course_id: @course2.id)
-end
-
-maa2exs.each do |e|
-  Exercise.create(html_id: e, course_id: @course22.id)
-end
- 
   
 sts2.each do |s|
   cms = {}
@@ -188,10 +186,6 @@ sts2.each do |s|
 end
 
 sts3 = Course.find(@course3.id).students 
-
-maa3exs.each do |e|
-  Exercise.create(html_id: e, course_id: @course3.id)
-end
   
 sts3.each do |s|
   cms = {}
@@ -206,19 +200,16 @@ sts3.each do |s|
   a.save
 end
 
-# n = @course1.exercises.first.id
+may1exs
+maa2exs
+maa3exs
 
-#ex1 = @course1.exercises.where(:id => n..(n+50))
-#ex2 = @course1.exercises.where(:id => (n+51)..(n+100))
-#ex3 = @course1.exercises.where(:id => (n+101)..(n+150))
 
-#Exercise.where(course_id: cid).map(&:html_id)
+Schedule.create(name: "Laiskan tavoite", course_id: @course1.id, exercises: may1exs[0,80])
+Schedule.create(name: "Normaalin tavoite", course_id: @course1.id, exercises: may1exs[0,160])
+Schedule.create(name: "Ahkeran tavoite", course_id: @course1.id, exercises: may1exs[0,240])
+Schedule.create(name: "Eka setti", course_id: @course2.id, exercises: may1exs[0,30])
+Schedule.create(name: "Toka setti", course_id: @course2.id, exercises: may1exs[30,20])
+Schedule.create(name: "Kolmas setti", course_id: @course2.id, exercises: may1exs[50,10])
 
-#@d1 = Deadline.create(description: "Eka setti", deadline: "2017-03-20 23:59:59")
-#@d2 = Deadline.create(description: "Toka setti", deadline: "2017-03-25 23:59:59")
-#@d3 = Deadline.create(description: "Kolmas setti", deadline: "2017-03-30 23:59:59")
-
-#@d1.exercises << ex1
-#@d2.exercises << ex2
-#@d3.exercises << ex3
 
