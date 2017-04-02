@@ -1,29 +1,24 @@
 FactoryGirl.define do
   
   factory :user do
-    username "hanipöö"
-    name "Pertti"
     first_name "James"
     last_name "Bond"
     email "t1@t.t"
     password "qwerty"
   end
-
-  factory :Course do
-    name "math1"
-    coursekey "coursekey1"
-    html_id "this_htmlid"
-  end
   
   factory :course do
     name "maa1"
     coursekey "key1"
+    html_id "maa1"
+    exerciselist_id do
+      FactoryGirl.create(:exerciselist, html_id: html_id).id
+    end
+    
   end
   
-  factory :deadline do
-    description "nimi"
-    deadline "2011-11-11 11:11:11"
-    course_id 1
+  factory :exerciselist do
+    html_id "maa1"
   end
   
 end
