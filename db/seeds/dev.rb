@@ -55,6 +55,8 @@ maa3exs = ["0dca4faa-b685-4ad4-92a1-b54a0cf0a9d2","70a1ea31-93cf-48d9-957a-c053a
 @course1 = Course.create(html_id:"may1", coursekey:"testiavain1", name:"MAY1", startdate: "2017-03-01", enddate: "2017-04-11")
 @course2 = Course.create(html_id: "maa2", coursekey: "testiavain2", name: "MAA2", startdate: "2017-03-02", enddate: "2017-04-22")
 @course3 = Course.create(html_id: "maa3", coursekey: "testiavain3", name: "MAA3", startdate: "2017-03-03", enddate: "2017-05-02")
+@course11 = Course.create(html_id:"may1", coursekey:"testiavain11", name:"MAY1", startdate: "2017-03-01", enddate: "2017-04-11")
+@course22 = Course.create(html_id: "maa2", coursekey: "testiavain22", name: "MAA2", startdate: "2017-03-02", enddate: "2017-04-22")
 
 Teaching.create(user_id: @ope.id, course_id: @course1.id)
 Teaching.create(user_id: @ope.id, course_id: @course2.id)
@@ -145,6 +147,11 @@ may1exs.each do |e|
   Exercise.create(html_id: e, course_id: @course1.id)
 end
 
+may1exs.each do |e|
+  Exercise.create(html_id: e, course_id: @course11.id)
+end
+
+
 sts.each do |s|
   cms = {}
   may1exs.each do |e|
@@ -163,6 +170,11 @@ sts2 = Course.find(@course2.id).students
 maa2exs.each do |e|
   Exercise.create(html_id: e, course_id: @course2.id)
 end
+
+maa2exs.each do |e|
+  Exercise.create(html_id: e, course_id: @course22.id)
+end
+ 
   
 sts2.each do |s|
   cms = {}
@@ -194,21 +206,19 @@ sts3.each do |s|
   a.save
 end
 
-n = @course1.exercises.first.id
+# n = @course1.exercises.first.id
 
-ex1 = @course1.exercises.where(:id => n..(n+50))
-ex2 = @course1.exercises.where(:id => (n+51)..(n+100))
-ex3 = @course1.exercises.where(:id => (n+101)..(n+150))
+#ex1 = @course1.exercises.where(:id => n..(n+50))
+#ex2 = @course1.exercises.where(:id => (n+51)..(n+100))
+#ex3 = @course1.exercises.where(:id => (n+101)..(n+150))
 
-@d1 = Deadline.create(description: "Eka setti", deadline: "2017-03-20 23:59:59")
-@d2 = Deadline.create(description: "Toka setti", deadline: "2017-03-25 23:59:59")
-@d3 = Deadline.create(description: "Kolmas setti", deadline: "2017-03-30 23:59:59")
+#Exercise.where(course_id: cid).map(&:html_id)
 
-@d1.exercises << ex1
-@d2.exercises << ex2
-@d3.exercises << ex3
+#@d1 = Deadline.create(description: "Eka setti", deadline: "2017-03-20 23:59:59")
+#@d2 = Deadline.create(description: "Toka setti", deadline: "2017-03-25 23:59:59")
+#@d3 = Deadline.create(description: "Kolmas setti", deadline: "2017-03-30 23:59:59")
 
-
-
-
+#@d1.exercises << ex1
+#@d2.exercises << ex2
+#@d3.exercises << ex3
 
