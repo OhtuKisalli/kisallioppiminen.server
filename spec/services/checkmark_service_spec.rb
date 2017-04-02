@@ -5,7 +5,7 @@ RSpec.describe CheckmarkService, type: :service do
   describe "basic methods" do
     before(:each) do
       @course = FactoryGirl.create(:course, coursekey:"key1")
-      @e1 = ExerciseService.create_exercise(@course.id, "id1")
+      @e1 = ExerciseService.create_exercise(@course.html_id, "id1")
       @student = FactoryGirl.create(:user, email:"u2@o.o")
     end
     it "all_checkmarks_count" do
@@ -24,7 +24,7 @@ RSpec.describe CheckmarkService, type: :service do
     end
     it "student_checkmarks(cid, sid)" do
       expect(CheckmarkService.student_checkmarks(666, 666).size).to eq(0)
-      @e2 = ExerciseService.create_exercise(@course.id, "id2")
+      @e2 = ExerciseService.create_exercise(@course.html_id, "id2")
       create_attendance_and_checkmark(@student.id, @course.id, @e1.html_id, "green")
       create_attendance_and_checkmark(@student.id, @course.id, @e2.html_id, "red")
       cms = CheckmarkService.student_checkmarks(@course.id, @student.id)
@@ -49,8 +49,8 @@ RSpec.describe CheckmarkService, type: :service do
   describe "more complex methods" do
     before(:each) do
       @course = FactoryGirl.create(:course, coursekey:"key1")
-      @e1 = ExerciseService.create_exercise(@course.id, "id1")
-      @e2 = ExerciseService.create_exercise(@course.id, "id2")
+      @e1 = ExerciseService.create_exercise(@course.html_id, "id1")
+      @e2 = ExerciseService.create_exercise(@course.html_id, "id2")
       @student = FactoryGirl.create(:user, email:"u2@o.o")
     end
     it "add_gray_checkmarks(exercisearray, sid, cid)" do

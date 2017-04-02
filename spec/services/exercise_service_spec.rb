@@ -5,7 +5,7 @@ RSpec.describe ExerciseService, type: :service do
   describe "basic methods" do
     before(:each) do
       @course = FactoryGirl.create(:course, coursekey:"key1")
-      @e1 = ExerciseService.create_exercise(@course.id, "id1")
+      @e1 = ExerciseService.create_exercise(@course.html_id, "id1")
     end
     
     it "exercise_by_id(id)" do
@@ -14,7 +14,7 @@ RSpec.describe ExerciseService, type: :service do
     end
     
     it "exercise_ids_of_course(cid)" do
-      @e2 = ExerciseService.create_exercise(@course.id, "id2")
+      @e2 = ExerciseService.create_exercise(@course.html_id, "id2")
       ids = ExerciseService.exercise_ids_of_course(@course.id)
       expect(ids.size).to eq(2)
       expect(ids.include?(@e1.id)).to eq(true)
@@ -48,29 +48,6 @@ RSpec.describe ExerciseService, type: :service do
     end
     
   end
-  
-  describe "more complex methods" do
-      before(:each) do
-        @course = FactoryGirl.create(:course, coursekey:"key1")
-      end
-      it "adds exercises to course" do
-        exs = [{"id" => "id2", "number" => "0.1"}, {"id" => "id3", "number" => "0.2"}]
-        expect(@course.exercises.count).to eq(0)
-        ExerciseService.add_exercises_to_course(exs, @course.id)
-        expect(@course.exercises.count).to eq(2)
-        expect(ExerciseService.exercise_by_course_id_and_html_id(@course.id, "id2")).not_to eq(nil)
-        expect(ExerciseService.exercise_by_course_id_and_html_id(@course.id, "id3")).not_to eq(nil)
-      end
-      it "doesnt allow to add same exercises again" do
-        exs = [{"id" => "id2", "number" => "0.1"}, {"id" => "id3", "number" => "0.2"}]
-        ExerciseService.add_exercises_to_course(exs, @course.id)
-        expect(@course.exercises.count).to eq(2)
-        ExerciseService.add_exercises_to_course(exs, @course.id)
-        expect(@course.exercises.count).to eq(2)
-        exs = [{"id" => "id2", "number" => "0.1"}, {"id" => "id4", "number" => "0.4"}]
-        ExerciseService.add_exercises_to_course(exs, @course.id)
-        expect(@course.exercises.count).to eq(3)
-      end
-  end
+    
 
 end

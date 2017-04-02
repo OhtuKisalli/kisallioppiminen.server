@@ -6,7 +6,8 @@ RSpec.describe TeachingService, type: :service do
     before(:each) do
       @ope = FactoryGirl.create(:user, email:"u1@o.o")
       @ope2 = FactoryGirl.create(:user, email:"u2@o.o")
-      @course = FactoryGirl.create(:course, coursekey:"key1")
+      @elist = FactoryGirl.create(:exerciselist)
+      @course = FactoryGirl.create(:course, exerciselist_id: @elist.id, coursekey:"key1")
       Teaching.create(user_id: @ope.id, course_id: @course.id)
     end
     it "teacher_on_course?(sid, cid)" do
@@ -57,9 +58,10 @@ RSpec.describe TeachingService, type: :service do
       @ope1 = FactoryGirl.create(:user, email:"u1@o.o")
       @ope2 = FactoryGirl.create(:user, email:"u2@o.o")
       @ope3 = FactoryGirl.create(:user, email:"u3@o.o")
-      @course1 = FactoryGirl.create(:course, coursekey:"key1")
-      @course2 = FactoryGirl.create(:course, coursekey:"key2")
-      @course3 = FactoryGirl.create(:course, coursekey:"key3")
+      @elist = FactoryGirl.create(:exerciselist)
+      @course1 = FactoryGirl.create(:course, exerciselist_id: @elist.id, coursekey:"key1")
+      @course2 = FactoryGirl.create(:course, exerciselist_id: @elist.id, coursekey:"key2")
+      @course3 = FactoryGirl.create(:course, exerciselist_id: @elist.id, coursekey:"key3")
       Teaching.create(user_id: @ope2.id, course_id: @course2.id)
       Teaching.create(user_id: @ope1.id, course_id: @course1.id)
       Teaching.create(user_id: @ope1.id, course_id: @course2.id)

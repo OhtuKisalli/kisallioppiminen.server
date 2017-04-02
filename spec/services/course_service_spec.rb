@@ -11,7 +11,7 @@ RSpec.describe CourseService, type: :service do
       expect(CourseService.find_by_coursekey(@course.coursekey).id).to eq(@course.id)
     end
     it "course_has_exercise?(course,hid)" do
-      exercise1 = ExerciseService.create_exercise(@course.id, "id1")
+      exercise1 = ExerciseService.create_exercise(@course.html_id, "id1")
       expect(CourseService.course_has_exercise?(@course,"eioo")).to eq(false)
       expect(CourseService.course_has_exercise?(@course,exercise1.html_id)).to eq(true)
     end  
@@ -31,8 +31,9 @@ RSpec.describe CourseService, type: :service do
     end
     it "create_new_course(sid, params)" do
       @ope = FactoryGirl.create(:user, email:"o2@o.o")
-      proper_params = {"coursekey":"key1111", "name":"nimi1", "html_id":"id222", "startdate":"2017-02-02", "enddate":"2017-10-11"}
-      improper_params = {"coursekey": @course.coursekey, "name":"nimi1", "html_id":"id222", "startdate":"2017-02-02", "enddate":"2017-10-11"}
+      @elist = FactoryGirl.create(:exerciselist)
+      proper_params = {"coursekey":"key1111", "name":"nimi1", "html_id":"id222", "startdate":"2017-02-02", "enddate":"2017-10-11", exerciselist_id: @elist.id}
+      improper_params = {"coursekey": @course.coursekey, "name":"nimi1", "html_id":"id222", "startdate":"2017-02-02", "enddate":"2017-10-11", exerciselist_id: @elist.id}
       expect(CourseService.create_new_course(@ope.id, improper_params)).to eq(-1)
       expect(CourseService.create_new_course(@ope.id, proper_params)).not_to eq(-1)
       expect(CourseService.find_by_coursekey("key1111")).not_to eq(nil)
@@ -67,7 +68,7 @@ RSpec.describe CourseService, type: :service do
     end
     it "delete_course(cid)" do
       expect(CourseService.delete_course(@course.id + 1)).to eq(false)
-      ExerciseService.create_exercise(@course.id, "id1")
+      ExerciseService.create_exercise(@course.html_id, "id1")
       @student = FactoryGirl.create(:user, email:"u2@o.o")
       AttendanceService.create_attendance(@student.id, @course.id)
       TeachingService.create_teaching(@student.id, @course.id)
@@ -79,7 +80,7 @@ RSpec.describe CourseService, type: :service do
       expect(CourseService.all_courses.count).to eq(0)
       expect(TeachingService.all_teachings.count).to eq(0)
       expect(AttendanceService.all_attendances.size).to eq(0)
-      expect(ExerciseService.all_exercises.count).to eq(0)
+      expect(ExerciseService.all_exercises.count).to eq(1)
     end
     
   end
@@ -104,8 +105,8 @@ RSpec.describe CourseService, type: :service do
     end
     
     it "statistics(cid)" do
-      ExerciseService.create_exercise(@course.id, "id1")
-      ExerciseService.create_exercise(@course.id, "id2")
+      ExerciseService.create_exercise(@course.html_id, "id1")
+      ExerciseService.create_exercise(@course.html_id, "id2")
       @student1 = FactoryGirl.create(:user, email:"u1@o.o")
       @student2 = FactoryGirl.create(:user, email:"u2@o.o")
       @student3 = FactoryGirl.create(:user, email:"u3@o.o")
