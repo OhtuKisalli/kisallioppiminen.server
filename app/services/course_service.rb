@@ -30,7 +30,11 @@ class CourseService
   # returns id or -1
   def self.create_new_course(sid, params)
     @course = Course.new(params)
-    if not coursekey_reserved?(@course.coursekey) and @course.save
+    if @course.exerciselist_id == nil
+      elist_id = ExerciselistService.elist_id_by_html_id(@course.html_id)
+      @course.exerciselist_id = elist_id
+    end
+    if not coursekey_reserved?(@course.coursekey) and @course.exerciselist_id != nil and @course.save
       TeachingService.create_teaching(sid, @course.id)
       return @course.id
     else
