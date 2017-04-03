@@ -6,11 +6,11 @@ class ApplicationController < ActionController::Base
 
   # Return to original location after login
   def after_sign_in_path_for(resource)
-    request.env['omniauth.origin'] || stored_location_for(resource) || "https://ohtukisalli.github.io/"
+    request.env['omniauth.origin'] || stored_location_for(resource) || root_path
   end
 
   def after_sign_out_path_for(resource_or_scope)
-    request.env['omniauth.origin'] || stored_location_for(resource_or_scope) || "https://ohtukisalli.github.io/"
+    request.env['omniauth.origin'] || stored_location_for(resource_or_scope) || root_path
   end
   
   def check_signed_in
