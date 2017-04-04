@@ -25,3 +25,7 @@
 
 # Ignore testcoverage reports
 /coverage/*
+
+# Ignore environment variables incl. secret keys
+.env*
+..env*
