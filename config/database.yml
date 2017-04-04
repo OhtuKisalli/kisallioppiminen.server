@@ -13,14 +13,14 @@ default: &default
 postgresql: &postgresql
   adapter: postgresql
   encoding: unicode
-  database: myapp_development
+  database: kisalli_default
   pool: 5
   username: postgres
   host: db
 
 development:
   <<: *postgresql
-  database: kisalli
+  database: kisalli_development
   host: localhost
 
 # Warning: The database defined as "test" will be erased and
@@ -33,5 +33,5 @@ test:
 
 production:
   <<: *postgresql
-  database: myapp_prod
+  database: kisalli_production
   
