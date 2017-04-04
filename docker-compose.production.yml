@@ -6,3 +6,5 @@ services:
     command: bundle exec rails s -e production -p 3000 -b '0.0.0.0'
     ports:
       - "2000:3000"
+    env_file:
+      - .env.production
