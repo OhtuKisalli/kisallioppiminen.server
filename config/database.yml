@@ -15,8 +15,7 @@ postgresql: &postgresql
   encoding: unicode
   database: myapp_development
   pool: 5
-  username: kisalli
-  password: kisalli
+  username: postgres
   host: db
 
 development:

@@ -8,3 +8,6 @@ services:
       - "2000:3000"
     env_file:
       - .env.production
+    environment:
+      RAILS_ENV: production
+    restart: unless-stopped
