@@ -10,6 +10,11 @@ class AttendanceService
     return is_archived?(sid,cid)
   end
   
+  # returns true or false
+  def self.is_student?(sid)
+    return Attendance.where(user_id: sid).any?
+  end
+  
   # returns []
   def self.all_attendances
     return Attendance.select(:user_id, :course_id, :archived, :checkmarks).order(:user_id)
