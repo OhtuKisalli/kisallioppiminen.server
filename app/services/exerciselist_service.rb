@@ -28,4 +28,13 @@ class ExerciselistService
     end
   end
 
+  # returns [] or nil
+  def self.exercises_by_html_id(hid)
+    elist = Exerciselist.where(html_id: hid).first
+    if not elist
+      return nil
+    end
+    return elist.exercises.map(&:html_id)
+  end
+
 end
