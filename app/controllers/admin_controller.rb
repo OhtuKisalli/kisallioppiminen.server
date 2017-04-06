@@ -20,11 +20,7 @@ class AdminController < ApplicationController
     elsif ExerciselistService.elist_id_by_html_id(@hid)
       redirect_to '/admins/exerciselists/', notice: "Kyseinen kurssipohjan id löytyy jo tietokannasta!"
     else
-      exs = AdminService.download_exercises(@url)
-      @exercises = []
-      exs.each do |e|
-        @exercises << e[0]
-      end
+      @exercises = AdminService.download_exercises(@url)
       render :sync_exercises_new
     end
   end

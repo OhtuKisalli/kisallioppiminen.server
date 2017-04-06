@@ -8,7 +8,14 @@ class AdminService
 	      exercise_IDs = page.scan(/<div class="tehtava"\s+id="([a-zA-Z0-9ÅåÄäÖö.;:_-]+)">/)
       end
     end
-    return exercise_IDs
+    if not exercise_IDs
+      return nil
+    end
+    exs = []
+    exercise_IDs.each do |e|
+      exs << e[0]
+    end
+    return exs
   end
 
   def self.save_exercises(exercises, hid)
