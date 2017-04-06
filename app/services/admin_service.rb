@@ -20,10 +20,24 @@ class AdminService
 
   def self.save_exercises(exercises, hid)
     elist = ExerciselistService.new_list(hid)
-    exercises.each do |e|
-      ExerciseService.create_exercise(elist.html_id, e)
+    create_exercises(exercises, elist.html_id)
+  end
+  
+  def self.add_exercises(exercises, hid)
+    elist = ExerciselistService.elist_id_by_html_id(hid)
+    if elist
+      create_exercises(exercises, hid)
     end
   end
+  
+  private
+    def self.create_exercises(exercises, html_id)
+      exercises.each do |e|
+        if not ExerciseService.exercise_on_list?(html_id, e)
+          ExerciseService.create_exercise(html_id, e)
+        end
+      end  
+    end
 
 end
 
