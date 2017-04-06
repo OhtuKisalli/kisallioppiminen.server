@@ -1,0 +1,49 @@
+<text>kurssipohjan id: <%= @hid %></text>
+</br>
+<text>linkki print-sivulle: <%= @url %></text>
+</br>
+<text>tehtäviä tietokannassa: <%= @current_exs.size %></text>
+</br>
+
+</br>
+<div class="dropdown">
+  <button class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown">Uusia tehtäviä (<% if @new %><%= @new.size %><% else %>0<% end %>)
+  <span class="caret"></span></button>
+  <ul class="dropdown-menu">
+    <% if @new %>
+      <% @new.each do |e| %>
+        <li><%= e %></li>
+      <% end %>
+    <% end %>
+  </ul>
+</div>
+</br>
+<% if @removed and @removed.size > 0 %>
+  <p class="text-danger">Tietokannasta löytyi tehtäviä, joita ei ole kisallioppimisen sivuilla! Jos haluat poistaa ylimääräiset tehtävät, sinun tulee poistaa kyseinen tehtäväpohja tietokannasta ja ladata se uudestaan. Uudet tehtävät voi lisätä, vaikka ylimääräisiä ei poisteta.</p>
+  <div class="dropdown">
+  <button class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown">Poistetut tehtävät (<% if @removed %><%= @removed.size %><% else %>0<% end %>)
+  <span class="caret"></span></button>
+  <ul class="dropdown-menu">
+    <% if @removed %>
+      <% @removed.each do |e| %>
+        <li><%= e %></li>
+      <% end %>
+    <% end %>
+  </ul>
+</div>
+</br>
+<% end %>
+
+<% if @new and @new.size > 0 %>
+  <%= form_tag '/admins/exerciselists/update' do %>
+  <% @new.each do |e| %>
+    <div class="field"><%= hidden_field_tag 'exercises[]', e %></div>
+  <% end %>
+  <div class="field"><%= hidden_field_tag :hid, @hid %></div>
+  <div class="actions">
+    <%= submit_tag "Lisää uudet tehtävät"%>
+  </div>
+  <% end %>
+<% end %>
+
+<input type="button" class="btn" value="Takaisin" onclick="location.href = '/admins/exerciselists/';">

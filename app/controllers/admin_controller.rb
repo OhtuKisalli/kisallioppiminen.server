@@ -13,12 +13,15 @@ class AdminController < ApplicationController
     @hid = params[:hid]
     @url = params[:url]
     @exercises = nil
-    @notice = nil
     if @hid.blank? or @url.blank? or not @url.include? @hid
-      @notice = "Virheelliset parametrit!"
+      @error = "Virheelliset parametrit!"
       redirect_to '/admins/exerciselists/', notice: "Parametrit virheelliset!"
     elsif ExerciselistService.elist_id_by_html_id(@hid)
-      redirect_to '/admins/exerciselists/', notice: "Kyseinen kurssipohjan id löytyy jo tietokannasta!"
+      @current_exs = ExerciselistService.exercises_by_html_id(@hid)
+      kisalli_exs = AdminService.download_exercises(@url)
+      @new = kisalli_exs - @current_exs
+      @removed = @current_exs - kisalli_exs
+      render :sync_exercises_update
     else
       @exercises = AdminService.download_exercises(@url)
       render :sync_exercises_new
@@ -35,6 +38,12 @@ class AdminController < ApplicationController
   def sync_exercises_save
     AdminService.save_exercises(params[:exercises], params[:hid])
     redirect_to '/admins/exerciselists/', notice: "Tehtävät tallennettu!"
+  end
+  
+  # post '/admins/exerciselists/update'
+  def sync_exercises_update
+    AdminService.add_exercises(params[:exercises], params[:hid])
+    redirect_to '/admins/exerciselists/', notice: "Uudet tehtävät tallennettu!"
   end
 
 end

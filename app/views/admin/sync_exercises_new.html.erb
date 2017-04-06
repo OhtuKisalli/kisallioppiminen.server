@@ -2,11 +2,10 @@
 </br>
 <text>linkki print-sivulle: <%= @url %></text>
 </br>
-<h4><%= @notice %></h4>
 
 </br>
- <div class="dropdown">
-  <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown">Löydetyt tehtävät (<% if @exercises %><%= @exercises.size %><% else %>0<% end %>)
+<div class="dropdown">
+  <button class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown">Löydetyt tehtävät (<% if @exercises %><%= @exercises.size %><% else %>0<% end %>)
   <span class="caret"></span></button>
   <ul class="dropdown-menu">
     <% if @exercises %>
@@ -27,6 +26,6 @@
   </div>
 <% end %>
 
-<input type="button" class="btn btn-info" value="Takaisin" onclick="location.href = '/admins/exerciselists/';">
+<input type="button" class="btn" value="Takaisin" onclick="location.href = '/admins/exerciselists/';">
 
 
