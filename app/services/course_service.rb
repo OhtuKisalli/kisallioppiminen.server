@@ -87,14 +87,21 @@ class CourseService
   # JSON keys: "id", "coursekey", "html_id", "startdate", "enddate", "name", "archived"
   def self.teacher_courses(id)
     courses = UserService.teacher_courses(id)
-    return build_coursehash(courses, "teacher", id)
+    return build_coursehash(courses, "teacher", id, nil)
+  end
+  
+  # returns [{},{},{}], [] when empty
+  # JSON keys: "id", "coursekey", "html_id", "startdate", "enddate", "name", "archived", "students"
+  def self.teacher_courses_with_student_count(id)
+    courses = UserService.teacher_courses(id)
+    return build_coursehash(courses, "teacher", id, "count")
   end
   
   # returns [{},{},{}], [] when empty
   # JSON keys: "id", "coursekey", "html_id", "startdate", "enddate", "name", "archived"
   def self.student_courses(id)
     courses = UserService.student_courses(id)
-    return build_coursehash(courses, "student", id)
+    return build_coursehash(courses, "student", id, nil)
   end
   
   # returns {"total": 25, "html_id1": {"green": 10, "red": 5, "yellow": 1}, ... }
@@ -123,12 +130,15 @@ class CourseService
   end
   
   private
-    def self.build_coursehash(courses, target, id)
+    def self.build_coursehash(courses, target, id, extra_info)
       result = []
       courses.each do |c|
         courseinfo = c.courseinfo
         if target == "teacher"
           courseinfo["archived"] = TeachingService.is_archived?(id, c.id)
+          if extra_info == "count"
+            courseinfo["students"] = AttendanceService.students_on_course(c.id)
+          end
         elsif target == "student"
           courseinfo["archived"] = AttendanceService.is_archived?(id, c.id)
         end
