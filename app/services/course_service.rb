@@ -138,6 +138,7 @@ class CourseService
           courseinfo["archived"] = TeachingService.is_archived?(id, c.id)
           if extra_info == "count"
             courseinfo["students"] = AttendanceService.students_on_course(c.id)
+            courseinfo["created"] = c.created_at.strftime('%b %d %Y')
           end
         elsif target == "student"
           courseinfo["archived"] = AttendanceService.is_archived?(id, c.id)

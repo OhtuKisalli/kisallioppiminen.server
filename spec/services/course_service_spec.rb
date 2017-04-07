@@ -59,7 +59,7 @@ RSpec.describe CourseService, type: :service do
       TeachingService.create_teaching(@ope.id, @course.id)
       result = CourseService.teacher_courses_with_student_count(@ope.id)
       expect(result.size).to eq(1)
-      expect(result.first.keys).to contain_exactly("id", "coursekey", "html_id", "startdate", "enddate", "name", "archived","students")
+      expect(result.first.keys).to contain_exactly("id", "coursekey", "html_id", "startdate", "enddate", "name", "archived","students","created")
       expect(result.first["students"]).to eq(1)
     end
     it "student_courses(id)" do
