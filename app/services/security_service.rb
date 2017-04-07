@@ -20,6 +20,15 @@ class SecurityService
     return result
   end
   
+  # returns nothing
+  # deletes all courses (+related data) by user (id: sid)
+  def self.delete_all_courses(sid)
+    ids = TeachingService.teacher_courses_ids(sid)
+    ids.each do |i|
+      CourseService.delete_course(i)
+    end
+  end
+  
   private
     def self.count_students(id)
       count = 0
