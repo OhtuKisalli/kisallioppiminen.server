@@ -45,6 +45,27 @@ class AdminController < ApplicationController
     AdminService.add_exercises(params[:exercises], params[:hid])
     redirect_to '/admins/exerciselists/', notice: "Uudet tehtävät tallennettu!"
   end
+  
+  # get '/admins/courses/'
+  def fake_courses_index
+    @fcourses = SecurityService.fake_courses?
+    render :fake_courses_index
+  end
+  
+  # delete '/admins/courses/'
+  # params: id (Course.id)
+  def fake_courses_delete
+    CourseService.delete_course(params[:id])
+    redirect_to '/admins/courses/', notice: "Kurssi poistettu!"
+  end
+  
+  # delete '/admins/users/:id/courses' => 
+  # params: id (User.id)
+  def fake_courses_delete_all
+    SecurityService.delete_all_courses(params[:id])
+    redirect_to '/admins/courses/', notice: "Kaikki käyttäjän kurssit poistettu!"
+  end
+  
 
 end
 
