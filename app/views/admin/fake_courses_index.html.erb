@@ -1,0 +1,49 @@
+<h2>Mahdolliset valekurssit</h2>
+
+<% if @fcourses and @fcourses.size > 0 %>
+  
+  <h3> Löytyi <%= @fcourses.size %> käyttäjää, joilla mahdollisesti valekursseja. </h3>
+  <% @fcourses.each do |u| %>
+  </br>
+  </br>
+  <h4> (id: <%= u["id"] %>) <strong><%= u["name"] %></strong>, email: <%= u["email"] %></h4>
+  <h4> Luonut kursseja: <%= u["courses"].count %></h4>
+  <h4> Oppilaita kursseilla: <%= u["students"] %></h4>
+  
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th>Kurssin ID</th>
+        <th>Kurssin nimi</th>
+        <th>Kurssipohja</th>
+        <th>Kurssiavain</th>
+        <th>Oppilaiden lukumäärä</th>
+        <th>Luotu</th>
+        <th>Arkistoitu</th>
+        <th><%= link_to 'Poista kaikki', "/admins/users/#{u["id"]}/courses", method: :delete, data: { confirm: "Oletko varma? Tämä poistaa kaikki kyseisen käyttäjän kurssit ja kaiken niihin liittyvän tiedot." }, class:"btn btn-danger" %></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% u["courses"].each do |course| %>
+        <tr>
+          <td><%= course["id"] %></td>
+          <td><%= course["name"] %></td>
+          <td><%= course["html_id"] %></td>
+          <td><%= course["coursekey"] %></td>
+          <td><%= course["students"] %></td>
+          <td><%= course["created"] %></td>
+          <td><%= course["archived"] %></td>
+          <td><%= link_to 'Poista', "/admins/courses/#{course["id"]}", method: :delete, class:"btn btn-danger" %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>    
+  <% end %>
+  </br>
+  </br>
+<% else %>
+
+  <text> Kaikki kunnossa, ei löytynyt valekursseja! </text>
+
+<% end %>
+

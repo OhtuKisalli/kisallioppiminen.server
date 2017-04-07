@@ -14,10 +14,19 @@ class SecurityService
       i["name"] = user.first_name + " " + user.last_name
       i["email"] = user.email
       i["students"] = count_students(sid)
-      i["courses"] = CourseService.teacher_courses(sid)
+      i["courses"] = CourseService.teacher_courses_with_student_count(sid)
       result << i
     end
     return result
+  end
+  
+  # returns nothing
+  # deletes all courses (+related data) by user (id: sid)
+  def self.delete_all_courses(sid)
+    ids = TeachingService.teacher_courses_ids(sid)
+    ids.each do |i|
+      CourseService.delete_course(i)
+    end
   end
   
   private

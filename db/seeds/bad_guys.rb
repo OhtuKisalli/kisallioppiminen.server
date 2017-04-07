@@ -1,0 +1,38 @@
+@pahis1 = User.create(first_name: "Eka", last_name: "Pahis", email:"p1@p.p", password:"qwerty")
+@pahis2 = User.create(first_name: "Toka", last_name: "Pahis", email:"p2@p.p", password:"qwerty")
+
+@elist1 = Exerciselist.where(html_id: "may1").first
+@elist2 = Exerciselist.where(html_id: "maa2").first
+
+@fcourse1 = Course.create(html_id:@elist1.html_id, exerciselist_id: @elist1.id, coursekey:"pahiskey1", name:"Hahaha", startdate: "2017-03-01", enddate: "2017-04-11")
+@fcourse2 = Course.create(html_id:@elist2.html_id, exerciselist_id: @elist2.id, coursekey: "pahiskey2", name: "Hehehe", startdate: "2017-03-02", enddate: "2017-04-22")
+@fcourse3 = Course.create(html_id:@elist2.html_id, exerciselist_id: @elist2.id, coursekey: "pahiskey3", name: "Fakefakefake", startdate: "2017-03-03", enddate: "2017-05-02")
+@fcourse4 = Course.create(html_id:@elist1.html_id, exerciselist_id: @elist1.id, coursekey:"pahiskey4", name:"Tissit", startdate: "2017-03-01", enddate: "2017-04-11")
+@fcourse5 = Course.create(html_id:@elist2.html_id, exerciselist_id: @elist2.id, coursekey: "pahiskey5", name: "aergpijhaerg", startdate: "2017-03-02", enddate: "2017-04-22")
+@fcourse6 = Course.create(html_id:@elist1.html_id, exerciselist_id: @elist1.id, coursekey:"pahiskey6", name:"Tissit2", startdate: "2017-03-01", enddate: "2017-04-11")
+@fcourse7 = Course.create(html_id:@elist1.html_id, exerciselist_id: @elist1.id, coursekey:"pahiskey7", name:"Tissit", startdate: "2017-03-01", enddate: "2017-04-11")
+@fcourse8 = Course.create(html_id:@elist1.html_id, exerciselist_id: @elist1.id, coursekey:"pahiskey8", name:"Tissit", startdate: "2017-03-01", enddate: "2017-04-11")
+@fcourse9 = Course.create(html_id:@elist2.html_id, exerciselist_id: @elist2.id, coursekey:"pahiskey9", name:"Hahaha", startdate: "2017-03-01", enddate: "2017-04-11")
+@fcourse10 = Course.create(html_id:@elist1.html_id, exerciselist_id: @elist1.id, coursekey:"pahiskey10", name:"Hahaha", startdate: "2017-03-01", enddate: "2017-04-11")
+@fcourse11 = Course.create(html_id:@elist1.html_id, exerciselist_id: @elist1.id, coursekey:"pahiskey11", name:"Hahaha", startdate: "2017-03-01", enddate: "2017-04-11")
+@fcourse12 = Course.create(html_id:@elist2.html_id, exerciselist_id: @elist2.id, coursekey:"pahiskey12", name:"Tissit", startdate: "2017-03-01", enddate: "2017-04-11")
+@fcourse13 = Course.create(html_id:@elist1.html_id, exerciselist_id: @elist1.id, coursekey:"pahiskey13", name:"Hahaha", startdate: "2017-03-01", enddate: "2017-04-11")
+@fcourse14 = Course.create(html_id:@elist1.html_id, exerciselist_id: @elist1.id, coursekey:"pahiskey14", name:"Tissit", startdate: "2017-03-01", enddate: "2017-04-11")
+@fcourse15 = Course.create(html_id:@elist1.html_id, exerciselist_id: @elist1.id, coursekey:"pahiskey15", name:"Hahaha", startdate: "2017-03-01", enddate: "2017-04-11")
+
+Teaching.create(user_id: @pahis1.id, course_id: @fcourse1.id)
+Teaching.create(user_id: @pahis1.id, course_id: @fcourse2.id)
+Teaching.create(user_id: @pahis1.id, course_id: @fcourse3.id)
+Teaching.create(user_id: @pahis1.id, course_id: @fcourse4.id)
+Teaching.create(user_id: @pahis1.id, course_id: @fcourse5.id)
+Teaching.create(user_id: @pahis1.id, course_id: @fcourse6.id)
+Teaching.create(user_id: @pahis2.id, course_id: @fcourse7.id)
+Teaching.create(user_id: @pahis2.id, course_id: @fcourse8.id)
+Teaching.create(user_id: @pahis2.id, course_id: @fcourse9.id)
+Teaching.create(user_id: @pahis2.id, course_id: @fcourse10.id)
+Teaching.create(user_id: @pahis2.id, course_id: @fcourse11.id)
+Teaching.create(user_id: @pahis2.id, course_id: @fcourse12.id)
+Teaching.create(user_id: @pahis2.id, course_id: @fcourse13.id)
+Teaching.create(user_id: @pahis2.id, course_id: @fcourse14.id)
+Teaching.create(user_id: @pahis2.id, course_id: @fcourse15.id)
+

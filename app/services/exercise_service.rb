@@ -71,4 +71,14 @@ class ExerciseService
     course = CourseService.course_by_id(cid)
     return (course and course.exercises.where(html_id: hid).any?)
   end
+  
+  # returns true or false
+  def self.exercise_on_list?(list_html_id, e_html_id)
+    list_id = ExerciselistService.elist_id_by_html_id(list_html_id)
+    if not list_id
+      return false
+    end
+    return Exercise.where(exerciselist_id: list_id, html_id: e_html_id).any?
+  end
+  
 end

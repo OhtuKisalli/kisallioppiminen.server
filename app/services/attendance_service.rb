@@ -25,6 +25,11 @@ class AttendanceService
     return Attendance.where(user_id: sid, course_id: cid).first
   end
   
+  # returns number >= 0
+  def self.students_on_course(cid)
+    return Attendance.where(course_id: cid).count
+  end
+  
   # returns {}, keys: coursekeys, values: {} with keys "id","coursename","coursekey","html_id","startdate","enddate"
   def self.add_new_course_to_user(sid, cid)
     Attendance.create(user_id: sid, course_id: cid)

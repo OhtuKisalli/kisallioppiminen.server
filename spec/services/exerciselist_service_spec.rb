@@ -28,6 +28,17 @@ RSpec.describe ExerciselistService, type: :service do
       expect(ExerciselistService.new_list("aaa222")).not_to eq(nil)
       expect(ExerciselistService.all_exerciselists.size).to eq(2)
     end
+    it "exercises_by_html_id(hid)" do
+      expect(ExerciselistService.exercises_by_html_id("none")).to eq(nil)
+      e = Exerciselist.create(html_id: "aaa111")
+      expect(ExerciselistService.exercises_by_html_id(e.html_id)).to eq([])
+      ExerciseService.create_exercise(e.html_id, "id1")
+      ExerciseService.create_exercise(e.html_id, "id2")
+      exs = ExerciselistService.exercises_by_html_id(e.html_id)
+      expect(exs.size).to eq(2)
+      expect(exs.include? "id1").to eq(true)
+      expect(exs.include? "id2").to eq(true)
+    end
     
   end
 

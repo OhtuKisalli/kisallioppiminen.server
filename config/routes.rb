@@ -68,5 +68,9 @@ Rails.application.routes.draw do
   post '/admins/exerciselists/new' => 'admin#sync_exercises_new'
   delete '/admins/exerciselists/:id' => 'admin#sync_exercises_delete'
   post '/admins/exerciselists/save' => 'admin#sync_exercises_save'
+  post '/admins/exerciselists/update' => 'admin#sync_exercises_update'
+  get '/admins/courses/' => 'admin#fake_courses_index'
+  delete '/admins/courses/:id' => 'admin#fake_courses_delete'
+  delete '/admins/users/:id/courses' => 'admin#fake_courses_delete_all'
 
 end

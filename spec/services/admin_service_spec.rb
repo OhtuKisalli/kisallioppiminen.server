@@ -15,6 +15,18 @@ RSpec.describe AdminService, type: :service do
       expect(ExerciseService.all_exercises.count).to eq(2)
     end
     
+    it "add_exercises(exercises, hid)" do
+      exs = ["id1", "id2"]
+      exs_new = ["id3"]
+      AdminService.save_exercises(exs, "htmlid2")
+      AdminService.add_exercises(exs_new, "htmlid2")
+      exercises = ExerciselistService.exercises_by_html_id("htmlid2")
+      expect(exercises.size).to eq(3)
+      expect(exercises.include? "id3").to eq(true)
+      AdminService.add_exercises(exs_new, "htmlid2")
+      expect(exercises.size).to eq(3)
+    end
+    
   end
 
 end
