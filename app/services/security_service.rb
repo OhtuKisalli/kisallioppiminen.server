@@ -14,7 +14,7 @@ class SecurityService
       i["name"] = user.first_name + " " + user.last_name
       i["email"] = user.email
       i["students"] = count_students(sid)
-      i["courses"] = CourseService.teacher_courses(sid)
+      i["courses"] = CourseService.teacher_courses_with_student_count(sid)
       result << i
     end
     return result
