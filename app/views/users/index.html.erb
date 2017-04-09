@@ -1,14 +1,15 @@
-<p id="notice"><%= notice %></p>
-
-<h1>Users</h1>
+<h1>Käyttäjät</h1>
 
 <table class="table table-hover">
   <thead>
     <tr>
       <th>ID</th>
-      <th>Firstname</th>
-      <th>Courses as teacher</th>
-      <th>Courses as student</th>
+      <th>Nimi</th>
+      <th>Sähköposti</th>
+      <th>Kursseja oppilaana</th>
+      <th>Kursseja opettajana</th>
+      <th>Estot</th>
+      <th>Lisää/poista esto</th>
     </tr>
   </thead>
 
@@ -16,9 +17,21 @@
     <% @users.each do |user| %>
       <tr>
         <td><%= user.id %></td>
-        <td><%= user.first_name %></td>
-        <td><%= user.courses_to_teach.count %></td>
+        <td><%= user.first_name %> <%= user.last_name %></td>
+        <td><%= user.email %></td>
         <td><%= user.courses.count %></td>  
+        <td><%= user.courses_to_teach.count %></td>
+        <% if user.blocked %>
+          <td><span class="badge badge-danger">Ei ope</span></td>
+        <% else %>
+          <td></td>
+        <% end %>
+        <% if user.blocked %>
+          <td><%= link_to 'Poista esto', "/admins/users/#{user.id}/unblock", method: :post, class:"btn btn-info" %><td>
+        <% else %>
+          <td><%= link_to 'Ope-esto', "/admins/users/#{user.id}/block", method: :post, class:"btn btn-danger" %><td>
+        <% end %>
+        
       </tr>
     <% end %>
   </tbody>
