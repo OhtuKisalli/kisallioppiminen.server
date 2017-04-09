@@ -2,7 +2,7 @@ class UserService
 
   # returns []
   def self.all_users
-    return User.all
+    return User.order(:id)
   end
 
   # returns nil (no user) or []
