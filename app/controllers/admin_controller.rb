@@ -66,6 +66,20 @@ class AdminController < ApplicationController
     redirect_to '/admins/courses/', notice: "Kaikki käyttäjän kurssit poistettu!"
   end
   
+  # post '/admins/users/:id/block' 
+  # params: id (User.id)
+  def block_user
+    SecurityService.block_user(params[:id])
+    redirect_to '/users/', notice: "Käyttäjä ei voi enää luoda kursseja."
+  end
+  
+  # post '/admins/users/:id/unblock' 
+  # params: id (User.id)
+  def unblock_user
+    SecurityService.unblock_user(params[:id])
+    redirect_to '/users/', notice: "Käyttäjän blokkaus poistettu. Hän voi taas luoda kursseja."
+  end
+  
 
 end
 

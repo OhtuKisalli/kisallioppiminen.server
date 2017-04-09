@@ -72,5 +72,8 @@ Rails.application.routes.draw do
   get '/admins/courses/' => 'admin#fake_courses_index'
   delete '/admins/courses/:id' => 'admin#fake_courses_delete'
   delete '/admins/users/:id/courses' => 'admin#fake_courses_delete_all'
+  post '/admins/users/:id/block' => 'admin#block_user'
+  post '/admins/users/:id/unblock' => 'admin#unblock_user'
+
 
 end
