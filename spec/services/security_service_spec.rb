@@ -41,6 +41,34 @@ RSpec.describe SecurityService, type: :service do
       expect(result[0].keys).to contain_exactly("id","name","email","students","courses")
       expect(result[0]["courses"][0]["coursekey"]).to eq(@course1.coursekey)
     end
+    it "delete_all_courses(sid)" do
+      @course2 = FactoryGirl.create(:course, coursekey:"key2")
+      @course3 = FactoryGirl.create(:course, coursekey:"key3")
+      Teaching.create(user_id: @ope1.id, course_id: @course1.id)
+      Teaching.create(user_id: @ope1.id, course_id: @course2.id)
+      Teaching.create(user_id: @ope2.id, course_id: @course3.id)
+      expect(TeachingService.teacher_courses_ids(@ope1.id).size).to eq(2)
+      expect(TeachingService.teacher_courses_ids(@ope2.id).size).to eq(1)
+      SecurityService.delete_all_courses(@ope1.id)
+      expect(TeachingService.teacher_courses_ids(@ope1.id).size).to eq(0)
+      expect(TeachingService.teacher_courses_ids(@ope2.id).size).to eq(1)
+      expect(CourseService.all_courses.count).to eq(1)
+    end
+    it "block_user(sid)" do
+      expect(@ope1.blocked).to eq(false)
+      SecurityService.block_user(@ope1.id)
+      @ope1 = UserService.user_by_id(@ope1.id)
+      expect(@ope1.blocked).to eq(true)
+    end
+    
+    it "unblock_user(sid)" do
+      SecurityService.block_user(@ope2.id)
+      @ope2 = UserService.user_by_id(@ope2.id)
+      expect(@ope2.blocked).to eq(true)
+      SecurityService.unblock_user(@ope2.id)
+      @ope2 = UserService.user_by_id(@ope2.id)
+      expect(@ope2.blocked).to eq(false)
+    end
     
   end
 

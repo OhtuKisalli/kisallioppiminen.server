@@ -52,6 +52,16 @@ RSpec.describe CourseService, type: :service do
       expect(result.size).to eq(1)
       expect(result.first.keys).to contain_exactly("id", "coursekey", "html_id", "startdate", "enddate", "name", "archived")
     end
+    it "teacher_courses_with_student_count(id)" do
+      @ope = FactoryGirl.create(:user, email:"o2@o.o")
+      @student = FactoryGirl.create(:user, email:"g5@o.o")
+      AttendanceService.create_attendance(@student.id, @course.id)
+      TeachingService.create_teaching(@ope.id, @course.id)
+      result = CourseService.teacher_courses_with_student_count(@ope.id)
+      expect(result.size).to eq(1)
+      expect(result.first.keys).to contain_exactly("id", "coursekey", "html_id", "startdate", "enddate", "name", "archived","students","created")
+      expect(result.first["students"]).to eq(1)
+    end
     it "student_courses(id)" do
       @student = FactoryGirl.create(:user, email:"u2@o.o")
       expect(CourseService.student_courses(@student.id)).to eq([])

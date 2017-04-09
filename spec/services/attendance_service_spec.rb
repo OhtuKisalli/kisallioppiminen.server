@@ -9,9 +9,19 @@ RSpec.describe AttendanceService, type: :service do
       @course = FactoryGirl.create(:course, coursekey:"key1")
       Attendance.create(user_id: @student.id, course_id: @course.id)
     end
+    it "is_student?(sid)" do
+      expect(AttendanceService.is_student?(@student.id)).to eq(true)
+      expect(AttendanceService.is_student?(@student2.id)).to eq(false)
+      expect(AttendanceService.is_student?(@student2.id+3)).to eq(false)
+    end
     it "user_on_course?(sid, cid)" do
       expect(AttendanceService.user_on_course?(@student.id, @course.id)).to eq(true)
       expect(AttendanceService.user_on_course?(@student2.id, @course.id)).to eq(false)
+    end
+    it "students_on_course(cid)" do
+      Attendance.create(user_id: @student2.id, course_id: @course.id)
+      expect(AttendanceService.students_on_course(@course.id + 1)).to eq(0)
+      expect(AttendanceService.students_on_course(@course.id)).to eq(2)
     end
     it "student_course_archived?(sid, cid)" do
       expect(AttendanceService.student_course_archived?(@student.id, @course.id)).to eq(false)

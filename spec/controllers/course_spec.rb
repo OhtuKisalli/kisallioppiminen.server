@@ -130,6 +130,17 @@ RSpec.describe CoursesController, type: :controller do
         expect(Course.all.count).to eq(1)
       end
       
+      it "doesnt allow blocked user to create course" do
+        @blocked1 = FactoryGirl.create(:user, email:"b2@b.b")
+        SecurityService.block_user(@blocked1.id)
+        sign_in @blocked1
+        post 'newcourse', :format => :json, params: {"coursekey":"avain1", "name":"kurssi", html_id: "maa5"}
+        expect(response.status).to eq(422)
+        body = JSON.parse(response.body)
+        errormsg = "Et voi enää luoda kursseja, koska sinulle on väärinkäytösten vuoksi asetettu esto."
+        expected = {"error" => errormsg}
+      end
+      
       it "doesnt allow to create too many courses" do
         MAX_COURSE_PER_DAY.times do
           Teaching.create(user_id: @testaaja.id, course_id: @course2.id)

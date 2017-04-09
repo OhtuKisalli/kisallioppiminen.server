@@ -10,6 +10,11 @@ class AttendanceService
     return is_archived?(sid,cid)
   end
   
+  # returns true or false
+  def self.is_student?(sid)
+    return Attendance.where(user_id: sid).any?
+  end
+  
   # returns []
   def self.all_attendances
     return Attendance.select(:user_id, :course_id, :archived, :checkmarks).order(:user_id)
@@ -18,6 +23,11 @@ class AttendanceService
   # returns Attendance or nil
   def self.get_attendance(sid, cid)
     return Attendance.where(user_id: sid, course_id: cid).first
+  end
+  
+  # returns number >= 0
+  def self.students_on_course(cid)
+    return Attendance.where(course_id: cid).count
   end
   
   # returns {}, keys: coursekeys, values: {} with keys "id","coursename","coursekey","html_id","startdate","enddate"

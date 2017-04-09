@@ -32,7 +32,19 @@ RSpec.describe AttendancesController, type: :controller do
         expect(body.length).to eq(2)
         expect(body.keys).to contain_exactly("message","courses")
       end
-      it "doesn't allow to join same course again'" do
+      it "doesnt allow teacher to join own course as student" do
+        sign_out @testaaja
+        @ope = FactoryGirl.create(:user, username:"ope1", email:"ope1@o.o")
+        TeachingService.create_teaching(@ope.id, @course1.id)
+        sign_in @ope
+        post 'newstudent', :format => :json, params: {"coursekey": @course1.coursekey}
+        expect(response.status).to eq(403)
+        body = JSON.parse(response.body)
+        expected = {"error" => "Olet kurssin opettaja, et voi liittyä oppilaaksi."}
+        expect(body).to eq(expected)
+        expect(@ope.courses).to be_empty
+      end
+      it "doesnt allow to join same course again" do
         AttendanceService.create_attendance(@testaaja.id, @course1.id)
         post 'newstudent', :format => :json, params: {"coursekey": @course1.coursekey}
         expect(response.status).to eq(403)

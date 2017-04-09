@@ -1,23 +1,4 @@
 <p id="notice"><%= notice %></p>
 
-<h1>Schedules</h1>
-
-<table>
-  <thead>
-    <tr>
-      <th>Exercise</th>
-      <th>Deadline</th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @schedules.each do |schedule| %>
-      <tr>
-        <td><%= schedule.exercise_id %></td>
-        <td><%= schedule.deadline_id %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-
+<h4>Number of schedules: <%= @schedules.count %></h4>
 

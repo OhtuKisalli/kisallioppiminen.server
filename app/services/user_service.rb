@@ -2,7 +2,7 @@ class UserService
 
   # returns []
   def self.all_users
-    return User.all
+    return User.order(:id)
   end
 
   # returns nil (no user) or []
@@ -28,6 +28,18 @@ class UserService
   # returns User or nil
   def self.user_by_id(sid)
     return give_user(sid)
+  end
+  
+  # returns true or false
+  # true: user cannot create courses
+  # false: user can create courses
+  def self.user_blocked?(sid)
+    u = User.where(id: sid).first
+    if u
+      return u.blocked
+    else
+      return false
+    end
   end
   
   private

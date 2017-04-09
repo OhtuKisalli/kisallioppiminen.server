@@ -16,7 +16,7 @@ class UsersController < ApplicationController
   def get_session_user
       u = current_user
       if current_user
-        render :json => {"has_sign_in": {"id": u.id, "first_name": u.first_name}}
+        render :json => {"has_sign_in": {"id": u.id, "first_name": u.first_name, "teacher": TeachingService.is_teacher?(u.id), "student": AttendanceService.is_student?(u.id)}}
       else
         render :json => {"has_sign_in" => nil}
       end

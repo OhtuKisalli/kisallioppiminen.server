@@ -4,8 +4,8 @@
   <thead>
     <tr>
       <th>kurssipohjan ID</th>
-      <th>tehtävien lukumäärä</th>
       <th>kurssien lukumäärä</th>
+      <th>tehtävien lukumäärä</th>
       <th colspan="2"></th>
     </tr>
   </thead>
@@ -14,10 +14,10 @@
     <% @exerciselists.each do |elist| %>
       <tr>
         <td><%= elist.html_id  %></td>
-        <td><%= elist.exercises.count %></td>
         <td><%= elist.courses.count %></td>
+        <td><%= elist.exercises.count %></td>
         <td>
-          <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown">Näytä tehtävät<span class="caret"></span></button>
+          <button class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown">Näytä tehtävät<span class="caret"></span></button>
           <ul class="dropdown-menu">
             <% if elist.exercises.count > 0 %>
               <% elist.exercises.each do |e| %>
@@ -26,15 +26,14 @@
             <% end %>
           </ul>
         </td>
-        <td><%= link_to 'tähän tulee Edit-nappi', '#' %></td>
-        <td><%= link_to 'Poista', "/admins/exerciselists/#{elist.id}", method: :delete, data: { confirm: 'Oletko varma? Tämä poistaa tehtävät kaikilta kurssipohjaa käyttävältä #{elist.courses.count} kurssilta!' } %></td>
+        <td><%= link_to 'Poista', "/admins/exerciselists/#{elist.id}", method: :delete, data: { confirm: "Oletko varma? Tämä poistaa tehtävät kaikilta kurssipohjaa käyttävältä #{elist.courses.count} kurssilta!" }, class:"btn btn-danger" %></td>
       </tr>
     <% end %>
   </tbody>
 </table>
 </br>
 </br>
-<h2>Lisää uusi kurssipohja</h2>
+<h2>Lisää uusi tai muokkaa vanhaa kurssipohjaa</h2>
 <%= form_tag '/admins/exerciselists/new' do %>
   
   <div class="field">

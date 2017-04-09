@@ -27,6 +27,12 @@ RSpec.describe UserService, type: :service do
       AttendanceService.create_attendance(@u1.id, @course.id)
       expect(UserService.student_courses(@u1.id).size).to eq(1)
     end
+    it "user_blocked?(sid)" do
+      expect(UserService.user_blocked?(@u1.id)).to eq(false)
+      expect(UserService.user_blocked?(@u1.id + 3)).to eq(false)
+      SecurityService.block_user(@u1.id)
+      expect(UserService.user_blocked?(@u1.id)).to eq(true)
+    end
   
   end
 

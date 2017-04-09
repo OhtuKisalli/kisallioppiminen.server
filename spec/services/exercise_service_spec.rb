@@ -47,6 +47,15 @@ RSpec.describe ExerciseService, type: :service do
       expect(ExerciseService.exercise_on_course?(@course.id, @e1.html_id)).to eq(true)
     end
     
+    it "exercise_on_list?(list_html_id, e_html_id)" do
+      expect(ExerciseService.exercise_on_list?("foo", "bar")).to eq(false)
+      exs = ["id1", "id2"]
+      AdminService.save_exercises(exs, "htmlid1")
+      expect(ExerciseService.exercise_on_list?("htmlid1", "ididid")).to eq(false)
+      expect(ExerciseService.exercise_on_list?("htmlid111", "id1")).to eq(false)
+      expect(ExerciseService.exercise_on_list?("htmlid1", "id1")).to eq(true)
+    end
+    
   end
     
 
