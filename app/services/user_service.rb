@@ -30,6 +30,18 @@ class UserService
     return give_user(sid)
   end
   
+  # returns true or false
+  # true: user cannot create courses
+  # false: user can create courses
+  def self.user_blocked?(sid)
+    u = User.where(id: sid).first
+    if u
+      return u.blocked
+    else
+      return false
+    end
+  end
+  
   private
     def self.give_user(sid)
       return User.where(id: sid).first
