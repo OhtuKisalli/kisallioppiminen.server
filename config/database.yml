@@ -20,7 +20,9 @@ postgresql: &postgresql
 
 development:
   <<: *postgresql
-  database: kisalli_development
+  database: kisalli
+  username: kisalli
+  password: kisalli
   host: localhost
 
 # Warning: The database defined as "test" will be erased and
@@ -29,6 +31,8 @@ development:
 test:
   <<: *postgresql
   database: kisalli_test
+  username: kisalli
+  password: kisalli
   host: localhost
 
 production:
