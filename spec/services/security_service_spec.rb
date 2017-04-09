@@ -54,6 +54,21 @@ RSpec.describe SecurityService, type: :service do
       expect(TeachingService.teacher_courses_ids(@ope2.id).size).to eq(1)
       expect(CourseService.all_courses.count).to eq(1)
     end
+    it "block_user(sid)" do
+      expect(@ope1.blocked).to eq(false)
+      SecurityService.block_user(@ope1.id)
+      @ope1 = UserService.user_by_id(@ope1.id)
+      expect(@ope1.blocked).to eq(true)
+    end
+    
+    it "unblock_user(sid)" do
+      SecurityService.block_user(@ope2.id)
+      @ope2 = UserService.user_by_id(@ope2.id)
+      expect(@ope2.blocked).to eq(true)
+      SecurityService.unblock_user(@ope2.id)
+      @ope2 = UserService.user_by_id(@ope2.id)
+      expect(@ope2.blocked).to eq(false)
+    end
     
   end
 
