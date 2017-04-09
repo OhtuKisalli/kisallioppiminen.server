@@ -29,6 +29,27 @@ class SecurityService
     end
   end
   
+  # returns nothing
+  # blocks user creating new courses
+  def self.block_user(sid)
+    u = UserService.user_by_id(sid)
+    if u
+      u.blocked = true
+      u.save
+    end
+  end
+  
+  # returns nothing
+  # blocks user creating new courses
+  def self.unblock_user(sid)
+    u = UserService.user_by_id(sid)
+    if u
+      u.blocked = false
+      u.save
+    end
+  end
+  
+  
   private
     def self.count_students(id)
       count = 0
