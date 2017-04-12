@@ -51,6 +51,9 @@ class ScoreboardService
       studentjson["exercises"] = exercisearray
       studentlist << studentjson
     end
+    if course.schedules.count > 0
+      studentlist = add_schedules(studentlist, cid)
+    end
     board["students"] = studentlist
     return board
   end
@@ -68,6 +71,14 @@ class ScoreboardService
         name += s.first_name
       end
       return name
+    end
+    
+    def self.add_schedules(studentlist, cid)
+      schedules = ScheduleService.course_schedules_as_students(cid)
+      schedules.each do |s|
+        studentlist << s
+      end
+      return studentlist
     end
     
 end

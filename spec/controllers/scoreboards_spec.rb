@@ -221,6 +221,30 @@ RSpec.describe ScoreboardsController, type: :controller do
         expect(body["students"][0]["user"]).to eq("Bond James")
         expect(body["students"][1]["user"]).to eq("James")
       end
+      
+      it "shows schedules in studentlist" do
+        schedule = Schedule.create(name: "nimi", course_id: @course1.id, exercises: [@exercise1.html_id, @exercise2.html_id], color: 1)
+        schedule2 = Schedule.create(name: "nimi2", course_id: @course1.id, exercises: [], color: 2)
+        sign_in @ope1
+        get 'scoreboard', :format => :json, params: {"id":@course1.id}
+        expect(response.status).to eq(200)
+        body = JSON.parse(response.body)
+        expect(body["students"].size).to eq(4)
+        expect(body["students"][2]["user"]).to eq(schedule.name)
+        expect(body["students"][2]["color"]).to eq(1)
+        expect(body["students"][3]["user"]).to eq(schedule2.name)
+        expect(body["students"][3]["color"]).to eq(2)
+        expect(body["students"][2]["exercises"][0]["status"]).to eq("black")
+        expect(body["students"][2]["exercises"][0]["id"]).to eq(@exercise1.html_id)
+        expect(body["students"][2]["exercises"][1]["status"]).to eq("black")
+        expect(body["students"][2]["exercises"][1]["id"]).to eq(@exercise2.html_id)
+        expect(body["students"][3]["exercises"][0]["status"]).to eq("white")
+        expect(body["students"][3]["exercises"][0]["id"]).to eq(@exercise1.html_id)
+        expect(body["students"][3]["exercises"][1]["status"]).to eq("white")
+        expect(body["students"][3]["exercises"][1]["id"]).to eq(@exercise2.html_id)
+        
+      end
+      
     end
   end
 
