@@ -69,7 +69,7 @@ class SchedulesController < ApplicationController
   # {"id" : 2,"name" : "toka aikataulu","color": 2,"exercises":[]}]
   def get_schedules
     if not (TeachingService.teacher_on_course?(current_user.id, params[:id]) or AttendanceService.user_on_course?(current_user.id, params[:id]))
-      render :json => {"error" => "Et ole kyseisen kurssin oppilas tai opettaja."}, status: 401  
+      render :json => {"error" => "Et ole kyseisen kurssin opiskelija tai opettaja."}, status: 401  
     else
       render :json => ScheduleService.course_schedules(params[:id]), status: 200
     end  

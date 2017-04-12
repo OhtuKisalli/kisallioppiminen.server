@@ -229,7 +229,7 @@ RSpec.describe SchedulesController, type: :controller do
         get 'get_schedules', :format => :json, params: {"id": @course.id}
         expect(response.status).to eq(401)
         body = JSON.parse(response.body)
-        expected = {"error" => "Et ole kyseisen kurssin oppilas tai opettaja."}
+        expected = {"error" => "Et ole kyseisen kurssin opiskelija tai opettaja."}
         expect(body).to eq(expected)
       end
     end

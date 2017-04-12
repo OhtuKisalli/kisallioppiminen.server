@@ -40,7 +40,7 @@ RSpec.describe AttendancesController, type: :controller do
         post 'newstudent', :format => :json, params: {"coursekey": @course1.coursekey}
         expect(response.status).to eq(403)
         body = JSON.parse(response.body)
-        expected = {"error" => "Olet kurssin opettaja, et voi liittyä oppilaaksi."}
+        expected = {"error" => "Olet kurssin opettaja, et voi liittyä opiskelijaksi."}
         expect(body).to eq(expected)
         expect(@ope.courses).to be_empty
       end

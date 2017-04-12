@@ -19,7 +19,7 @@ class AttendancesController < ApplicationController
       if AttendanceService.user_on_course?(current_user.id, course.id)
         render :json => {"error" => "Olet jo liittynyt kyseiselle kurssille."}, status: 403  
       elsif TeachingService.teacher_on_course?(current_user.id, course.id)
-        render :json => {"error" => "Olet kurssin opettaja, et voi liittyä oppilaaksi."}, status: 403
+        render :json => {"error" => "Olet kurssin opettaja, et voi liittyä opiskelijaksi."}, status: 403
       else
         courses = AttendanceService.add_new_course_to_user(current_user.id, course.id)
         render :json => {"message" => "Ilmoittautuminen tallennettu.", "courses" => courses}, status: 200
