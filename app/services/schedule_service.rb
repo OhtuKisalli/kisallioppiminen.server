@@ -66,6 +66,36 @@ class ScheduleService
     return Schedule.where(id: id, course_id: cid).any?
   end
   
+  # for teacher scoreboard
+  # returns [{},{},{}] or [], where keys: user, color, exercises
+  # exercises [{},{},{}] where keys: id, status ("black" or "white")
+  # param: cid (Course.id)
+  def self.course_schedules_as_students(cid)
+    result = []
+    schedules = Schedule.where(course_id: cid)
+    schedules.each do |s|
+      hash = {}
+      hash["user"] = s.name
+      hash["color"] = s.color
+      hash["exercises"] = []
+      not_included = ExerciseService.html_ids_of_exercises_by_course_id(cid) - s.exercises
+      s.exercises.each do |b|
+        h = {}
+        h["id"] = b
+        h["status"] = "black"
+        hash["exercises"] << h
+      end
+      not_included.each do |w|
+        h = {}
+        h["id"] = w
+        h["status"] = "white"
+        hash["exercises"] << h
+      end
+      result << hash
+    end
+    return result
+  end
+  
   private
     def self.update_schedule_exercise(sid, value)
       @schedule = Schedule.where(id: sid).first

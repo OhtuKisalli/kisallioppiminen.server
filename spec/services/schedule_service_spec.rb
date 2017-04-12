@@ -94,6 +94,52 @@ RSpec.describe ScheduleService, type: :service do
       expect(s2.exercises.include? "id2").to eq(false)
       expect(s2.exercises.size).to eq(0)
     end
+  end
+  
+  describe "course_schedules_as_students(cid)" do
+    before(:each) do
+      @course = FactoryGirl.create(:course, coursekey:"key1")
+      ExerciseService.create_exercise(@course.html_id, "ex1")
+      ExerciseService.create_exercise(@course.html_id, "ex2")
+      ExerciseService.create_exercise(@course.html_id, "ex3")
+    end
+    it "no schedules returns []" do
+      expect(ScheduleService.course_schedules_as_students(@course.id)).to eq([])
+    end
+    it "schedule without exercises returns only white" do
+      schedule = Schedule.create(name: "nimi", course_id: @course.id, exercises: [], color: 1)
+      result = ScheduleService.course_schedules_as_students(@course.id)
+      expect(result.size).to eq(1)
+      expect(result[0].keys).to contain_exactly("user","color","exercises")
+      expect(result[0]["exercises"].count).to eq(3)
+      expect(result[0]["exercises"][0].keys).to contain_exactly("id","status")
+      expect(result[0]["exercises"][0]["status"]).to eq("white")
+      expect(result[0]["exercises"][0]["id"]).to eq("ex1")
+      expect(result[0]["exercises"][1]["status"]).to eq("white")
+      expect(result[0]["exercises"][1]["id"]).to eq("ex2")
+      expect(result[0]["exercises"][2]["status"]).to eq("white")
+      expect(result[0]["exercises"][2]["id"]).to eq("ex3")
+    end
+    it "schedule exercises are black" do
+      schedule = Schedule.create(name: "nimi", course_id: @course.id, exercises: ["ex2"], color: 2)
+      result = ScheduleService.course_schedules_as_students(@course.id)
+      expect(result[0]["exercises"][0]["status"]).to eq("black")
+      expect(result[0]["exercises"][0]["id"]).to eq("ex2")
+      expect(result[0]["exercises"][1]["status"]).to eq("white")
+      expect(result[0]["exercises"][1]["id"]).to eq("ex1")
+      expect(result[0]["exercises"][2]["status"]).to eq("white")
+      expect(result[0]["exercises"][2]["id"]).to eq("ex3")
+    end
+    it "returns all schedules" do
+      schedule = Schedule.create(name: "nimi", course_id: @course.id, exercises: [], color: 1)
+      schedule = Schedule.create(name: "nimi2", course_id: @course.id, exercises: [], color: 2)
+      result = ScheduleService.course_schedules_as_students(@course.id)
+      expect(result.size).to eq(2)
+      expect(result[0]["user"]).to eq("nimi")
+      expect(result[1]["user"]).to eq("nimi2")
+      expect(result[0]["color"]).to eq(1)
+      expect(result[1]["color"]).to eq(2)
+    end
     
   end
   
