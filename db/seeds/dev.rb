@@ -205,11 +205,11 @@ maa2exs
 maa3exs
 
 
-Schedule.create(name: "Laiskan tavoite", course_id: @course1.id, exercises: may1exs[0,80])
-Schedule.create(name: "Normaalin tavoite", course_id: @course1.id, exercises: may1exs[0,160])
-Schedule.create(name: "Ahkeran tavoite", course_id: @course1.id, exercises: may1exs[0,240])
-Schedule.create(name: "Eka setti", course_id: @course2.id, exercises: may1exs[0,30])
-Schedule.create(name: "Toka setti", course_id: @course2.id, exercises: may1exs[30,20])
-Schedule.create(name: "Kolmas setti", course_id: @course2.id, exercises: may1exs[50,10])
+Schedule.create(name: "Laiskan tavoite", color: 1, course_id: @course1.id, exercises: may1exs[0,80])
+Schedule.create(name: "Normaalin tavoite", color: 2, course_id: @course1.id, exercises: may1exs[0,160])
+Schedule.create(name: "Ahkeran tavoite", color: 3, course_id: @course1.id, exercises: may1exs[0,240])
+Schedule.create(name: "Eka setti", color: 1, course_id: @course2.id, exercises: may1exs[0,30])
+Schedule.create(name: "Toka setti", color: 2, course_id: @course2.id, exercises: may1exs[30,20])
+Schedule.create(name: "Kolmas setti", color: 3, course_id: @course2.id, exercises: may1exs[50,10])
 
 
