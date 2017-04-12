@@ -35,7 +35,7 @@ class ScoreboardService
     course = CourseService.course_by_id(cid)
     board = course.courseinfo
     #exercises = course.exercises.ids
-    students = course.students
+    students = course.students.order(:last_name)
     count = 1
     studentlist = []
     students.each do |s|
