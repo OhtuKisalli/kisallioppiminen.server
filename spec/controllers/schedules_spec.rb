@@ -239,20 +239,22 @@ RSpec.describe SchedulesController, type: :controller do
         expect(body).to eq([])
       end
       it "gives schedules" do
-        s1 = Schedule.create(name: "nimi", course_id: @course.id, exercises: [])
-        s2 = Schedule.create(name: "nimi2", course_id: @course.id, exercises: ["aaa","bbb"])
+        s1 = Schedule.create(name: "nimi", color: 1, course_id: @course.id, exercises: [])
+        s2 = Schedule.create(name: "nimi2", color: 2, course_id: @course.id, exercises: ["aaa","bbb"])
         sign_in @ope
         get 'get_schedules', :format => :json, params: {"id": @course.id}
         expect(response.status).to eq(200)
         body = JSON.parse(response.body)
         expect(body.size).to eq(2)
-        expect(body[0].keys).to contain_exactly("id","name","exercises")
+        expect(body[0].keys).to contain_exactly("id","name","color", "exercises")
         expect(body[0]["id"]).to eq(s1.id)
         expect(body[0]["name"]).to eq(s1.name)
+        expect(body[0]["color"]).to eq(s1.color)
         expect(body[0]["exercises"]).to eq(s1.exercises)
-        expect(body[1].keys).to contain_exactly("id","name","exercises")
+        expect(body[1].keys).to contain_exactly("id","name","color", "exercises")
         expect(body[1]["id"]).to eq(s2.id)
         expect(body[1]["name"]).to eq(s2.name)
+        expect(body[1]["color"]).to eq(s2.color)
         expect(body[1]["exercises"]).to eq(s2.exercises)
       end
     end

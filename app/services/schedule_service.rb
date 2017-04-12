@@ -16,7 +16,7 @@ class ScheduleService
   end
   
   # [{},{},{}] or []
-  # where {"id": 1, "name":"Tavoite1", "exercises": ["html_id1", "html_id2"]}
+  # where {"id": 1, "name":"Tavoite1", "color": 1, "exercises": ["html_id1", "html_id2"]}
   def self.course_schedules(cid)
     course = Course.where(id: cid).first
     if not course or course.schedules.empty?
@@ -24,7 +24,7 @@ class ScheduleService
     end
     result = []
     course.schedules.each do |s|
-      result << {"id": s.id, "name": s.name, "exercises": s.exercises}
+      result << {"id": s.id, "name": s.name,"color": s.color, "exercises": s.exercises}
     end
     return result
   end
