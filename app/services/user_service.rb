@@ -9,7 +9,7 @@ class UserService
   def self.teacher_courses(sid)
     user = give_user(sid)
     if user
-      return user.courses_to_teach
+      return user.courses_to_teach.order(startdate: :desc)
     else
       return nil
     end
@@ -19,7 +19,7 @@ class UserService
   def self.student_courses(id)
     student = give_user(id)
     if student
-      return student.courses
+      return student.courses.order(startdate: :desc)
     else
       return nil
     end
