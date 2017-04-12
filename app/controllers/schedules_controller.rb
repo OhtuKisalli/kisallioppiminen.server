@@ -9,16 +9,19 @@ class SchedulesController < ApplicationController
 
   # Teacher - add schedule to schedules list
   # post '/courses/:id/schedules/new'
-  # params: id (Course.id), name (string)
+  # params: id (Course.id), name (string), color (integer)
   # TODO returns GET
   def new_schedule
+    color = params[:color]
     if not TeachingService.has_rights?(current_user.id, params[:id])
       render :json => {"error" => "Et ole kyseisen kurssin vastuuhenkilö."}, status: 401
+    elsif not color or color.blank? or color.to_i < 1
+      render :json => {"error" => "Parametri color virheellinen."}, status: 422
     elsif not params[:name] or params[:name].blank?
       render :json => {"error" => "Tavoitteella täytyy olla nimi."}, status: 422
     elsif ScheduleService.name_reserved?(params[:id], params[:name])
       render :json => {"error" => "Kahdella tavoitteella ei voi olla samaa nimeä."}, status: 422
-    elsif ScheduleService.add_new_schedule(params[:id], params[:name])
+    elsif ScheduleService.add_new_schedule(params[:id], params[:name], color.to_i)
       render :json => ScheduleService.course_schedules(params[:id]), status: 200
     else 
       render :json => {"error" => "Tavoitetta ei voida tallentaa tietokantaan."}, status: 422

@@ -30,9 +30,9 @@ class ScheduleService
   end
   
   #
-  def self.add_new_schedule(cid, name)
+  def self.add_new_schedule(cid, name, color)
     course = CourseService.course_by_id(cid)
-    schedule = Schedule.new(course_id: cid, name: name)
+    schedule = Schedule.new(course_id: cid, name: name, color: color)
     if course and not name_reserved?(cid, name) and schedule.save
       return true;
     else

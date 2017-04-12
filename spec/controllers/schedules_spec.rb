@@ -21,16 +21,32 @@ RSpec.describe SchedulesController, type: :controller do
         Teaching.create(user_id: @ope.id, course_id: @course.id)
         sign_in @ope
       end
-      it "name necessary" do
+      it "color necessary" do
         post 'new_schedule', :format => :json, params: {"id": @course.id}
+        expect(response.status).to eq(422)
+        body = JSON.parse(response.body)
+        expected = {"error" => "Parametri color virheellinen."}
+        expect(body).to eq(expected)
+        post 'new_schedule', :format => :json, params: {"id": @course.id, "color": "a"}
+        body = JSON.parse(response.body)
+        expected = {"error" => "Parametri color virheellinen."}
+        expect(body).to eq(expected)
+        post 'new_schedule', :format => :json, params: {"id": @course.id, "color": nil}
+        body = JSON.parse(response.body)
+        expected = {"error" => "Parametri color virheellinen."}
+        expect(body).to eq(expected)
+      end
+      
+      it "name necessary" do
+        post 'new_schedule', :format => :json, params: {"id": @course.id, "color": 1}
         expect(response.status).to eq(422)
         body = JSON.parse(response.body)
         expected = {"error" => "Tavoitteella täytyy olla nimi."}
         expect(body).to eq(expected)
       end
       it "name must be uniq" do
-        ScheduleService.add_new_schedule(@course.id, "reserved")
-        post 'new_schedule', :format => :json, params: {"id": @course.id, "name": "reserved"}
+        ScheduleService.add_new_schedule(@course.id, "reserved", 1)
+        post 'new_schedule', :format => :json, params: {"id": @course.id, "name": "reserved", "color": 1}
         expect(response.status).to eq(422)
         body = JSON.parse(response.body)
         expected = {"error" => "Kahdella tavoitteella ei voi olla samaa nimeä."}
@@ -49,7 +65,7 @@ RSpec.describe SchedulesController, type: :controller do
       end
       it "must be teacher on the course" do
         sign_in @ope2
-        post 'new_schedule', :format => :json, params: {"id": @course.id, "name": "name2"}
+        post 'new_schedule', :format => :json, params: {"id": @course.id, "name": "name2", "color": 1}
         expect(response.status).to eq(401)
         body = JSON.parse(response.body)
         expected = {"error" => "Et ole kyseisen kurssin vastuuhenkilö."}
@@ -57,12 +73,13 @@ RSpec.describe SchedulesController, type: :controller do
       end
       it "adds schedule correctly" do
         sign_in @ope
-        post 'new_schedule', :format => :json, params: {"id": @course.id, "name": "name1"}
+        post 'new_schedule', :format => :json, params: {"id": @course.id, "name": "name1", "color": 1}
         expect(response.status).to eq(200)
         body = JSON.parse(response.body)
         expect(body.size).to eq(1)
         schedule = ScheduleService.all_schedules.first
         expect(schedule.name).to eq("name1")
+        expect(schedule.color).to eq(1)
         expect(schedule.course_id).to eq(@course.id)
         expect(schedule.exercises).to eq([])
       end
@@ -98,7 +115,7 @@ RSpec.describe SchedulesController, type: :controller do
       end
       
       it "deletes deadline" do
-        ScheduleService.add_new_schedule(@course.id, "nimi")
+        ScheduleService.add_new_schedule(@course.id, "nimi", 1)
         delete 'delete_schedule', :format => :json, params: {"cid": @course.id, "did": ScheduleService.all_schedules.first.id}
         expect(response.status).to eq(200)
         body = JSON.parse(response.body)
@@ -108,7 +125,7 @@ RSpec.describe SchedulesController, type: :controller do
       end
       it "doesnt delete schedule that not on course" do
         @course2 = FactoryGirl.create(:course, coursekey:"key2")
-        ScheduleService.add_new_schedule(@course2.id, "nimi")
+        ScheduleService.add_new_schedule(@course2.id, "nimi", 1)
         delete 'delete_schedule', :format => :json, params: {"cid": @course.id, "did": ScheduleService.all_schedules.first.id}
         expect(response.status).to eq(401)
         body = JSON.parse(response.body)
