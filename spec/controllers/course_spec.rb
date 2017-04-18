@@ -177,6 +177,18 @@ RSpec.describe CoursesController, type: :controller do
         @c = CourseService.find_by_coursekey("avain1")
         expect(TeachingService.is_archived?(@testaaja.id, @c.id)).to eq(false)
       end
+      it "coursekey XSS test" do
+        post 'newcourse', :format => :json, params: {"coursekey":"<script>", "name":"kurssi", html_id: "maa5"}
+        expect(response.status).to eq(403)
+        body = JSON.parse(response.body)
+        expect(body["error"].include? "Kurssiavaimessa ei voi olla merkkejä").to eq(true)
+      end
+      it "coursename XSS test" do
+        post 'newcourse', :format => :json, params: {"coursekey":"coursekey111g", "name":"<script>", html_id: "maa5"}
+        expect(response.status).to eq(403)
+        body = JSON.parse(response.body)
+        expect(body["error"].include? "Kurssin nimessä ei voi olla merkkejä").to eq(true)
+      end
             
     end
   end

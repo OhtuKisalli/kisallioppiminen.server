@@ -9,3 +9,9 @@ FAKE_COURSES_STUDENT_MIN = 10
 
 # characters used in XSS check. These are not allowed in course name or coursekey
 BAD_CHARACTERS = ["&", "<", ">", '"', "'", "`", "!", "@", "$", "%", "(", ")", "=", "+", "{", "}", "[", "]"]
+
+# max length for course's name
+MAX_COURSE_NAME_LENGTH = 40
+
+# max length for coursekey
+MAX_COURSE_KEY_LENGTH = 25

@@ -20,10 +20,14 @@ class CoursesController < ApplicationController
   # PUT 'courses/:id'
   # params: id, coursekey, name, startdate, enddate
   def update
+    coursekey_errors = ValidationService.validate_coursekey(params[:coursekey])
+    coursename_errors = ValidationService.validate_coursename(params[:coursekey])
     if not TeachingService.teacher_on_course?(current_user.id, params[:id])
       render :json => {"error" => "Et ole kyseisen kurssin opettaja."}, status: 401
-    elsif CourseService.coursekey_reserved?(params[:coursekey])
-      render :json => {"error" => "Kurssiavain on jo varattu."}, status: 403
+    elsif coursename_errors    
+        render :json => coursename_errors, status: 403
+    elsif coursekey_errors
+        render :json => coursekey_errors, status: 403
     else
       if CourseService.update_course?(params[:id], course_params)
         render :json => {"message" => "Kurssitiedot päivitetty."}, status: 200
@@ -56,13 +60,17 @@ class CoursesController < ApplicationController
   # post '/courses/newcourse'
   # params: coursekey, name, html_id, startdate, enddate
   def newcourse
-    if CourseService.coursekey_reserved?(params[:coursekey])
-        render :json => {"error" => "Kurssiavain on jo varattu."}, status: 403
-    elsif UserService.user_blocked?(current_user.id)
+    coursekey_errors = ValidationService.validate_coursekey(params[:coursekey])
+    coursename_errors = ValidationService.validate_coursename(params[:name])
+    if UserService.user_blocked?(current_user.id)
         render :json => {"error" => "Et voi enää luoda kursseja, koska sinulle on väärinkäytösten vuoksi asetettu esto."}, status: 422
     elsif TeachingService.courses_created_today(current_user.id) >= MAX_COURSE_PER_DAY
         errormsg = "Voit luoda korkeintaan " + MAX_COURSE_PER_DAY.to_s + " kurssia päivässä."
         render :json => {"error" => errormsg}, status: 403
+    elsif coursename_errors    
+        render :json => coursename_errors, status: 403
+    elsif coursekey_errors
+        render :json => coursekey_errors, status: 403
     elsif ExerciselistService.elist_id_by_html_id(params[:html_id]) == nil
         render :json => {"error" => "Kurssin tehtäviä ei vielä olla tallennettu tietokantaan."}, status: 422
     else
@@ -92,7 +100,7 @@ class CoursesController < ApplicationController
     
     # Never trust parameters from the scary internet, only allow the white list through.
     def course_params
-      params.permit(:html_id, :coursekey, :name, :startdate, :enddate, :exercises)
+      params.permit(:html_id, :coursekey, :name, :startdate, :enddate)
     end
     
 end
