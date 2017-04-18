@@ -66,6 +66,12 @@ RSpec.describe AttendanceService, type: :service do
       expect(AttendanceService.get_attendance(55, @course.id)).to eq(nil)
       expect(AttendanceService.get_attendance(@student.id, @course.id)).not_to eq(nil)
     end
+    it "leave_course(sid, cid)" do
+      AttendanceService.leave_course(@student2.id, @course.id)
+      expect(Attendance.count).to eq(1)
+      AttendanceService.leave_course(@student.id, @course.id)
+      expect(Attendance.count).to eq(0)
+    end
     
   end
 end

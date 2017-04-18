@@ -30,6 +30,14 @@ class AttendanceService
     return Attendance.where(course_id: cid).count
   end
   
+  #
+  def self.leave_course(sid, cid)
+    a = Attendance.where(user_id: sid, course_id: cid).first
+    if a
+      a.destroy
+    end
+  end
+  
   # returns {}, keys: coursekeys, values: {} with keys "id","coursename","coursekey","html_id","startdate","enddate"
   def self.add_new_course_to_user(sid, cid)
     Attendance.create(user_id: sid, course_id: cid)
