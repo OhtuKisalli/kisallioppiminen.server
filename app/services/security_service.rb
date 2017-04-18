@@ -49,6 +49,17 @@ class SecurityService
     end
   end
   
+  # returns true if XSS safe
+  # returns false if not XSS safe
+  # BAD_CHARACTERS can be found in config/initializers/constans.rb
+  def self.safe_string?(param)
+    if BAD_CHARACTERS.any? { |c| param.include?(c) }
+      return false
+    else
+      return true
+    end
+  end
+  
   
   private
     def self.count_students(id)

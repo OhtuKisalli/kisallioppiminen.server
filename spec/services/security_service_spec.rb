@@ -70,6 +70,11 @@ RSpec.describe SecurityService, type: :service do
       expect(@ope2.blocked).to eq(false)
     end
     
+    it "safe_string?(param)" do
+      expect(SecurityService.safe_string?("ThisStringIsOK")).to eq(true)
+      expect(SecurityService.safe_string?('<script>alert("Hohoho");</script>')).to eq(false)
+    end
+    
   end
 
 end
