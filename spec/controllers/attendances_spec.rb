@@ -137,8 +137,52 @@ RSpec.describe AttendancesController, type: :controller do
       end
     
     end
+  end
   
+  describe "Student - leave course" do
   
+    context "when not logged in" do
+      it "gives error message" do
+        delete 'leave_course', :format => :json, params: {"sid":1,"cid":1}
+        expect(response.status).to eq(401)
+        body = JSON.parse(response.body)
+        expected = {"error" => "Sinun täytyy ensin kirjautua sisään."}
+        expect(body).to eq(expected)
+      end
+    end
+    
+    context "when logged in" do
+      before(:each) do
+        @course1 = FactoryGirl.create(:course)
+        @testaaja = FactoryGirl.create(:user)
+        sign_in @testaaja
+      end
+      it "must be user signed in" do
+        @ope = FactoryGirl.create(:user, username:"ope1", email:"ope1@o.o")
+        delete 'leave_course', :format => :json, params: {"sid":@ope.id,"cid":@course1.id}
+        expect(response.status).to eq(401)
+        body = JSON.parse(response.body)
+        expected = {"error" => "Voit poistaa kurssilta vain itsesi!"}
+        expect(body).to eq(expected)
+      end
+      it "must be student on course" do
+        delete 'leave_course', :format => :json, params: {"sid":@testaaja.id,"cid":@course1.id}
+        expect(response.status).to eq(403)
+        body = JSON.parse(response.body)
+        expected = {"error" => "Et voi poistua kurssilta millä et ole!"}
+        expect(body).to eq(expected)
+      end
+      it "exit can be found" do
+        Attendance.create(course_id: @course1.id, user_id: @testaaja.id)
+        expect(Attendance.count).to eq(1)
+        delete 'leave_course', :format => :json, params: {"sid":@testaaja.id,"cid":@course1.id}
+        expect(response.status).to eq(200)
+        body = JSON.parse(response.body)
+        expected = {"message" => "Osallistuminen poistettu."}
+        expect(body).to eq(expected)
+        expect(Attendance.count).to eq(0)
+      end
+    end
   end
 
 end

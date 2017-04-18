@@ -29,6 +29,9 @@ Rails.application.routes.draw do
   # Courses for student
   get '/students/:id/courses' => 'courses#mycourses_student'
 
+  # Student - leave course
+  delete '/students/:sid/courses/:cid' => 'attendances#leave_course', defaults: { format: 'json' }, constraints: {format: 'json'}
+
   #Student – I can join a specific course using a coursekeys
   post '/courses/join' => 'attendances#newstudent', defaults: { format: 'json' }, constraints: {format: 'json'}
 

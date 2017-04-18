@@ -51,5 +51,20 @@ class AttendancesController < ApplicationController
     end
   end
   
+  # Student - leave course
+  # delete '/students/:sid/courses/:cid'
+  def leave_course
+    sid = params[:sid]
+    cid = params[:cid]
+    if sid.to_i != current_user.id
+      render :json => {"error" => "Voit poistaa kurssilta vain itsesi!"}, status: 401
+    elsif not AttendanceService.user_on_course?(sid, cid)
+      render :json => {"error" => "Et voi poistua kurssilta millä et ole!"}, status: 403
+    else
+      AttendanceService.leave_course(sid, cid)
+      render :json => {"message" => "Osallistuminen poistettu."}, status: 200
+    end
+  end
+  
 end
 
