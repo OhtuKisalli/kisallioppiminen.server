@@ -22,9 +22,14 @@ RSpec.describe ValidationService, type: :service do
         msg = {"error" => "Kurssiavain on jo varattu."}
         expect(ValidationService.validate_coursekey(@course1.coursekey)).to eq(msg)
       end
+      it "no whitespace" do
+        msg = {"error" => "Kurssiavaimessa ei voi olla välilyöntiä."}
+        expect(ValidationService.validate_coursekey("keykey ")).to eq(msg)
+        expect(ValidationService.validate_coursekey("key key")).to eq(msg)
+      end
     end
     
-    context "validate_coursekey(key)" do
+    context "validate_coursename(name)" do
       it "not blank" do
         msg = {"error"=>"Kurssin nimi ei voi olla tyhjä."}
         expect(ValidationService.validate_coursename(nil)).to eq(msg)

@@ -6,6 +6,8 @@ class ValidationService
     elsif key.length > MAX_COURSE_KEY_LENGTH
       msg = "Kurssiavain voi olla korkeintaan " + MAX_COURSE_KEY_LENGTH.to_s + " merkkiä pitkä."
       return {"error" => msg}
+    elsif key.match(/\s/)
+      return {"error" => "Kurssiavaimessa ei voi olla välilyöntiä."}
     elsif not SecurityService.safe_string?(key)
       msg = "Kurssiavaimessa ei voi olla merkkejä: "
       msg = add_bad_characters(msg)
