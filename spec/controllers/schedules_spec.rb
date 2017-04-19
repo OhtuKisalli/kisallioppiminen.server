@@ -31,6 +31,10 @@ RSpec.describe SchedulesController, type: :controller do
         body = JSON.parse(response.body)
         expected = {"error" => "Parametri color virheellinen."}
         expect(body).to eq(expected)
+        post 'new_schedule', :format => :json, params: {"id": @course.id, "color": "<script>"}
+        body = JSON.parse(response.body)
+        expected = {"error" => "Parametri color virheellinen."}
+        expect(body).to eq(expected)
         post 'new_schedule', :format => :json, params: {"id": @course.id, "color": nil}
         body = JSON.parse(response.body)
         expected = {"error" => "Parametri color virheellinen."}

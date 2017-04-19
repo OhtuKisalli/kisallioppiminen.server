@@ -12,15 +12,15 @@ class SchedulesController < ApplicationController
   # params: id (Course.id), name (string), color (integer)
   # TODO returns GET
   def new_schedule
-    color = params[:color]
     schedule_errors = ValidationService.validate_schedulename(params[:id], params[:name])
+    color_errors = ValidationService.validate_schedulecolor(params[:color])
     if not TeachingService.has_rights?(current_user.id, params[:id])
       render :json => {"error" => "Et ole kyseisen kurssin vastuuhenkilö."}, status: 401
-    elsif not color or color.blank? or color.to_i < 1
-      render :json => {"error" => "Parametri color virheellinen."}, status: 422
+    elsif color_errors
+      render :json => color_errors, status: 422
     elsif schedule_errors
       render :json => schedule_errors, status: 422
-    elsif ScheduleService.add_new_schedule(params[:id], params[:name], color.to_i)
+    elsif ScheduleService.add_new_schedule(params[:id], params[:name], params[:color].to_i)
       render :json => ScheduleService.course_schedules(params[:id]), status: 200
     else 
       render :json => {"error" => "Tavoitetta ei voida tallentaa tietokantaan."}, status: 422
