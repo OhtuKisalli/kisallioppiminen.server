@@ -88,6 +88,18 @@ class ValidationService
     end
   end
   
+  def self.validate_update_schedules(schedules)
+    if schedules.blank?
+      return {"error" => "Parametri schedules on virheellinen."}
+    end
+    schedules.keys.each do |key|
+      if not (key !~ /\D/)
+        return {"error" => "Parametrissä schedules on sopimaton avain."}  
+      end
+    end
+    return nil    
+  end
+  
   private
     def self.add_bad_characters(msg)
       BAD_CHARACTERS.each do |c|

@@ -51,10 +51,11 @@ class SchedulesController < ApplicationController
   # "2" : { },
   # "3" : {"ex_html_id3" : false}}
   def update_exercises
+    schedules_errors = ValidationService.validate_update_schedules(params[:schedules])
     if not TeachingService.has_rights?(current_user.id, params[:id])
       render :json => {"error" => "Et ole kyseisen kurssin vastuuhenkilö."}, status: 401
-    elsif not params[:schedules]
-      render :json => {"error" => "Parametri schedules on virheellinen."}, status: 422
+    elsif schedules_errors
+      render :json => schedules_errors, status: 422
     elsif ScheduleService.update_schedule_exercises(params[:id], params[:schedules])
       render :json => ScheduleService.course_schedules(params[:id]), status: 200
     else

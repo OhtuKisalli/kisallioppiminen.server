@@ -179,7 +179,17 @@ RSpec.describe SchedulesController, type: :controller do
         expected = {"error" => "Parametri schedules on virheellinen."}
         expect(body).to eq(expected)
       end
-                 
+      it "schedules keys must be numbers" do
+        hash = {}
+        hash["1"] = {"id1" => true, "id2" => true}
+        hash["<script>"] = {"id1" => false}
+        hash["3"] = {"id1" => true}
+        post 'update_exercises', params: {"id": @course.id, "schedules": hash}, as: :json
+        expect(response.status).to eq(422)
+        body = JSON.parse(response.body)
+        expected = {"error"=>"Parametrissä schedules on sopimaton avain."}
+        expect(body).to eq(expected)
+      end        
     end
         
     context "with proper params" do

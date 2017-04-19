@@ -113,6 +113,21 @@ RSpec.describe ValidationService, type: :service do
         expect(ValidationService.validate_schedulecolor(99)).to eq(nil)
       end
     end
+    context "validate_update_schedules(schedules)" do
+      it "not blank" do
+        msg = {"error" => "Parametri schedules on virheellinen."}
+        expect(ValidationService.validate_update_schedules(nil)).to eq(msg)
+      end
+      it "invalid key" do
+        schedules = {"1"=>{},"<scipts>"=>{},"3"=>{}}
+        msg = {"error" => "Parametrissä schedules on sopimaton avain."}
+        expect(ValidationService.validate_update_schedules(schedules)).to eq(msg)
+      end
+      it "nil when correct" do
+        schedules = {"1"=>{},"22"=>{},"33"=>{}}
+        expect(ValidationService.validate_update_schedules(schedules)).to eq(nil)
+      end
+    end
   end
   
   describe "other validations" do
