@@ -156,7 +156,7 @@ RSpec.describe CoursesController, type: :controller do
       end
       
       it "doesnt create course if exerciselist not created" do
-        post 'newcourse', :format => :json, params: {"coursekey":"avain1", "name":"kurssi", "html_id":"notsaved"}
+        post 'newcourse', :format => :json, params: {"coursekey":"avain1", "name":"kurssi", "html_id":"notsaved", "startdate":"2000-01-01", "enddate":"2000-01-02"}
         expect(response.status).to eq(422)
         body = JSON.parse(response.body)
         expected = {"error" => "Kurssin tehtäviä ei vielä olla tallennettu tietokantaan."}
@@ -166,14 +166,14 @@ RSpec.describe CoursesController, type: :controller do
       
       it "adds teacher to created course" do
         expect(TeachingService.all_teachings.count).to eq(0)
-        post 'newcourse', :format => :json, params: {"coursekey":"avain1", "name":"kurssi", html_id: "maa5"}
+        post 'newcourse', :format => :json, params: {"coursekey":"avain1", "name":"kurssi", html_id: "maa5", "startdate":"2000-01-01", "enddate":"2000-01-02"}
         expect(TeachingService.all_teachings.count).to eq(1)
         expect(TeachingService.is_teacher?(@testaaja.id)).to eq(true)
         expect(UserService.teacher_courses(@testaaja.id).first.coursekey).to eq("avain1")
       end
       
       it "created course is not archived" do
-        post 'newcourse', :format => :json, params: {"coursekey":"avain1", "name":"kurssi", html_id: "maa5"}
+        post 'newcourse', :format => :json, params: {"coursekey":"avain1", "name":"kurssi", html_id: "maa5", "startdate":"2000-01-01", "enddate":"2000-01-02"}
         @c = CourseService.find_by_coursekey("avain1")
         expect(TeachingService.is_archived?(@testaaja.id, @c.id)).to eq(false)
       end
@@ -188,6 +188,14 @@ RSpec.describe CoursesController, type: :controller do
         expect(response.status).to eq(403)
         body = JSON.parse(response.body)
         expect(body["error"].include? "Kurssin nimessä ei voi olla merkkejä").to eq(true)
+      end
+      it "doesnt allow enddate be before startdate" do
+        post 'newcourse', :format => :json, params: {"coursekey":"avain1", "name":"kurssi", html_id: "maa5", "startdate":"2000-01-03", "enddate":"2000-01-02"}
+        expect(response.status).to eq(403)
+        body = JSON.parse(response.body)
+        expected = {"error" => "Alkamispäivämäärä ei voi olla loppumispäivämäärän jälkeen!"}
+        expect(body).to eq(expected)
+        
       end
             
     end

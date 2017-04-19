@@ -62,6 +62,7 @@ class CoursesController < ApplicationController
   def newcourse
     coursekey_errors = ValidationService.validate_coursekey(params[:coursekey])
     coursename_errors = ValidationService.validate_coursename(params[:name])
+    date_errors = ValidationService.validate_course_dates(params[:startdate], params[:enddate])
     if UserService.user_blocked?(current_user.id)
         render :json => {"error" => "Et voi enää luoda kursseja, koska sinulle on väärinkäytösten vuoksi asetettu esto."}, status: 422
     elsif TeachingService.courses_created_today(current_user.id) >= MAX_COURSE_PER_DAY
@@ -71,6 +72,8 @@ class CoursesController < ApplicationController
         render :json => coursename_errors, status: 403
     elsif coursekey_errors
         render :json => coursekey_errors, status: 403
+    elsif date_errors
+        render :json => date_errors, status: 403
     elsif ExerciselistService.elist_id_by_html_id(params[:html_id]) == nil
         render :json => {"error" => "Kurssin tehtäviä ei vielä olla tallennettu tietokantaan."}, status: 422
     else
