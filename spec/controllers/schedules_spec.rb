@@ -185,6 +185,9 @@ RSpec.describe SchedulesController, type: :controller do
     context "with proper params" do
       before(:each) do
         @course = FactoryGirl.create(:course, coursekey:"key1")
+        ExerciselistService.new_list(@course.html_id)
+        ExerciseService.create_exercise(@course.html_id, "id1")
+        ExerciseService.create_exercise(@course.html_id, "id2")
         @ope = FactoryGirl.create(:user, username:"ope1", email:"ope1@o.o")
         TeachingService.create_teaching(@ope.id, @course.id)
         @schedule = Schedule.create(name: "nimi", course_id: @course.id, exercises: [])

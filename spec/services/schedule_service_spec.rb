@@ -67,6 +67,9 @@ RSpec.describe ScheduleService, type: :service do
     end
     it "adds exercises to schedules" do
       @course = FactoryGirl.create(:course, coursekey:"key1")
+      ExerciselistService.new_list(@course.html_id)
+      ExerciseService.create_exercise(@course.html_id, "id1")
+      ExerciseService.create_exercise(@course.html_id, "id2")
       schedule = Schedule.create(name: "nimi", course_id: @course.id, exercises: [])
       schedule2 = Schedule.create(name: "nimi2", course_id: @course.id, exercises: [])
       id1 = schedule.id.to_s
@@ -81,6 +84,9 @@ RSpec.describe ScheduleService, type: :service do
     end
     it "add/remove works correctly to values exist" do
       @course = FactoryGirl.create(:course, coursekey:"key2")
+      ExerciselistService.new_list(@course.html_id)
+      ExerciseService.create_exercise(@course.html_id, "id1")
+      ExerciseService.create_exercise(@course.html_id, "id2")
       schedule = Schedule.create(name: "name1", course_id: @course.id, exercises: ["id1"])
       schedule2 = Schedule.create(name: "name2", course_id: @course.id, exercises: ["id2"])
       expect(schedule.exercises.include? "id1").to eq(true)

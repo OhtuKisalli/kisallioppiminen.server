@@ -51,7 +51,7 @@ class ScheduleService
       return false
     end
     schedules.each do |key, value|
-      update_schedule_exercise(key.to_i, value)
+      update_schedule_exercise(key.to_i, value, cid)
     end
     return true
   end
@@ -97,12 +97,12 @@ class ScheduleService
   end
   
   private
-    def self.update_schedule_exercise(sid, value)
+    def self.update_schedule_exercise(sid, value, cid)
       @schedule = Schedule.where(id: sid).first
       if @schedule
         exs = @schedule.exercises
         value.each do |k, v|
-          if (v == "true" or v == true) and not exs.include? k
+          if (v == "true" or v == true) and not exs.include? k and ExerciseService.exercise_on_course?(cid, k)
             exs << k  
           elsif (v == "false" or v == false) and exs.include? k
             exs.delete(k)
