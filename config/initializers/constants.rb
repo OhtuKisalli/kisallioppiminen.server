@@ -18,3 +18,6 @@ MAX_COURSE_KEY_LENGTH = 25
 
 # max length for schedule's name
 MAX_SCHEDULE_NAME_LENGTH = 30
+
+# valid color names
+VALID_COLOR_NAMES = ["green","red","yellow","white","black","gray"]

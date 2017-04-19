@@ -75,7 +75,17 @@ class ValidationService
     else
       return nil
     end
-    
+  end
+  
+  def self.validate_color(param, name)
+    if param.blank? 
+      return {"error" => "#{name} ei voi olla tyhjä."}
+    elsif not (VALID_COLOR_NAMES.include? param)
+      msg = "#{name} ei kuulu joukkoon " + VALID_COLOR_NAMES.to_s
+      return {"error" => msg}
+    else
+      return nil
+    end
   end
   
   private

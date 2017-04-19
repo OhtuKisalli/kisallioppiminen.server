@@ -75,7 +75,6 @@ RSpec.describe ValidationService, type: :service do
       end
       
     end
-    
   end
   
   describe "create schedule validations" do
@@ -114,7 +113,14 @@ RSpec.describe ValidationService, type: :service do
         expect(ValidationService.validate_schedulecolor(99)).to eq(nil)
       end
     end
-    
+  end
+  
+  describe "other validations" do
+    it "color validations" do
+      expect(ValidationService.validate_color(VALID_COLOR_NAMES.sample, "Color")).to eq(nil)
+      expect(ValidationService.validate_color(nil, "Color")).to eq({"error" => "Color ei voi olla tyhjä."})
+      expect(ValidationService.validate_color("purple!", "Color")["error"].include? "Color ei kuulu joukkoon").to eq(true)
+    end
   end
 
 end
