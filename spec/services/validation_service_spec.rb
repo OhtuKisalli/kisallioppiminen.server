@@ -94,6 +94,22 @@ RSpec.describe ValidationService, type: :service do
         expect(ValidationService.validate_schedulename(@course1.id, "reserved")).to eq({"error" => msg})
       end
     end
+    context "validate_schedulecolor(color)" do
+      it "not integer 1..99" do
+        msg = {"error" => "Parametri color virheellinen."}
+        expect(ValidationService.validate_schedulecolor(nil)).to eq(msg)
+        expect(ValidationService.validate_schedulecolor("")).to eq(msg)
+        expect(ValidationService.validate_schedulecolor("f")).to eq(msg)
+        expect(ValidationService.validate_schedulecolor("ff")).to eq(msg)
+        expect(ValidationService.validate_schedulecolor("0")).to eq(msg)
+        expect(ValidationService.validate_schedulecolor("100")).to eq(msg)
+        expect(ValidationService.validate_schedulecolor("<script>")).to eq(msg)
+        expect(ValidationService.validate_schedulecolor("1")).to eq(nil)
+        expect(ValidationService.validate_schedulecolor(1)).to eq(nil)
+        expect(ValidationService.validate_schedulecolor(99)).to eq(nil)
+      end
+    end
+    
   end
 
 end

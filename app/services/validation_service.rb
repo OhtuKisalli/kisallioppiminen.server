@@ -49,6 +49,16 @@ class ValidationService
     end
   end
   
+  def self.validate_schedulecolor(color)
+    if color.is_a? Integer and color > 0
+      return nil
+    elsif color.blank? or color.length > 2 or color.to_i < 1
+      return {"error" => "Parametri color virheellinen."}
+    else
+      return nil
+    end
+  end
+  
   def self.validate_course_dates(startdate, enddate)
     if startdate.blank? or enddate.blank?
       return {"error" => "Kurssilla täytyy olla alkamis- ja loppumispäivämäärät."}
