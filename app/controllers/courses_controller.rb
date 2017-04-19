@@ -21,13 +21,16 @@ class CoursesController < ApplicationController
   # params: id, coursekey, name, startdate, enddate
   def update
     coursekey_errors = ValidationService.validate_coursekey(params[:coursekey])
-    coursename_errors = ValidationService.validate_coursename(params[:coursekey])
+    coursename_errors = ValidationService.validate_coursename(params[:name])
+    date_errors = ValidationService.validate_course_dates(params[:startdate], params[:enddate])
     if not TeachingService.teacher_on_course?(current_user.id, params[:id])
       render :json => {"error" => "Et ole kyseisen kurssin opettaja."}, status: 401
     elsif coursename_errors    
         render :json => coursename_errors, status: 403
     elsif coursekey_errors
         render :json => coursekey_errors, status: 403
+    elsif date_errors
+        render :json => date_errors, status: 403
     else
       if CourseService.update_course?(params[:id], course_params)
         render :json => {"message" => "Kurssitiedot päivitetty."}, status: 200

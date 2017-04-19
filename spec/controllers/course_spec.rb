@@ -195,7 +195,6 @@ RSpec.describe CoursesController, type: :controller do
         body = JSON.parse(response.body)
         expected = {"error" => "Alkamispäivämäärä ei voi olla loppumispäivämäärän jälkeen!"}
         expect(body).to eq(expected)
-        
       end
             
     end
@@ -229,7 +228,7 @@ RSpec.describe CoursesController, type: :controller do
       it "coursekey must not be reserved" do
         TeachingService.create_teaching(@testaaja.id, @course1.id)
         FactoryGirl.create(:course, coursekey:"varattu")
-        put 'update', :format => :json, params: {"id":@course1.id, "coursekey": "varattu"}
+        put 'update', :format => :json, params: {"id":@course1.id, "coursekey": "varattu", "name": "uusinimi", "startdate": "2017-06-01", "enddate": "2017-06-02"}
         expect(response.status).to eq(403)
         body = JSON.parse(response.body)
         expected = {"error" => "Kurssiavain on jo varattu."}
@@ -250,6 +249,30 @@ RSpec.describe CoursesController, type: :controller do
         expect(c.startdate).to eq(Date.parse("2017-06-01"))
         expect(c.enddate).to eq(Date.parse("2017-06-02"))
       end
+      
+      it "coursekey XSS test" do
+        Teaching.create(user_id: @testaaja.id, course_id: @course1.id)
+        put 'update', :format => :json, params: {"id":@course1.id, "coursekey": "<script>", "name": "uusinimi", "startdate": "2017-06-01", "enddate": "2017-06-02"}
+        expect(response.status).to eq(403)
+        body = JSON.parse(response.body)
+        expect(body["error"].include? "Kurssiavaimessa ei voi olla merkkejä").to eq(true)
+      end
+      it "coursename XSS test" do
+        Teaching.create(user_id: @testaaja.id, course_id: @course1.id)
+        put 'update', :format => :json, params: {"id":@course1.id, "coursekey": "validkey3", "name": "<script>", "startdate": "2017-06-01", "enddate": "2017-06-02"}
+        expect(response.status).to eq(403)
+        body = JSON.parse(response.body)
+        expect(body["error"].include? "Kurssin nimessä ei voi olla merkkejä").to eq(true)
+      end
+      it "doesnt allow enddate be before startdate" do
+        Teaching.create(user_id: @testaaja.id, course_id: @course1.id)
+        put 'update', :format => :json, params: {"id":@course1.id, "coursekey": "uusi", "name": "uusinimi", "startdate": "2017-06-01", "enddate": "2016-06-02"}
+        expect(response.status).to eq(403)
+        body = JSON.parse(response.body)
+        expected = {"error" => "Alkamispäivämäärä ei voi olla loppumispäivämäärän jälkeen!"}
+        expect(body).to eq(expected)
+      end
+      
     end
   end
   
