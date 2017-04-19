@@ -37,8 +37,40 @@ RSpec.describe ValidationService, type: :service do
       it "not XSS" do
         expect(ValidationService.validate_coursename("<script>")["error"].include? "Kurssin nimessä ei voi olla merkkejä").to eq(true)
       end
+    end
+    
+    context "validate_course_dates(startdate, enddate)" do
+      it "not blank" do
+        msg = {"error" => "Kurssilla täytyy olla alkamis- ja loppumispäivämäärät."}
+        expect(ValidationService.validate_course_dates("", "2015-01-11")).to eq(msg)
+        expect(ValidationService.validate_course_dates("2015-01-11", nil)).to eq(msg)
+        expect(ValidationService.validate_course_dates(nil, "")).to eq(msg)
+      end
+      it "not too long" do
+        msg = {"error" => "Muotoa 2015-01-15 oleva päivämäärä ei voi olla pidempi kuin 10 merkkiä."}
+        expect(ValidationService.validate_course_dates('<script>alert("Hohoho");</script>', "2015-01-11")).to eq(msg)
+        expect(ValidationService.validate_course_dates("2015-01-11", "2015-01-11-")).to eq(msg)
+      end
+      it "format not correct" do
+        msg = {"error" => "Kurssin alkamispäivämäärä ei ole muodossa 2015-01-15."}
+        expect(ValidationService.validate_course_dates("01-01h20h1", "2015-01-11")).to eq(msg)
+        msg = {"error" => "Kurssin loppumispäivämäärä ei ole muodossa 2015-01-15."}
+        expect(ValidationService.validate_course_dates("2015-01-11", "2015-01ehf")).to eq(msg)
+      end
+      it "startdate not after enddate" do
+        msg = {"error" => "Alkamispäivämäärä ei voi olla loppumispäivämäärän jälkeen!"}
+        expect(ValidationService.validate_course_dates("2015-01-12", "2015-01-11")).to eq(msg)
+        expect(ValidationService.validate_course_dates("2016-01-12", "2015-01-12")).to eq(msg)
+      end
+      it "works when input correct" do
+        expect(ValidationService.validate_course_dates("2015-01-12", "2015-01-12")).to eq(nil)
+        expect(ValidationService.validate_course_dates("2015-01-12", "2015-01-13")).to eq(nil)
+        expect(ValidationService.validate_course_dates("2015-01-12", "2016-02-12")).to eq(nil)
+        expect(ValidationService.validate_course_dates("2015-09-12", "2015-10-01")).to eq(nil)
+      end
       
     end
+    
   end
   
   describe "create schedule validations" do

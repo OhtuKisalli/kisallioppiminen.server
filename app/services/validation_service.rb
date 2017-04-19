@@ -49,6 +49,23 @@ class ValidationService
     end
   end
   
+  def self.validate_course_dates(startdate, enddate)
+    if startdate.blank? or enddate.blank?
+      return {"error" => "Kurssilla täytyy olla alkamis- ja loppumispäivämäärät."}
+    elsif startdate.length > 10 or enddate.length > 10
+      return {"error" => "Muotoa 2015-01-15 oleva päivämäärä ei voi olla pidempi kuin 10 merkkiä."}
+    elsif not (Date.valid_date? *startdate.split('-').map(&:to_i) rescue false) or startdate[0..3].include? "-"
+      return {"error" => "Kurssin alkamispäivämäärä ei ole muodossa 2015-01-15."}
+    elsif not (Date.valid_date? *enddate.split('-').map(&:to_i) rescue false) or enddate[0..3].include? "-"
+      return {"error" => "Kurssin loppumispäivämäärä ei ole muodossa 2015-01-15."}
+    elsif Date.parse(startdate) > Date.parse(enddate)
+      return {"error" => "Alkamispäivämäärä ei voi olla loppumispäivämäärän jälkeen!"}
+    else
+      return nil
+    end
+    
+  end
+  
   private
     def self.add_bad_characters(msg)
       BAD_CHARACTERS.each do |c|
