@@ -15,3 +15,6 @@ MAX_COURSE_NAME_LENGTH = 40
 
 # max length for coursekey
 MAX_COURSE_KEY_LENGTH = 25
+
+# max length for schedule's name
+MAX_SCHEDULE_NAME_LENGTH = 30

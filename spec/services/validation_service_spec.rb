@@ -39,8 +39,29 @@ RSpec.describe ValidationService, type: :service do
       end
       
     end
-      
+  end
   
+  describe "create schedule validations" do
+    context "validate_schedulename(cid, s_name)" do
+      it "not blank" do
+        msg = {"error" => "Tavoitteella täytyy olla nimi."}
+        expect(ValidationService.validate_schedulename(1, nil)).to eq(msg)
+      end
+      it "not too long" do
+        long = "this is way too looooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooong"
+        msg = "Tavoitteen nimi voi olla korkeintaan " + MAX_SCHEDULE_NAME_LENGTH.to_s + " merkkiä pitkä."
+        expect(ValidationService.validate_schedulename(1, long)).to eq({"error" => msg})
+      end
+      it "not XSS" do
+        expect(ValidationService.validate_schedulename(1,"<script>")["error"].include? "Tavoitteen nimessä ei voi olla merkkejä").to eq(true)
+      end
+      it "not reserved" do
+        @course1 = FactoryGirl.create(:course, coursekey:"key1")
+        Schedule.create(course_id: @course1.id, name: "reserved", color: 1)
+        msg = "Kahdella tavoitteella ei voi olla samaa nimeä."
+        expect(ValidationService.validate_schedulename(@course1.id, "reserved")).to eq({"error" => msg})
+      end
+    end
   end
 
 end
