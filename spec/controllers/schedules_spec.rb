@@ -52,6 +52,20 @@ RSpec.describe SchedulesController, type: :controller do
         expected = {"error" => "Kahdella tavoitteella ei voi olla samaa nimeä."}
         expect(body).to eq(expected)
       end
+      it "name not too long" do
+        long = "loooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooong"
+        post 'new_schedule', :format => :json, params: {"id": @course.id, "name": long, "color": 1}
+        expect(response.status).to eq(422)
+        body = JSON.parse(response.body)
+        expected = {"error" => "Kahdella tavoitteella ei voi olla samaa nimeä."}
+        expect(body["error"].include? "Tavoitteen nimi voi olla korkeintaan").to eq(true)
+      end
+      it "name not XSS" do
+        post 'new_schedule', :format => :json, params: {"id": @course.id, "name": "<script>", "color": 1}
+        expect(response.status).to eq(422)
+        body = JSON.parse(response.body)
+        expect(body["error"].include? "Tavoitteen nimessä ei voi olla merkkejä").to eq(true)
+      end
     end
         
     context "with proper params" do
