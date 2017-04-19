@@ -24,7 +24,10 @@ class CheckmarksController < ApplicationController
     else
       html_id = params[:html_id]
       status = params[:status]
-      if CheckmarkService.save_student_checkmark(current_user.id, course.id, html_id, status)
+      status_errors = ValidationService.validate_color(status, "Väri")
+      if status_errors
+        render :json => status_errors, status: 422
+      elsif CheckmarkService.save_student_checkmark(current_user.id, course.id, html_id, status)
         render :json => {"message" => "Merkintä tallennettu."}, status: 201  
       else
         render :json => {"error" => "Merkintää ei voitu tallentaa."}, status: 422

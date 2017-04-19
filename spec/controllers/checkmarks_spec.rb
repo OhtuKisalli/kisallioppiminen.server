@@ -35,6 +35,15 @@ RSpec.describe CheckmarksController, type: :controller do
         expect(response.status).to eq(403)
         expect(CheckmarkService.all_checkmarks_count).to eq(0)
       end
+      it "gives error message if status not valid" do
+        AttendanceService.create_attendance(@testaaja.id, @course.id)
+        post 'mark', :format => :json, params: {"html_id":@exercise.html_id,"coursekey":@course.coursekey,"status":""}
+        expect(response.status).to eq(422)
+        body = JSON.parse(response.body)
+        expected = {"error" => "Väri ei voi olla tyhjä."}
+        expect(body).to eq(expected)
+        expect(CheckmarkService.all_checkmarks_count).to eq(0)
+      end
       it "creates new checkmark" do
         AttendanceService.create_attendance(@testaaja.id, @course.id)
         post 'mark', :format => :json, params: {"html_id":@exercise.html_id,"coursekey":@course.coursekey,"status":"green"}
