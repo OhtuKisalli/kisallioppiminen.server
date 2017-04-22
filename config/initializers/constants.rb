@@ -21,3 +21,7 @@ MAX_SCHEDULE_NAME_LENGTH = 30
 
 # valid color names
 VALID_COLOR_NAMES = ["green","red","yellow","white","black","gray"]
+
+# max number of schedules per course
+MAX_SCHEDULE_PER_COURSE = 5
+

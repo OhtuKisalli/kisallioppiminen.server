@@ -81,6 +81,19 @@ RSpec.describe SchedulesController, type: :controller do
         TeachingService.create_teaching(@ope.id, @course.id)
         TeachingService.create_teaching(@ope2.id, @course2.id)
       end
+      it "cant be too many schedules on course" do
+        counter = 0
+        MAX_SCHEDULE_PER_COURSE.times do
+          Schedule.create(name: "nimi" + counter.to_s, color: 1, course_id: @course.id, exercises: [])
+          counter += 1
+        end
+        sign_in @ope
+        post 'new_schedule', :format => :json, params: {"id": @course.id, "name": "name1", "color": 1}
+        expect(response.status).to eq(422)
+        body = JSON.parse(response.body)
+        expect(body["error"].include? "Kurssilla voi olla korkeintaan").to eq(true)
+        
+      end
       it "must be teacher on the course" do
         sign_in @ope2
         post 'new_schedule', :format => :json, params: {"id": @course.id, "name": "name2", "color": 1}
