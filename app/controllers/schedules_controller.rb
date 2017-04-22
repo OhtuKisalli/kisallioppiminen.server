@@ -17,7 +17,7 @@ class SchedulesController < ApplicationController
     if not TeachingService.has_rights?(current_user.id, params[:id])
       render :json => {"error" => "Et ole kyseisen kurssin vastuuhenkilö."}, status: 401
     elsif ScheduleService.schedules_on_course(params[:id]) >= MAX_SCHEDULE_PER_COURSE
-      msg = "Kurssilla voi olla korkeintaan " + MAX_SCHEDULE_PER_COURSE.to_s + " aikataulua."
+      msg = "Kurssilla voi olla korkeintaan " + MAX_SCHEDULE_PER_COURSE.to_s + " tavoitetta."
       render :json => {"error" => msg}, status: 422
     elsif color_errors
       render :json => color_errors, status: 422
