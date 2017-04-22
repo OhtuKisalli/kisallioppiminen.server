@@ -17,7 +17,7 @@ class ScheduleService
   
   #
   def self.schedules_on_course(cid)
-    return Schedule.where(course_id: cid)
+    return Schedule.where(course_id: cid).size
   end
   
   # [{},{},{}] or []
