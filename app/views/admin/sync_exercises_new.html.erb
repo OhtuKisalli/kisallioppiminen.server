@@ -16,6 +16,22 @@
   </ul>
 </div>
 
+<% if @bad_exercises and @bad_exercises.size > 0 %>
+  <p class="text-danger"><strong>Kisallioppimisen sivuilta löytyi tehtäviä, jotka eivät ole UUID-muodossa! On suositeltaa korjata tehtävien id:t ennen niiden tallentamista!<strong></p>
+  <div class="dropdown">
+  <button class="btn btn-danger dropdown-toggle" type="button" data-toggle="dropdown">Väärämuotoiset tehtävät (<% if @bad_exercises %><%= @bad_exercises.size %><% else %>0<% end %>)
+  <span class="caret"></span></button>
+  <ul class="dropdown-menu">
+    <% if @bad_exercises %>
+      <% @bad_exercises.each do |e| %>
+        <li><%= e %></li>
+      <% end %>
+    <% end %>
+  </ul>
+</div>
+</br>
+<% end %>
+
 <%= form_tag '/admins/exerciselists/save' do %>
   <% @exercises.each do |e| %>
     <div class="field"><%= hidden_field_tag 'exercises[]', e %></div>

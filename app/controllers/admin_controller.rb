@@ -20,10 +20,12 @@ class AdminController < ApplicationController
       @current_exs = ExerciselistService.exercises_by_html_id(@hid)
       kisalli_exs = AdminService.download_exercises(@url)
       @new = kisalli_exs - @current_exs
+      @bad_exercises = ValidationService.not_valid_exercises(@new)
       @removed = @current_exs - kisalli_exs
       render :sync_exercises_update
     else
       @exercises = AdminService.download_exercises(@url)
+      @bad_exercises = ValidationService.not_valid_exercises(@exercises)
       render :sync_exercises_new
     end
   end
