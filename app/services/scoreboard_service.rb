@@ -1,11 +1,14 @@
 class ScoreboardService
 
   def self.build_student_scoreboard(cid, sid)
-      checkmarks = CheckmarkService.student_checkmarks(cid, sid)
+      #checkmarks = CheckmarkService.student_checkmarks(cid, sid)
       course = CourseService.course_by_id(cid)
       scoreboard = course.courseinfo
-      checkmarks = CheckmarkService.add_gray_checkmarks(checkmarks, sid, cid)
-      scoreboard["exercises"] = checkmarks
+      #checkmarks = CheckmarkService.add_gray_checkmarks(checkmarks, sid, cid)
+      #scoreboard["exercises"] = checkmarks
+      student_array = []
+      student_array << UserService.user_by_id(sid)
+      scoreboard["students"] = students_and_schedules(cid, course, student_array)
       return scoreboard
   end
   
@@ -34,31 +37,35 @@ class ScoreboardService
   def self.build_scoreboard(cid)
     course = CourseService.course_by_id(cid)
     board = course.courseinfo
-    #exercises = course.exercises.ids
     students = course.students.order(:last_name)
-    count = 1
-    studentlist = []
-    students.each do |s|
-      name = build_name(s)
-      if name.blank?
-        name = "Nimetön " + count.to_s
-        count += 1
-      end
-      studentjson = {}
-      studentjson["user"] = name
-      exercisearray = CheckmarkService.student_checkmarks(cid, s.id)
-      exercisearray = CheckmarkService.add_gray_checkmarks(exercisearray, s.id, cid)
-      studentjson["exercises"] = exercisearray
-      studentlist << studentjson
-    end
-    if course.schedules.count > 0
-      studentlist = add_schedules(studentlist, cid)
-    end
-    board["students"] = studentlist
+    board["students"] = students_and_schedules(cid, course, students)
     return board
   end
   
   private
+  
+    def self.students_and_schedules(cid, course, students)
+      studentlist = []
+      count = 1
+      students.each do |s|
+        name = build_name(s)
+        if name.blank?
+          name = "Nimetön " + count.to_s
+          count += 1
+        end
+        studentjson = {}
+        studentjson["user"] = name
+        exercisearray = CheckmarkService.student_checkmarks(cid, s.id)
+        exercisearray = CheckmarkService.add_gray_checkmarks(exercisearray, s.id, cid)
+        studentjson["exercises"] = exercisearray
+        studentlist << studentjson
+      end
+      if course.schedules.count > 0
+        studentlist = add_schedules(studentlist, cid)
+      end
+      return studentlist
+    end
+  
     # "Lastname Firstname" or "Lastname" or "Firstname"
     def self.build_name(s)
       name = ""

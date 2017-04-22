@@ -47,8 +47,8 @@ RSpec.describe ScoreboardsController, type: :controller do
         expect(body.size).to eq(2)
         expect(body[0]["coursekey"]).to eq(@course1.coursekey)
         expect(body[1]["coursekey"]).to eq(@course2.coursekey)
-        expect(body[0]["exercises"].size).to eq(2)
-        expect(body[1]["exercises"].size).to eq(1)
+        expect(body[0]["students"][0]["exercises"].size).to eq(2)
+        expect(body[1]["students"][0]["exercises"].size).to eq(1)
       end
       
       it "returns a scoreboard for student" do
@@ -56,14 +56,32 @@ RSpec.describe ScoreboardsController, type: :controller do
         get 'student_scoreboard', :format => :json, params: {"sid":@opiskelija1.id,"cid":@course1.id}
         expect(response.status).to eq(200)
         body = JSON.parse(response.body)
-        expect(body.keys).to contain_exactly("name","coursekey","id", "html_id","startdate","enddate","exercises")
-        expect(body["exercises"][0].keys).to contain_exactly("id","status")
-        expect(body["exercises"][0]["status"]).to eq("green")
-        expect(body["exercises"][0]["id"]).to eq(@exercise1.html_id)
-        expect(body["exercises"][1]["status"]).to eq("red")
-        expect(body["exercises"][1]["id"]).to eq(@exercise2.html_id)
+        expect(body.keys).to contain_exactly("name","coursekey","id", "html_id","startdate","enddate","students")
+        expect(body["students"].size).to eq(1)
+        expect(body["students"][0].keys).to contain_exactly("user","exercises")
+        expect(body["students"][0]["exercises"].size).to eq(2)
+        expect(body["students"][0]["exercises"][0].keys).to contain_exactly("id","status")
+        expect(body["students"][0]["exercises"][0]["status"]).to eq("green")
+        expect(body["students"][0]["exercises"][0]["id"]).to eq(@exercise1.html_id)
+        expect(body["students"][0]["exercises"][1]["status"]).to eq("red")
+        expect(body["students"][0]["exercises"][1]["id"]).to eq(@exercise2.html_id)
       end
-      
+      it "shows schedules" do
+        schedule = Schedule.create(name: "nimi", course_id: @course1.id, exercises: [@exercise1.html_id], color: 1)
+        sign_in @opiskelija1
+        get 'student_scoreboard', :format => :json, params: {"sid":@opiskelija1.id,"cid":@course1.id}
+        expect(response.status).to eq(200)
+        body = JSON.parse(response.body)
+        expect(body["students"].size).to eq(2)
+        expect(body["students"][1].keys).to contain_exactly("user","color","exercises")
+        expect(body["students"][1]["user"]).to eq(schedule.name)
+        expect(body["students"][1]["color"]).to eq(schedule.color)
+        expect(body["students"][1]["exercises"].size).to eq(2)
+        expect(body["students"][1]["exercises"][0]["id"]).to eq(@exercise1.html_id)
+        expect(body["students"][1]["exercises"][1]["id"]).to eq(@exercise2.html_id)
+        expect(body["students"][1]["exercises"][0]["status"]).to eq("black")
+        expect(body["students"][1]["exercises"][1]["status"]).to eq("white")
+      end
       it "doesnt return scoreboard if not on course" do
         @opiskelija3 = FactoryGirl.create(:user, username:"o1", first_name:"James", last_name:"Bond", email:"o5@o.o")
         sign_in @opiskelija3
@@ -80,9 +98,9 @@ RSpec.describe ScoreboardsController, type: :controller do
         get 'student_scoreboard', :format => :json, params: {"sid":@opiskelija1,"cid":@course1.id}
         expect(response.status).to eq(200)
         body = JSON.parse(response.body)
-        expect(body["exercises"].size).to eq(3)
-        expect(body["exercises"][2]["status"]).to eq("gray")
-        expect(body["exercises"][2]["id"]).to eq(@exercise5.html_id)
+        expect(body["students"][0]["exercises"].size).to eq(3)
+        expect(body["students"][0]["exercises"][2]["status"]).to eq("gray")
+        expect(body["students"][0]["exercises"][2]["id"]).to eq(@exercise5.html_id)
       end
       
     end
