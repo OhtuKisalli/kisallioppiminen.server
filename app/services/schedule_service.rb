@@ -15,6 +15,11 @@ class ScheduleService
     return Schedule.where(course_id: cid, name: name).any?
   end
   
+  #
+  def self.schedules_on_course(cid)
+    return Schedule.where(course_id: cid)
+  end
+  
   # [{},{},{}] or []
   # where {"id": 1, "name":"Tavoite1", "color": 1, "exercises": ["html_id1", "html_id2"]}
   def self.course_schedules(cid)

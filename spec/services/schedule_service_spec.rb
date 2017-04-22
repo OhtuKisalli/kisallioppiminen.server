@@ -16,6 +16,13 @@ RSpec.describe ScheduleService, type: :service do
       Schedule.create(name: "nimi", color: 1, course_id: @course.id, exercises: [])
       expect(ScheduleService.name_reserved?(@course.id, "nimi")).to eq(true)
     end
+    it "schedules_on_course(cid)" do
+      expect(ScheduleService.schedules_on_course(@course.id + 7).size).to eq(0)
+      expect(ScheduleService.schedules_on_course(@course.id).size).to eq(0)
+      Schedule.create(name: "nimi", color: 1, course_id: @course.id, exercises: [])
+      Schedule.create(name: "nimi2", color: 1, course_id: @course.id, exercises: [])
+      expect(ScheduleService.schedules_on_course(@course.id).size).to eq(2)
+    end
     it "add_new_schedule(cid, name)" do
       expect(ScheduleService.add_new_schedule(@course.id + 1, "nimi", 1)).to eq(false)
       expect(ScheduleService.all_schedules.any?).to eq(false)
