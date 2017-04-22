@@ -136,6 +136,13 @@ RSpec.describe ValidationService, type: :service do
       expect(ValidationService.validate_color(nil, "Color")).to eq({"error" => "Color ei voi olla tyhjä."})
       expect(ValidationService.validate_color("purple!", "Color")["error"].include? "Color ei kuulu joukkoon").to eq(true)
     end
+    it "string_valid_uuid?(param)" do
+      expect(ValidationService.string_valid_uuid?(nil)).to eq(false)
+      expect(ValidationService.string_valid_uuid?("gg")).to eq(false)
+      expect(ValidationService.string_valid_uuid?("1fc58dcb-7cad-4bc8-b7d9-f521dc4f40f9")).to eq(true)
+      expect(ValidationService.string_valid_uuid?("1fc58dcb-7cad-4bc8-b7d9-f521dc4f40f!")).to eq(false)
+      expect(ValidationService.string_valid_uuid?("1fc58dcb-7cad-4bc8-b7d9-f521dc4f40f91")).to eq(false)
+    end
   end
 
 end

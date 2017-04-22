@@ -100,6 +100,26 @@ class ValidationService
     return nil    
   end
   
+  def self.string_valid_uuid?(param)
+    if param.blank? or param.length != 36 or not param =~ /\A[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\z/
+      return false
+    end
+    return true
+  end
+  
+  def self.not_valid_exercises(exercises)
+    if exercises.blank?
+      return []
+    end
+    exs = []
+    exercises.each do |e|
+      if not string_valid_uuid?(e)
+        exs << e
+      end
+    end
+    return exs
+  end
+  
   private
     def self.add_bad_characters(msg)
       BAD_CHARACTERS.each do |c|
