@@ -25,3 +25,6 @@ VALID_COLOR_NAMES = ["green","red","yellow","white","black","gray"]
 # max number of schedules per course
 MAX_SCHEDULE_PER_COURSE = 5
 
+# url for kisalli production front end
+# beta version: http://beta.kisallioppiminen.fi/
+KISALLI_URL = "http://beta.kisallioppiminen.fi/"
