@@ -4,8 +4,7 @@ class ValidationService
     if key.blank?
       return {"error" => "Kurssiavain ei voi olla tyhjä."}
     elsif key.length > MAX_COURSE_KEY_LENGTH
-      msg = "Kurssiavain voi olla korkeintaan " + MAX_COURSE_KEY_LENGTH.to_s + " merkkiä pitkä."
-      return {"error" => msg}
+      return {"error" => max_length_string("Kurssiavain", MAX_COURSE_KEY_LENGTH.to_s)}
     elsif key.match(/\s/)
       return {"error" => "Kurssiavaimessa ei voi olla välilyöntiä."}
     elsif not SecurityService.safe_string?(key)
@@ -23,8 +22,7 @@ class ValidationService
     if name.blank?
       return {"error" => "Kurssin nimi ei voi olla tyhjä."}
     elsif name.length > MAX_COURSE_NAME_LENGTH
-      msg = "Kurssin nimi voi olla korkeintaan " + MAX_COURSE_NAME_LENGTH.to_s + " merkkiä pitkä."
-      return {"error" => msg}
+      return {"error" => max_length_string("Kurssin nimi", MAX_COURSE_NAME_LENGTH.to_s)}
     elsif not SecurityService.safe_string?(name)
       msg = "Kurssin nimessä ei voi olla merkkejä: "
       msg = add_bad_characters(msg)
@@ -38,8 +36,7 @@ class ValidationService
     if s_name.blank?
       return {"error" => "Tavoitteella täytyy olla nimi."}
     elsif s_name.length > MAX_SCHEDULE_NAME_LENGTH
-      msg = "Tavoitteen nimi voi olla korkeintaan " + MAX_SCHEDULE_NAME_LENGTH.to_s + " merkkiä pitkä."
-      return {"error" => msg}
+      return {"error" => max_length_string("Tavoitteen nimi", MAX_SCHEDULE_NAME_LENGTH.to_s)}
     elsif not SecurityService.safe_string?(s_name)
       msg = "Tavoitteen nimessä ei voi olla merkkejä: "
       msg = add_bad_characters(msg)
@@ -121,6 +118,10 @@ class ValidationService
   end
   
   private
+    def self.max_length_string(what, howlong)
+      return what + " voi olla korkeintaan " + howlong + " merkkiä pitkä."
+    end
+  
     def self.add_bad_characters(msg)
       BAD_CHARACTERS.each do |c|
         msg += c
