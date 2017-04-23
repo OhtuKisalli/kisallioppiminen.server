@@ -4,6 +4,7 @@ class ApplicationController < ActionController::Base
 
   helper_method :user_admin
   helper_method :kisalli_url
+  helper_method :env_production
 
   # Return to original location after login
   # KISALLI_URL can be changed in config/initializers/constants.rb
@@ -42,6 +43,10 @@ class ApplicationController < ActionController::Base
   
   def kisalli_url
     return KISALLI_URL
+  end
+  
+  def env_production
+    return Rails.env.production?
   end
 
 end

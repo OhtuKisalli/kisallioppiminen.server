@@ -22,16 +22,12 @@
 <% end %>
 
 <% if user_signed_in? %>
-  <li>
-  <%= link_to('-kirjaudu ulos-', destroy_user_session_path) %>
-  </li>
+  <li><%= link_to('-kirjaudu ulos-', destroy_user_session_path) %></li>
 <% else %>
-  <li>
-  <%= link_to('-signin-', new_user_session_path)  %>
-  </li>
-  <li>
-  <%= link_to('-signup-', new_user_registration_path)  %>
-  </li>
+  <li><%= link_to('-signin-', new_user_session_path)  %></li>
+  <% if not env_production %>
+    <li><%= link_to('-signup-', new_user_registration_path)  %></li>
+  <% end %>
 <% end %>
 <li><%= link_to(kisalli_url, kisalli_url) %></li>
 

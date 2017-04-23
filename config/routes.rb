@@ -1,6 +1,12 @@
 Rails.application.routes.draw do
+
+  if Rails.env.production?
+    devise_for :users, :controllers => { :omniauth_callbacks => "callbacks" }, :skip => :registration
+  else
+    devise_for :users, :controllers => { :omniauth_callbacks => "callbacks" }
+  end
+
   resources :teachings, only: [:index]
-  devise_for :users, :controllers => { :omniauth_callbacks => "callbacks" }
   resources :schedules, only: [:index]
   resources :attendances, only: [:index]
   resources :checkmarks, only: [:index]
