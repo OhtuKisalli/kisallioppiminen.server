@@ -142,7 +142,17 @@ RSpec.describe ValidationService, type: :service do
       expect(ValidationService.string_valid_uuid?("1fc58dcb-7cad-4bc8-b7d9-f521dc4f40f9")).to eq(true)
       expect(ValidationService.string_valid_uuid?("1fc58dcb-7cad-4bc8-b7d9-f521dc4f40f!")).to eq(false)
       expect(ValidationService.string_valid_uuid?("1fc58dcb-7cad-4bc8-b7d9-f521dc4f40f91")).to eq(false)
+      expect(ValidationService.string_valid_uuid?("1fc58dcb_7cad-4bc8-b7d9-f521dc4f40f9")).to eq(false)
     end
+    it "not_valid_exercises(exercises)" do
+      expect(ValidationService.not_valid_exercises(nil)).to eq([])
+      exs = ["07454978-28f7-47da-946b-7ead4134d7e3","404f1e97-04c4-46ed-8f6f-98c5e6f63adb"]
+      expect(ValidationService.not_valid_exercises(exs)).to eq([])
+      not_valid = "07454978-28f7-47da-946b!7ead4134d7e3"
+      exs << not_valid
+      expect(ValidationService.not_valid_exercises(exs)).to eq([not_valid])
+    end
+    
   end
 
 end

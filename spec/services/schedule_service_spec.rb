@@ -57,6 +57,11 @@ RSpec.describe ScheduleService, type: :service do
       expect(result.size).to eq(2)
       expect(result).to eq(expected)
     end
+    it "count" do
+      expect(ScheduleService.count).to eq(0)
+      Schedule.create(name: "nimi", color: 1, course_id: @course.id, exercises: [])
+      expect(ScheduleService.count).to eq(1)
+    end
     
   end
 

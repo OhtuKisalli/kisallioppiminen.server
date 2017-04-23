@@ -22,6 +22,19 @@ RSpec.describe ExerciseService, type: :service do
       expect(ExerciseService.exercise_ids_of_course(666).size).to eq(0)
     end
     
+    it "exercises_by_course_id_and_html_id_array(cid, exercises)" do
+      expect(ExerciseService.exercises_by_course_id_and_html_id_array(@course.id + 5, [])).to eq([])
+      expect(ExerciseService.exercises_by_course_id_and_html_id_array(@course.id, [])).to eq([])
+      @e2 = ExerciseService.create_exercise("nocourses", "id2")
+      exs = []
+      exs << @e2.html_id
+      exs << @e1.html_id
+      expect(ExerciseService.exercises_by_course_id_and_html_id_array(@course.id, exs).size).to eq(1)
+      expect(ExerciseService.exercises_by_course_id_and_html_id_array(@course.id, exs)[0].id).to eq(@e1.id)
+      @course2 = FactoryGirl.create(:course, html_id: "newcourse", coursekey:"key2")
+      expect(ExerciseService.exercises_by_course_id_and_html_id_array(@course2.id, exs).size).to eq(0)
+    end
+    
     it "exercise_by_course_id_and_html_id(cid, hid)" do
       expect(ExerciseService.exercise_by_course_id_and_html_id(666, "idid")).to eq(nil)
       expect(ExerciseService.exercise_by_course_id_and_html_id(@course.id, "id1")).not_to eq(nil)
