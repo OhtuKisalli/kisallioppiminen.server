@@ -3,9 +3,10 @@ class ApplicationController < ActionController::Base
   skip_before_action :verify_authenticity_token
 
   helper_method :user_admin
+  helper_method :kisalli_url
 
   # Return to original location after login
-  # FRONT_URL can be changed in config/initializers/constants.rb
+  # KISALLI_URL can be changed in config/initializers/constants.rb
   def after_sign_in_path_for(resource)
     if Rails.env.production?
       request.env['omniauth.origin'] || stored_location_for(resource) || KISALLI_URL
@@ -14,7 +15,7 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  # FRONT_URL can be changed in config/initializers/constants.rb
+  # KISALLI_URL can be changed in config/initializers/constants.rb
   def after_sign_out_path_for(resource_or_scope)
     if Rails.env.production?
       request.env['omniauth.origin'] || stored_location_for(resource_or_scope) || KISALLI_URL
@@ -37,6 +38,10 @@ class ApplicationController < ActionController::Base
 
   def user_admin
     return (user_signed_in? and current_user.admin)
+  end
+  
+  def kisalli_url
+    return KISALLI_URL
   end
 
 end
