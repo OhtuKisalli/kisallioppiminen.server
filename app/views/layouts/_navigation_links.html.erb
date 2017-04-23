@@ -26,8 +26,8 @@
     <li><%= link_to('-kirjaudu ulos-', destroy_user_session_path) %></li>
   <% end %>
 <% else %>
-  <li><%= link_to('-signin-', new_user_session_path)  %></li>
   <% if not env_production %>
+    <li><%= link_to('-signin-', new_user_session_path)  %></li>
     <li><%= link_to('-signup-', new_user_registration_path)  %></li>
   <% end %>
 <% end %>
