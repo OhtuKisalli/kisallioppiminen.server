@@ -1,3 +1,6 @@
 </br>
-<text>\(^_^)/<text>
-
+<% if user_admin %>
+  <text>\(^_^)/<text>
+<% else %>
+  <p>Täällä ei ole mitään.</br>Kaikki materiaali ja toiminto löytyy osoitteesta: <%= link_to(kisalli_url, kisalli_url) %> </p>
+<% end %>

@@ -22,7 +22,9 @@
 <% end %>
 
 <% if user_signed_in? %>
-  <li><%= link_to('-kirjaudu ulos-', destroy_user_session_path) %></li>
+  <% if not env_production or user_admin %>
+    <li><%= link_to('-kirjaudu ulos-', destroy_user_session_path) %></li>
+  <% end %>
 <% else %>
   <li><%= link_to('-signin-', new_user_session_path)  %></li>
   <% if not env_production %>
