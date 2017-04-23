@@ -5,12 +5,22 @@ class ApplicationController < ActionController::Base
   helper_method :user_admin
 
   # Return to original location after login
+  # FRONT_URL can be changed in config/initializers/constants.rb
   def after_sign_in_path_for(resource)
-    request.env['omniauth.origin'] || stored_location_for(resource) || root_path
+    if Rails.env.production?
+      request.env['omniauth.origin'] || stored_location_for(resource) || KISALLI_URL
+    else
+      request.env['omniauth.origin'] || stored_location_for(resource) || root_path
+    end
   end
 
+  # FRONT_URL can be changed in config/initializers/constants.rb
   def after_sign_out_path_for(resource_or_scope)
-    request.env['omniauth.origin'] || stored_location_for(resource_or_scope) || root_path
+    if Rails.env.production?
+      request.env['omniauth.origin'] || stored_location_for(resource_or_scope) || KISALLI_URL
+    else
+      request.env['omniauth.origin'] || stored_location_for(resource_or_scope) || root_path
+    end
   end
   
   def check_signed_in
