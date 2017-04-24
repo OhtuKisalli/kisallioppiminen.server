@@ -48,8 +48,10 @@ class ValidationService
     end
   end
   
-  def self.validate_schedulecolor(color)
-    if color.is_a? Integer and color > 0
+  def self.validate_schedulecolor(color, cid)
+    if ScheduleService.color_reserved?(cid, color)
+      return {"error" => "Valittu väri on jo käytössä."}
+    elsif color.is_a? Integer and color > 0
       return nil
     elsif color.blank? or color.length > 2 or color.to_i < 1
       return {"error" => "Parametri color virheellinen."}

@@ -13,7 +13,7 @@ class SchedulesController < ApplicationController
   # TODO returns GET
   def new_schedule
     schedule_errors = ValidationService.validate_schedulename(params[:id], params[:name])
-    color_errors = ValidationService.validate_schedulecolor(params[:color])
+    color_errors = ValidationService.validate_schedulecolor(params[:color], params[:id])
     if not TeachingService.has_rights?(current_user.id, params[:id])
       render :json => {"error" => "Et ole kyseisen kurssin vastuuhenkilö."}, status: 401
     elsif ScheduleService.schedules_on_course(params[:id]) >= MAX_SCHEDULE_PER_COURSE

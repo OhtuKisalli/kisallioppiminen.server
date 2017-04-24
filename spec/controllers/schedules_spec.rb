@@ -50,7 +50,7 @@ RSpec.describe SchedulesController, type: :controller do
       end
       it "name must be uniq" do
         ScheduleService.add_new_schedule(@course.id, "reserved", 1)
-        post 'new_schedule', :format => :json, params: {"id": @course.id, "name": "reserved", "color": 1}
+        post 'new_schedule', :format => :json, params: {"id": @course.id, "name": "reserved", "color": 2}
         expect(response.status).to eq(422)
         body = JSON.parse(response.body)
         expected = {"error" => "Kahdella tavoitteella ei voi olla samaa nimeä."}

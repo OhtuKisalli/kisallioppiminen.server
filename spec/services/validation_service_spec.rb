@@ -101,16 +101,23 @@ RSpec.describe ValidationService, type: :service do
     context "validate_schedulecolor(color)" do
       it "not integer 1..99" do
         msg = {"error" => "Parametri color virheellinen."}
-        expect(ValidationService.validate_schedulecolor(nil)).to eq(msg)
-        expect(ValidationService.validate_schedulecolor("")).to eq(msg)
-        expect(ValidationService.validate_schedulecolor("f")).to eq(msg)
-        expect(ValidationService.validate_schedulecolor("ff")).to eq(msg)
-        expect(ValidationService.validate_schedulecolor("0")).to eq(msg)
-        expect(ValidationService.validate_schedulecolor("100")).to eq(msg)
-        expect(ValidationService.validate_schedulecolor("<script>")).to eq(msg)
-        expect(ValidationService.validate_schedulecolor("1")).to eq(nil)
-        expect(ValidationService.validate_schedulecolor(1)).to eq(nil)
-        expect(ValidationService.validate_schedulecolor(99)).to eq(nil)
+        @course1 = FactoryGirl.create(:course, coursekey:"key1")
+        expect(ValidationService.validate_schedulecolor(nil, @course1.id)).to eq(msg)
+        expect(ValidationService.validate_schedulecolor("", @course1.id)).to eq(msg)
+        expect(ValidationService.validate_schedulecolor("f", @course1.id)).to eq(msg)
+        expect(ValidationService.validate_schedulecolor("ff", @course1.id)).to eq(msg)
+        expect(ValidationService.validate_schedulecolor("0", @course1.id)).to eq(msg)
+        expect(ValidationService.validate_schedulecolor("100", @course1.id)).to eq(msg)
+        expect(ValidationService.validate_schedulecolor("<script>", @course1.id)).to eq(msg)
+        expect(ValidationService.validate_schedulecolor("1", @course1.id)).to eq(nil)
+        expect(ValidationService.validate_schedulecolor(1, @course1.id)).to eq(nil)
+        expect(ValidationService.validate_schedulecolor(99, @course1.id)).to eq(nil)
+        Schedule.create(course_id: @course1.id, name: "reserved", color: 1)
+        expect(Schedule.count).to eq(1)
+        expect(Schedule.last.course_id).to eq(@course1.id)
+        expect(@course1.schedules.count).to eq(1)
+        msg = {"error" => "Valittu väri on jo käytössä."}
+        expect(ValidationService.validate_schedulecolor(1, @course1.id)).to eq(msg)
       end
     end
     context "validate_update_schedules(schedules)" do
