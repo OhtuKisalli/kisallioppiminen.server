@@ -54,13 +54,22 @@ RSpec.describe ScheduleService, type: :service do
       expect(ScheduleService.course_schedules(@course.id + 1)).to eq([])
       expect(ScheduleService.course_schedules(@course.id)).to eq([])
       s1 = Schedule.create(name: "nimi", color: 1, course_id: @course.id, exercises: [])
-      expected = [{"id": s1.id, "name": s1.name, "color": s1.color, "exercises": []}]
+      expected = [{"id" => s1.id, "name" => s1.name, "color" => s1.color, "exercises" => []}]
       expect(ScheduleService.course_schedules(@course.id)).to eq(expected)
       s2 = Schedule.create(name: "nimi2", color: 2, course_id: @course.id, exercises: ["aaa","bbb"])
-      expected = [{"id": s1.id, "name": s1.name, "color": s1.color, "exercises": []},{"id": s2.id, "name": s2.name, "color": s2.color, "exercises": s2.exercises}]
+      expected = [{"id" => s1.id, "name" => s1.name, "color" => s1.color, "exercises" => []},{"id" => s2.id, "name" => s2.name, "color" => s2.color, "exercises" => s2.exercises}]
       result = ScheduleService.course_schedules(@course.id)
       expect(result.size).to eq(2)
       expect(result).to eq(expected)
+    end
+    it "course_schedules ordered by color" do
+      s3 = Schedule.create(name: "nimi", color: 3, course_id: @course.id, exercises: [])
+      s1 = Schedule.create(name: "nimi", color: 1, course_id: @course.id, exercises: [])
+      s2 = Schedule.create(name: "nimi", color: 2, course_id: @course.id, exercises: [])
+      result = ScheduleService.course_schedules(@course.id)
+      expect(result[0]["color"]).to eq(s1.color)
+      expect(result[1]["color"]).to eq(s2.color)
+      expect(result[2]["color"]).to eq(s3.color)
     end
     it "count" do
       expect(ScheduleService.count).to eq(0)

@@ -33,8 +33,8 @@ class ScheduleService
       return []
     end
     result = []
-    course.schedules.each do |s|
-      result << {"id": s.id, "name": s.name,"color": s.color, "exercises": s.exercises}
+    course.schedules.order(color: :asc).each do |s|
+      result << {"id" => s.id, "name" => s.name,"color" => s.color, "exercises" => s.exercises}
     end
     return result
   end
