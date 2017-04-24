@@ -16,6 +16,11 @@ class ScheduleService
   end
   
   #
+  def self.color_reserved?(cid, color)
+    return Schedule.where(course_id: cid,color: color).any?
+  end
+  
+  #
   def self.schedules_on_course(cid)
     return Schedule.where(course_id: cid).size
   end
