@@ -43,7 +43,7 @@ By default rails will be running at localhost:3000
 
 For tests, use rspec:
 ```
-rspec spec
+rspec spec -fd
 ```
 If you don't have rspec, install it with command 
 ```
