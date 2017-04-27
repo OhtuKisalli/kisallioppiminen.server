@@ -14,6 +14,11 @@
 
 ## Deploying
 
+Commandline access:
+* Clone this repository
+* Ask for access rights to heroku
+* `heroku run console` in project root folder
+
 1. Push to master branch of this repository
 2. Travis will deploy code to heroku if all tests pass
 3. (do not push directly to heroku)
