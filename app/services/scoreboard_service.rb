@@ -1,17 +1,16 @@
 class ScoreboardService
 
+  # Scoreboard of course(id: cid) for student(id: sid)
   def self.build_student_scoreboard(cid, sid)
-      #checkmarks = CheckmarkService.student_checkmarks(cid, sid)
       course = CourseService.course_by_id(cid)
       scoreboard = course.courseinfo
-      #checkmarks = CheckmarkService.add_gray_checkmarks(checkmarks, sid, cid)
-      #scoreboard["exercises"] = checkmarks
       student_array = []
       student_array << UserService.user_by_id(sid)
       scoreboard["students"] = students_and_schedules(cid, course, student_array)
       return scoreboard
   end
-  
+
+  # All scoreboards for student (id: sid)
   def self.build_student_scoreboards(sid)
       courses = UserService.student_courses(sid)
       sb = []
@@ -23,6 +22,7 @@ class ScoreboardService
       return sb
   end
   
+  # Teacher - all scoreboards
   def self.build_scoreboards(sid)
     courses = UserService.teacher_courses(sid)
     sb = []
@@ -32,7 +32,7 @@ class ScoreboardService
     return sb
   end
   
-  # Scoreboard for course
+  # Teacher - scoreboard for course
   # cid = Course.id
   def self.build_scoreboard(cid)
     course = CourseService.course_by_id(cid)

@@ -1,5 +1,6 @@
 class AdminService
 
+  # Admintools - sync exercises
   def self.download_exercises(url)
     exercise_IDs = nil
     if url
@@ -18,11 +19,13 @@ class AdminService
     return exs
   end
 
+  # Admintools - sync exercises
   def self.save_exercises(exercises, hid)
     elist = ExerciselistService.new_list(hid)
     create_exercises(exercises, elist.html_id)
   end
   
+  # Admintools - sync exercises
   def self.add_exercises(exercises, hid)
     elist = ExerciselistService.elist_id_by_html_id(hid)
     if elist

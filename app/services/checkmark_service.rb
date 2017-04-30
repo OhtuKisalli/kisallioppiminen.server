@@ -27,6 +27,7 @@ class CheckmarkService
     end
   end
   
+  # Exercises that are not marked (green,yellow,red) are gray in scoreboards
   def self.add_gray_checkmarks(exercisearray, sid, cid)
     attendance = AttendanceService.get_attendance(sid, cid)
     exercises = ExerciseService.html_ids_of_exercises_by_course_id(cid)

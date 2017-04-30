@@ -1,5 +1,8 @@
 class ValidationService
 
+  # constants in config/initializers/constans.rb
+
+  # Create course - coursekey validation
   def self.validate_coursekey(key)
     if key.blank?
       return {"error" => "Kurssiavain ei voi olla tyhjä."}
@@ -18,6 +21,7 @@ class ValidationService
     end
   end
   
+  # Create course - name validation
   def self.validate_coursename(name)
     if name.blank?
       return {"error" => "Kurssin nimi ei voi olla tyhjä."}
@@ -32,6 +36,7 @@ class ValidationService
     end
   end
   
+  # Add schedule - name validation
   def self.validate_schedulename(cid, s_name)
     if s_name.blank?
       return {"error" => "Tavoitteella täytyy olla nimi."}
@@ -48,6 +53,7 @@ class ValidationService
     end
   end
   
+  # Add schedule - color validation
   def self.validate_schedulecolor(color, cid)
     if ScheduleService.color_reserved?(cid, color)
       return {"error" => "Valittu väri on jo käytössä."}
@@ -60,6 +66,7 @@ class ValidationService
     end
   end
   
+  # Create course - startdate and enddate validations
   def self.validate_course_dates(startdate, enddate)
     if startdate.blank? or enddate.blank?
       return {"error" => "Kurssilla täytyy olla alkamis- ja loppumispäivämäärät."}
@@ -76,6 +83,7 @@ class ValidationService
     end
   end
   
+  # Checkmark/scoreboard color string validation
   def self.validate_color(param, name)
     if param.blank? 
       return {"error" => "#{name} ei voi olla tyhjä."}
@@ -87,6 +95,7 @@ class ValidationService
     end
   end
   
+  # Add/update exercises of schedule validation
   def self.validate_update_schedules(schedules)
     if schedules.blank?
       return {"error" => "Parametri schedules on virheellinen."}
@@ -99,6 +108,7 @@ class ValidationService
     return nil    
   end
   
+  # Exercise html_id validation
   def self.string_valid_uuid?(param)
     if param.blank? or param.length != 36 or not param =~ /\A[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\z/
       return false
@@ -106,6 +116,7 @@ class ValidationService
     return true
   end
   
+  # Admincontroller - sync exersercises validation
   def self.not_valid_exercises(exercises)
     if exercises.blank?
       return []
