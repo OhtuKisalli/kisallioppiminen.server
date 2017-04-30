@@ -85,7 +85,7 @@ RSpec.describe AttendancesController, type: :controller do
         sign_in @testaaja
       end
       it "can only toggle archived of own courses" do
-        post 'toggle_archived', :format => :json, params: {"sid":2,"cid":1,"archived": "true"}
+        post 'toggle_archived', :format => :json, params: {"sid":@testaaja.id + 2,"cid":@course1.id,"archived": "true"}
         expect(response.status).to eq(401)
         body = JSON.parse(response.body)
         expected = {"error" => "Voit muuttaa vain omien kurssiesi asetuksia."}
