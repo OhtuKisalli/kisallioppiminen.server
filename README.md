@@ -12,23 +12,39 @@
 
 # Developer info
 
-## Commandline access:
-* Clone this repository
-* Ask for access rights to heroku
-* `heroku run console` in project root folder
-
 ## Deploying
 
 1. Push to master branch of this repository
 2. Travis will deploy code to heroku if all tests pass
 3. (do not push directly to heroku)
 
-Database migrations:
-[RoR-course has instructions](https://github.com/mluukkai/WebPalvelinohjelmointi2017/blob/master/web/viikko1.md)
-* You need commandline access to heroku to run db:migrate
-* `heroku git:clone -a pure-inlet-98383`
-* `heroku run rake db:migrate`
-* `heroku run rake db:seed`
+## Database installation and configuration
+* PostgreSQL (At least version 9.3) necessary
+* Database settings can be found in /config/database.yml
+1) Install PostgreSQL
+`sudo apt-get update`
+`sudo apt-get install postgresql postgresql-contrib libpq-dev`
+2) Create Database User kisalli
+`sudo -u postgres createuser -s kisalli`
+`sudo -u postgres psql`
+`\password kisalli`
+`Enter new password: kisalli`
+`Enter it again: kisalli`
+`\q`
+3) Setup kisallioppiminen.server database
+`rake db:create`
+`rake db:setup`
+
+## Migrations and custom seed files:
+* `rake db:migrate`
+* `rake db:seed:destroy_all` - db/seeds/destroy_all.rb (destroys database content)
+* `rake db:seed:dev` - db/seeds/dev.rb (content for dev environment)
+
+* `heroku login`
+* `heroku run --app pure-inlet-98383 rake db:migrate`
+* `heroku run --app pure-inlet-98383 rake db:seed:destroy_all`
+* `heroku run --app pure-inlet-98383 rake db:seed:dev`
+* `heroku run --app pure-inlet-98383 rails console` - to use rails console in heroku
 
 ## Ruby on Rails guides and configs
 
