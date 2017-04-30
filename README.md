@@ -22,20 +22,21 @@
 * PostgreSQL (At least version 9.3) necessary
 * Database settings can be found in /config/database.yml
 1) Install PostgreSQL
-`sudo apt-get update`
-`sudo apt-get install postgresql postgresql-contrib libpq-dev`
+* `sudo apt-get update`
+* `sudo apt-get install postgresql postgresql-contrib libpq-dev`
 2) Create Database User kisalli
-`sudo -u postgres createuser -s kisalli`
-`sudo -u postgres psql`
-`\password kisalli`
-`Enter new password: kisalli`
-`Enter it again: kisalli`
-`\q`
+* `sudo -u postgres createuser -s kisalli`
+* `sudo -u postgres psql`
+* `\password kisalli`
+* `Enter new password: kisalli`
+* `Enter it again: kisalli`
+* `\q`
 3) Setup kisallioppiminen.server database
-`rake db:create`
-`rake db:setup`
+* `rake db:create`
+* `rake db:setup`
 
 ## Migrations and custom seed files:
+* Custom seed files (filename.rb) can be added to db/seeds/ and loaded with command `rake:db:seed:filename` (without .rb)
 * `rake db:migrate`
 * `rake db:seed:destroy_all` - db/seeds/destroy_all.rb (destroys database content)
 * `rake db:seed:dev` - db/seeds/dev.rb (content for dev environment)
