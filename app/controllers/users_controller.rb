@@ -9,10 +9,12 @@ class UsersController < ApplicationController
     @users = UserService.all_users
   end
 
+  # Frontend session/cookies
   def is_user_signed_in
       render :json => {"has_sign_in": user_signed_in?}
   end
 
+  # Frontend session/cookies
   def get_session_user
       u = current_user
       if current_user

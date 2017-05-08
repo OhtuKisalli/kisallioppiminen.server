@@ -37,14 +37,18 @@ class ApplicationController < ActionController::Base
     end  
   end
 
+  # backend admin-tools
   def user_admin
     return (user_signed_in? and current_user.admin)
   end
   
+  # backend admin-tools
+  # KISALLI_URL can be changed in config/initializers/constants.rb
   def kisalli_url
     return KISALLI_URL
   end
   
+  # backend admin-tools
   def env_production
     return Rails.env.production?
   end
