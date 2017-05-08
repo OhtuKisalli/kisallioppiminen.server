@@ -12,13 +12,17 @@ Rails.application.routes.draw do
   resources :checkmarks, only: [:index]
   resources :exercises, only: [:index, :show]
   resources :users, only: [:index]
- # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+  resources :courses, only: [:index, :show]
+  
+  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+  
+  # Backend root
   root 'welcome#index'
   
   # Student - new/update checkmark
   post '/checkmarks' => 'checkmarks#mark', defaults: { format: 'json' }, constraints: {format: 'json'}
   
-  # Student – I can see from an exercise if I have done it
+  # Student – get checkmarks
   get '/students/:sid/courses/:cid/checkmarks' => 'checkmarks#student_checkmarks'
     
   # Scoreboard(s) for teacher
@@ -29,19 +33,19 @@ Rails.application.routes.draw do
   get '/students/:id/scoreboards' => 'scoreboards#student_scoreboards'
   get '/students/:sid/courses/:cid/scoreboard' => 'scoreboards#student_scoreboard'
 
-  # Teacher – I can see a listing of my courses
+  # Teacher – courses
   get '/teachers/:id/courses' => 'courses#mycourses_teacher'
   
-  # Courses for student
+  # Student - courses
   get '/students/:id/courses' => 'courses#mycourses_student'
 
   # Student - leave course
   delete '/students/:sid/courses/:cid' => 'attendances#leave_course', defaults: { format: 'json' }, constraints: {format: 'json'}
 
-  #Student – I can join a specific course using a coursekeys
+  # Student – join course
   post '/courses/join' => 'attendances#newstudent', defaults: { format: 'json' }, constraints: {format: 'json'}
 
-  # Teacher – I can create coursekeys for students to join my course
+  # Teacher – create course
   post '/courses/newcourse' => 'courses#newcourse', defaults: { format: 'json' }, constraints: {format: 'json'}
   
   # Teacher - add schedule to schedules list
@@ -69,8 +73,6 @@ Rails.application.routes.draw do
   
   # Update course
   put 'courses/:id' => 'courses#update', defaults: { format: 'json' }, constraints: {format: 'json'}
-    
-  resources :courses, only: [:index, :show]
   
   ### admin-tools ###
   get '/admins/exerciselists/' => 'admin#sync_exercises_index'
