@@ -9,7 +9,7 @@ class ScoreboardsController < ApplicationController
     sid = params[:sid]
     cid = params[:cid]
     if sid.to_i != current_user.id
-      render :json => {"error" => "Voit tarkastella vain omaa scoreboardiasi."}, status: 401
+      render :json => {"error" => "Voit tarkastella vain omaa tulostauluasi."}, status: 401
     elsif not AttendanceService.user_on_course?(sid, cid)
       render :json => {"error" => "Et ole liittynyt kyseiselle kurssille."}, status: 422
     else
@@ -25,7 +25,7 @@ class ScoreboardsController < ApplicationController
   def student_scoreboards
     sid = params[:id]
     if sid.to_i != current_user.id
-      render :json => {"error" => "Voit tarkastella vain omia scoreboardejasi."}, status: 401
+      render :json => {"error" => "Voit tarkastella vain omia tulostaulujasi."}, status: 401
     else
       sbs = ScoreboardService.build_student_scoreboards(sid)
       render :json => sbs, status: 200
