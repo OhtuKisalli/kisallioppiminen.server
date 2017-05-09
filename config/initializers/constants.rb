@@ -27,4 +27,4 @@ MAX_SCHEDULE_PER_COURSE = 5
 
 # url for kisalli production front end
 # beta version: http://beta.kisallioppiminen.fi/
-KISALLI_URL = "http://beta.kisallioppiminen.fi/"
+KISALLI_URL = "https://beta-kisallioppiminen.github.io/"
