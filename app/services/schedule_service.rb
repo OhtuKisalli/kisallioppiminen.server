@@ -28,7 +28,7 @@ class ScheduleService
   # [{},{},{}] or []
   # where {"id": 1, "name":"Tavoite1", "color": 1, "exercises": ["html_id1", "html_id2"]}
   def self.course_schedules(cid)
-    course = Course.where(id: cid).first
+    course = CourseService.course_by_id(cid)
     if not course or course.schedules.empty?
       return []
     end
