@@ -6,8 +6,10 @@
 * Teachers can create target schedules to motivate students
 
 ### Links to our application
-* Development version running at [heroku](https://pure-inlet-98383.herokuapp.com/)  
+* Development version of coursemanager running at [heroku](https://pure-inlet-98383.herokuapp.com/)  
 * Development version of [kisallioppiminen.fi](kisallioppiminen.fi) running at [https://ohtukisalli.github.io/](https://ohtukisalli.github.io/)  
+* Production version of coursemanager running at [https://kurssihallinta.kisallioppiminen.fi/](https://kurssihallinta.kisallioppiminen.fi/)
+* Production version of [kisallioppiminen.fi](kisallioppiminen.fi) running at [https://beta-kisallioppiminen.github.io/](https://beta-kisallioppiminen.github.io/)
 * See also separate [Project info repository](https://github.com/OhtuKisalli/project-info)
 
 # Developer info
@@ -15,7 +17,7 @@
 ## Deploying
 
 1. Push to master branch of this repository
-2. Travis will deploy code to heroku if all tests pass
+2. Travis will deploy code to [heroku](https://pure-inlet-98383.herokuapp.com/) if all tests pass
 3. (do not push directly to heroku)
 
 ## Database installation and configuration
@@ -66,3 +68,5 @@ If you don't have rspec, install it with command
 ```
 bundle install
 ```
+## More about settings and configs
+* [kisallioppiminen.server/wiki](https://github.com/OhtuKisalli/kisallioppiminen.server/wiki)
