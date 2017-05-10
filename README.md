@@ -38,7 +38,7 @@
 * `rake db:setup`
 
 ## Migrations and custom seed files:
-* Custom seed files (filename.rb) can be added to db/seeds/ and loaded with command `rake:db:seed:filename` (without .rb)
+* Custom seed files (filename.rb) can be added to db/seeds/ and loaded with command `rake db:seed:filename` (without .rb)
 * `rake db:migrate`
 * `rake db:seed:destroy_all` - db/seeds/destroy_all.rb (destroys database content)
 * `rake db:seed:dev` - db/seeds/dev.rb (content for dev environment)
@@ -69,4 +69,4 @@ If you don't have rspec, install it with command
 bundle install
 ```
 ## More about settings and configs
-* [kisallioppiminen.server/wiki](https://github.com/OhtuKisalli/kisallioppiminen.server/wiki)
+* [Wiki](https://github.com/OhtuKisalli/kisallioppiminen.server/wiki)
