@@ -11,3 +11,5 @@ services:
     environment:
       RAILS_ENV: production
     restart: unless-stopped
+  db:
+    restart: unless-stopped
