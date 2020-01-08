@@ -1,4 +1,4 @@
-version: '2'
+version: "2"
 services:
   db:
     image: postgres:9.6
@@ -7,7 +7,10 @@ services:
     environment:
       PGDATA: /data/postgres_db
     volumes:
-      - /data/postgres_data:/data/postgres_db
+      - db-data:/data/postgres_db
   web:
     depends_on:
       - db
+
+volumes:
+  db-data:

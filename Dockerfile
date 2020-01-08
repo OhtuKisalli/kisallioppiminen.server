@@ -7,3 +7,5 @@ ADD Gemfile.lock /kisalliserver/Gemfile.lock
 RUN bundle install
 ADD . /kisalliserver
 RUN rm -f tmp/pids/server.pid
+
+ENTRYPOINT [ "/kisalliserver/entrypoint.sh" ]
