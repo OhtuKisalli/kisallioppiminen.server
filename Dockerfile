@@ -8,4 +8,4 @@ RUN bundle install
 ADD . /kisalliserver
 RUN rm -f tmp/pids/server.pid
 
-ENTRYPOINT [ "/kisalliserver/entrypoint.sh" ]
+CMD "/kisalliserver/entrypoint.sh"
